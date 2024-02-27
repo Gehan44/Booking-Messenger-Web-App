@@ -11,7 +11,6 @@ module.exports = async (req, res) => {
         .query('SELECT email FROM dbo.users WHERE userID = @userIDCreated');
     if (result.recordset.length > 0) {
         userEmail = result.recordset[0].email;
-        console.log(userEmail)
     }
     try {
         let userName = UserData.name

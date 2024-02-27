@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 
-<head><script src="/js/color-modes.js"></script>
+<head>
+  <script src="/js/color-modes.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
@@ -245,7 +246,8 @@
   </svg>
 
   <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/wsHome">สวัสดี <%= UserData.name %>, <%= UserData.role %></a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/wsHome">สวัสดี <%= UserData.name %>, <%=
+          UserData.role %></a>
 
     <ul class="navbar-nav flex-row d-md-none">
       <li class="nav-item text-nowrap">
@@ -321,43 +323,73 @@
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Search</h1>
         </div>
-          <div class="col-md-7 col-lg-8">
-            <h1 class="display-5 fst-italic"> </h1>
-            <form action="/search/run" method="POST">
-              
-                <select class="form-select" name="searchFilter" style="width: 200px;">
-                  <option value="docID">DocID</option>
-                  <option value="status">สถานะ</option>
-                  <option value="userNameSend">ผู้ส่งงาน</option>
-                  <option value="createdDateTime">วันที่สั่งงาน</option>
-                  <option value="requestDate">วันที่นัด</option>
-                  <option value="cusName">ชื่อลูกค้า/ผู้ติดต่อ</option>
-                  <option value="dispName">ผู้ฝากงาน</option>
-                </select>
-                <input class="form-control" type="search" placeholder="Search...." name="searchTerm" style="width: 600px; margin-bottom: 20px;">
-              
-            </form>
-                      
-            <% if (searchResults && searchResults.length> 0) { %>
-              <ul>
-                <% searchResults.forEach(result=> { %>
-                  <li style="margin-bottom: 50px;">
-                    <p>DocID: <%= result.docID %></p>
-                    <p>สถานะ: <%= result.status %></p>
-                    <p>ผู้ส่งงาน: <%= result.userNameSend %></p>
-                    <p>วันที่สั่งงาน: <%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></p>
-                    <p>วันที่นัด: <%= result.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></p>
-                    <p><%= result.docRound %> เวลา <%= result.docTime.toLocaleString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></p>
-                    <p><%= result.docSendReturn %> <%= result.docType %> <%= result.docIs %></p>
-                    <p>ชื่อลูกค้า/ผู้ติดต่อ <%= result.cusName %></p>
-                    <p>ผู้ฝากงาน <%= result.dispName %></p>
-                  </li>
-                  <% }); %>
-              </ul>
-              <% } else { %>
-                <p></p>
-                <% } %>
-          </div>
+        <div class="col-md-7 col-lg-8">
+          <h1 class="display-5 fst-italic"> </h1>
+
+
+
+          <form id="searchForm" action="/search/run" method="POST">
+            <select id="searchFilter" class="form-select" name="searchFilter" style="width: 200px;"
+              onchange="changeInputType()">
+              <option value="docID">DocID</option>
+              <option value="status">สถานะ</option>
+              <option value="userNameSend">ผู้ส่งงาน</option>
+              <option value="createdDateTime">วันที่สั่งงาน ระบุเวลา</option>
+              <option value="createdDate">วันที่สั่งงาน</option>
+              <option value="requestDate">วันที่นัด</option>
+              <option value="cusName">ชื่อลูกค้า/ผู้ติดต่อ</option>
+              <option value="dispName">ผู้ฝากงาน</option>
+            </select>
+            <input id="searchTerm" class="form-control" type="search" name="searchTerm"
+              style="width: 600px; margin-bottom: 20px;">
+            <button class="btn btn-primary btn-lg px-4 gap-3">SUBMIT</button>
+          </form>
+
+          <script>
+            function changeInputType() {
+              var selectedFilter = document.getElementById("searchFilter").value;
+              var dateTimeInput = document.getElementById("searchTerm");
+
+              if (selectedFilter === 'createdDateTime') {
+                dateTimeInput.type = "datetime-local";
+              } else if (selectedFilter === 'createdDate') {
+                dateTimeInput.type = "date";
+              } else if (selectedFilter === 'requestDate') {
+                dateTimeInput.type = "date";
+              } else {
+                dateTimeInput.type = "text";
+              }
+            }
+            changeInputType();
+          </script>
+
+          <% if (searchResults && searchResults.length> 0) { %>
+            <ul>
+              <% searchResults.forEach(result=> { %>
+                <li style="margin-bottom: 50px;">
+                  <p>DocID: <%= result.docID %></p>
+                  <p>สถานะ: <%= result.status %></p>
+                  <p>ผู้ส่งงาน: <%= result.userNameSend %></p>
+                  <p>วันที่สั่งงาน: <%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric' ,
+                      month: 'numeric' , year: 'numeric' , hour: '2-digit' , minute: '2-digit' , timeZone: 'UTC' }) %>
+                  </p>
+                  <p>วันที่นัด: <%= result.requestDate.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' ,
+                      year: 'numeric' , timeZone: 'UTC' }) %>
+                  </p>
+                  <p>
+                    <%= result.docRound %> เวลา <%= result.docTime.toLocaleString('en-GB', { hour: '2-digit' ,
+                        minute: '2-digit' , timeZone: 'UTC' }) %>
+                  </p>
+                  <p><%= result.docSendReturn %><%= result.docType %><%= result.docIs %></p>
+                  <p>ชื่อลูกค้า/ผู้ติดต่อ <%= result.cusName %></p>
+                  <p>ผู้ฝากงาน <%= result.dispName %></p>
+                </li>
+                <% }); %>
+            </ul>
+            <% } else { %>
+              <p></p>
+              <% } %>
+        </div>
       </main>
       <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
 

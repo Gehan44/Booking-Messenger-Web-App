@@ -49,39 +49,40 @@
 
 <body class="text-center">
   <main class="form-signin">
+    <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
+    
+    <% if (errors != "") { %>
+    <div class="alert alert-danger" role="alert">
+      <%= errors %>
+    </div>
+    <% } %>
+
     <form action="/user/register" method="POST">
+      <div class="form-floating">
+        <input type="email" name="email" value="<%= email %>" class="form-control" id="floatingInput"
+          placeholder="name@example.com">
+        <label for="floatingInput">Email address</label>
+      </div>
 
-      <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
+      <div class="form-floating">
+        <input type="password" name="password" value="<%= password %>" class="form-control" id="floatingPassword"
+          placeholder="Password">
+        <label for="floatingPassword">Password</label>
+      </div>
 
-      <% if(errors !=null) { %>
-        <%= errors %>
-          <% } %>
+      <div class="form-floating">
+        <input type="name" name="name" value="<%= name %>" class="form-control" id="floatingInput"
+          placeholder="Name">
+        <label for="floatingInput">Name</label>
+      </div>
 
-            <div class="form-floating">
-              <input type="email" name="email" value="<%= email %>" class="form-control" id="floatingInput"
-                placeholder="name@example.com">
-              <label for="floatingInput">Email address</label>
-            </div>
+      <div class="form-floating">
+        <input type="role" name="role" value="<%= role %>" class="form-control" id="floatingInput"
+          placeholder="Role">
+        <label for="floatingInput">Role</label>
+      </div>
 
-            <div class="form-floating">
-              <input type="password" name="password" value="<%= password %>" class="form-control" id="floatingPassword"
-                placeholder="Password">
-              <label for="floatingPassword">Password</label>
-            </div>
-
-            <div class="form-floating">
-              <input type="name" name="name" value="<%= name %>" class="form-control" id="floatingInput"
-                placeholder="Name">
-              <label for="floatingInput">Name</label>
-            </div>
-
-            <div class="form-floating">
-              <input type="role" name="role" value="<%= role %>" class="form-control" id="floatingInput"
-                placeholder="Role">
-              <label for="floatingInput">Role</label>
-            </div>
-
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
     </form>
   </main>
 </body>

@@ -1,6 +1,6 @@
 const sql = require('mssql');
 const config = require('../sqlConfig');
-//const runDetect = require('./emailFunction');
+const runDetect = require('./emailFunction');
 
 module.exports = async (req, res) => {
   try {
@@ -33,11 +33,13 @@ module.exports = async (req, res) => {
       if (variantSendReturn === "ส่ง") {
         variantStatus = "Done";
         await request.query(`UPDATE tracks SET status = '${variantStatus}' WHERE docID = '${editTerm}'`);
-        //runDetect(variantEmail, variant);
+        console.log(variantEmail)
+        console.log(variant)
+        runDetect(variantEmail, variant);
       } else if (variantSendReturn === "รับ") {
         variantStatus = "Returned";
         await request.query(`UPDATE tracks SET status = '${variantStatus}' WHERE docID = '${editTerm}'`);
-        //runDetect(variantEmail, variant);
+        runDetect(variantEmail, variant);
       }
 
     } else if (variantStatus === "Picked") {

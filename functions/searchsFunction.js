@@ -8,19 +8,33 @@ module.exports = async (req, res) => {
         let searchFilter = req.body.searchFilter;
 
         if (searchFilter === 'createdDate') {
-            searchFilter = 'createdDateTime'
+            searchFilter = 'createdDateTime';
         }
         
         if (searchFilter === 'createdDateTime' || searchFilter === 'requestDate') {
             searchTerm = searchTerm.replace('T', ' ');
         }
+
         await sql.connect(config);
         const request = new sql.Request();
-        let query = `SELECT * FROM tracks WHERE CONVERT(VARCHAR, ${searchFilter}, 120) LIKE '%${searchTerm}%'`;
+        let query = `SELECT * FROM tracks`;
+
+        if (UserData.role === "Sale") {
+            query += ` WHERE userIDCreated = '${UserData.userID}'`;
+        }
+
+        if (searchTerm) {
+            query += ` AND CONVERT(VARCHAR, ${searchFilter}, 120) LIKE '%${searchTerm}%'`;
+        }
+
         const result = await request.query(query);
         const searchResults = result.recordset;
 
-        res.render('search', { UserData, searchTerm, searchResults, searchFilter });
+        if (UserData.role === "Sale") {
+            res.render('ssearch', { UserData, searchTerm, searchResults, searchFilter });
+        } else {
+            res.render('search', { UserData, searchTerm, searchResults, searchFilter });
+        }
     } catch (error) {
         console.error('Error during search:', error);
         res.status(500).send('Internal Server Error');

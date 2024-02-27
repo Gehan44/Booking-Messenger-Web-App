@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Messenger Pinewealthsolution</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+body { background-color: white; }
+</style>
+</head>
+<body class="w3-light-grey">
+
+<!-- Page Container -->
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+  <!-- The Grid -->
+  <div class="w2-row-padding">
+  
+    <!-- Left Column -->
+    <div class="w3-third">
+    
+      <div class="w3-card-4">
+        <div class="w3-display-container">
+          <img src="data:image/png;base64, <%= docQRCode.toString('base64') %>" alt="QR Code" />
+        </div>
+        <div class="w3-container">
+
+          <p><%= createdTrack.docID %></p>
+          <p>วันที่สั่งงาน <%= createdTrack.createdDateTime.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></p>
+          <p>วันที่นัด <%= createdTrack.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></p>
+          <p><%= createdTrack.docRound %> เวลา <%= createdTrack.docTime.toLocaleString('en-GB', {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}) %></p>
+          <h5><b><%= createdTrack.docSendReturn %></b></h5>
+          <p><%= createdTrack.docType %> <%= createdTrack.docIs %></p>
+          <br>
+          <br>
+        </div>
+      </div><br>
+
+    <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-twothird">
+    
+      <div class="w3-container w3-card w3-white w3-margin-bottom">
+        <img class="d-block mx-auto mb-4" src="/image/logowitha.jpg" alt="" width="320" height="100">
+        <div class="w3-container">
+          <h5 class="w3-opacity"><b>ใบแจ้งการรับ-ส่งเอกสาร</b></h5>
+          <p>ชื่อลูกค้า/ผู้ติดต่อ <%= createdTrack.cusName %></p>
+          <p>สถานที่ <%= createdTrack.cusPlace %></p>
+          <p>โทร.ติดต่อ <%= createdTrack.cusTel %></p>
+        </div>
+        <div class="w3-container">
+          <p>ผู้ฝากงาน <%= createdTrack.dispName %></p>
+          <p>โทร.ติดต่อ <%= createdTrack.dispTel %></p>
+          <p>หมายเหตุ/คำสั่งเพิ่มเติม <%= createdTrack.dispNote %></p>
+        </div>
+        <div class="w3-container">
+          <h4><b>ผู้รับเอกสาร(กรุณาเขียนตัวบรรจง)</b></h4>
+          <hr>
+        </div>
+    <!-- End Right Column -->
+    </div>
+    
+  <!-- End Grid -->
+  </div>
+  
+  <!-- End Page Container -->
+</div>
+
+<footer class="w3-container w3 w3-center w3-margin-top">
+    <a class="nav-link d-flex align-items-center gap-2" href="/sHome">
+        Finish
+    </a>
+</footer>
+</body>
+</html>

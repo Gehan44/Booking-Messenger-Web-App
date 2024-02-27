@@ -3,8 +3,13 @@ const bcrypt = require('bcrypt');
 const sqlConfig = require('../sqlConfig');
 
 module.exports = async function createUser(userData) {
+    // Check if all required fields are present
+    if (!userData.email || !userData.password || !userData.name || !userData.role) {
+        throw new Error('Please provide all required fields: email, password, name, role');
+    }
+
     try {
-        console.log(userData.password)
+        console.log(userData.password);
         const hashedPassword = await bcrypt.hash(userData.password, 10);
         const pool = await sql.connect(sqlConfig);
         const request = pool.request();

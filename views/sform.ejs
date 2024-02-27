@@ -248,7 +248,7 @@
   </svg>
 
   <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/wsHome">สวัสดี <%= UserData.name %>, <%= UserData.role %></a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/sHome">สวัสดี <%= UserData.name %>, <%= UserData.role %></a>
 
     <ul class="navbar-nav flex-row d-md-none">
       <li class="nav-item text-nowrap">
@@ -279,7 +279,7 @@
           <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" aria-current="page" href="/wsHome">
+                <a class="nav-link d-flex align-items-center gap-2" aria-current="page" href="/sHome">
                   <svg class="bi">
                     <use xlink:href="#house-fill" />
                   </svg>
@@ -287,7 +287,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="/search">
+                <a class="nav-link d-flex align-items-center gap-2" href="/ssearch">
                   <svg class="bi">
                     <use xlink:href="#search" />
                   </svg>
@@ -325,10 +325,10 @@
           <h1 class="h2">Form</h1>
         </div>
 
-        <form action="/track/form" method="POST">
+        <form action="/track/sform" method="POST">
           <input type="hidden" name="userIDCreated" value="<%= userIDCreated %>">
-          <input type="hidden" name="userName" value="<%= userName %>">
-          <input type="hidden" name="userEmail" value="<%= userEmail %>">
+          <input type="hidden" name="dispName" value="<%= userName %>">
+          <input type="hidden" name="dispEmail" value="<%= userEmail %>">
           <% if(errors !=null) { %>
             <%= errors %>
               <% } %>
@@ -428,22 +428,20 @@
                           <div class="row g-3">
                             <div class="col-12">
                               <h4 class="mb-3">ข้อมูลผู้ฝากงาน</h4>
-                            </div>
-                            <div class="row g-3">
-                              <div class="col-md-5">
-                                <label class="form-label">โทร.ติดต่อ</label>
-                                <input type="text" class="form-control" placeholder="089-123-4567" name="dispTel" required>
-                                <div class="invalid-feedback">
-                                  Please enter
-                                </div>
+                              <label class="form-label">โทร.ติดต่อ</label>
+                              <input type="text" class="form-control" placeholder="089-123-4567" name="dispTel" required>
+                              <div class="invalid-feedback">
+                                Please enter
                               </div>
-
+                            </div>
+  
                             <div class="col-12">
                               <label class="form-label">หมายเหตุ / คำสั่งเพิ่มเติม</label>
                               <input type="text" class="form-control" placeholder="" name="dispNote">
+                              <div class="invalid-feedback">
+                                Please enter
+                              </div>
                             </div>
-                          </div>
-                        </div>
                         <hr class="my-4">
                         <button class="w-50 btn btn-primary btn-lg" type="submit">Confirm</button>
                   </form>
@@ -454,7 +452,6 @@
   </form>
   </main>
   <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
-
   <script src="/js/chart.umd.js" crossorigin="anonymous"></script>
   <script src="/js/dashboard.js"></script>>
 </html>

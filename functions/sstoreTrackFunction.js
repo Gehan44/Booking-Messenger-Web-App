@@ -4,9 +4,7 @@ module.exports = async (req, res) => {
     const { userIDCreated,requestDate, docRound, docTime, docSendReturn, docType, docIs, docFnote, cusName, cusPlace, cusTel, dispName, dispTel, dispEmail, dispNote } = req.body;
     try {
         const { createdTrack, docQRCode } = await createTrack(req.body);
-        const userRole = req.session.user.role;
-        
-        res.render('print', { createdTrack, docQRCode });        
+        res.render('sprint', { createdTrack, docQRCode });        
     } catch (error) {
         console.error(error);
         if (error) {
@@ -14,6 +12,6 @@ module.exports = async (req, res) => {
             req.flash('validationErrors', validationErrors);
             req.flash('data', req.body);
         }
-        res.redirect('wsHome');
+        res.redirect('sHome');
     }
 };

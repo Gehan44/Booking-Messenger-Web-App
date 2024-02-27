@@ -16,11 +16,14 @@ const wsHomeController = require('./controllers/wsHomeController.js')
 const registerController = require('./controllers/registerController.js')
 const sHomeController = require('./controllers/sHomeController.js')
 const sformController = require('./controllers/sformController.js')
+const ssearchController = require('./controllers/ssearchController.js')
 
 //Function
 const loginUserFunction = require('./functions/loginUserFunction.js')
-const searchFunction = require('./functions/searchwsFunction.js')
+const searchwsFunction = require('./functions/searchwsFunction.js')
+const searchsFunction = require('./functions/searchsFunction.js')
 const storeTrackFunction = require('./functions/storeTrackFunction.js');
+const sstoreTrackFunction = require('./functions/sstoreTrackFunction.js');
 const storeUserFunction = require('./functions/storeUserFunction.js')
 const editFunction = require('./functions/editFunction')
 const editFailedFunction = require('./functions/failedEditFunction')
@@ -29,6 +32,7 @@ const editFailedFunction = require('./functions/failedEditFunction')
 const redirectIfAuth = require('./middleware/redirectifAuth')
 const wealthsMiddleware = require('./middleware/wealthsMiddleware.js')
 const messMiddleware = require('./middleware/messMiddleware.js')
+const saleMiddleware = require('./middleware/saleMiddleware.js')
 
 app.use(cors());
 app.use(express.static('public'))
@@ -43,48 +47,51 @@ const hours = 2;
 app.use(expressSession({secret: "node sercet", cookie: { maxAge: hours * 60 * 60 * 1000 }}))
 app.set('view engine','ejs')
 
-//app.all('/', async function(req, res) {
-//    if (req.session.user){
-//        try {
-//            const userData = req.session.user;
-//            if (userData.role === 'Messenger') {
-//                res.redirect('/mHome');
-//            } else if (userData.role === 'Wealth Support') {
-//                res.redirect('/wsHome');
-//            }
-//        } catch (error) {
-//            console.error(error);
-//            res.redirect('/login');
-//        }
-//    } else {
-//        res.redirect('/login');
-//    }
-//});
-
 app.all('/', async function(req, res) {
-    res.redirect('/login');
+    if (req.session.user){
+        try {
+            const userData = req.session.user;
+            if (userData.role === 'Messenger') {
+                res.redirect('/mHome');
+            } else if (userData.role === 'Wealth Support') {
+                res.redirect('/wsHome');
+            } else if (userData.role === 'Sale') {
+                res.redirect('/sHome');
+            }
+        } catch (error) {
+            console.error(error);
+            res.redirect('/login');
+        }
+    } else {
+        res.redirect('/login');
+    }
 });
+
 
 //Login
 app.get('/login',loginController)
 app.post('/user/login',loginUserFunction)
 
 //Wealth Support
-app.get('/wsHome',wsHomeController)
-app.get('/search',searchController)
-app.post('/search/run',searchFunction)
-app.get('/form',formController)
-app.post('/track/form',storeTrackFunction)
+app.get('/wsHome',wealthsMiddleware,wsHomeController)
+app.get('/search',wealthsMiddleware,searchController)
+app.get('/form',wealthsMiddleware,formController)
+app.post('/search/run',wealthsMiddleware,searchwsFunction)
+app.post('/track/form',wealthsMiddleware,storeTrackFunction)
 
 //Sale
-app.get('/sHome',sHomeController)
-app.get('/sform',sformController)
+app.get('/sHome',saleMiddleware,sHomeController)
+app.get('/ssearch',saleMiddleware,ssearchController)
+app.get('/sform',saleMiddleware,sformController)
+app.post('/search/srun',saleMiddleware,searchsFunction)
+app.post('/track/sform',saleMiddleware,sstoreTrackFunction)
 
 //Messenger
 app.get('/mHome',messMiddleware,mHomeController)
 app.post('/mHome/edit',messMiddleware,editFunction)
 app.post('/mHome/edit/failed',messMiddleware,editFailedFunction)
 
+//Register
 app.get('/register',registerController)
 app.post('/user/register',storeUserFunction)
 app.get('/logout',logoutController)
@@ -92,14 +99,14 @@ app.get('/logout',logoutController)
 //Server
 //const http = require('http');
 //const hostname = 'wealth-han-tracker';
-const hostname = '192.168.105.54';
+//const hostname = '192.168.105.54';
 let port = process.env.PORT || 3000;
-module.exports = { hostname,port };
+module.exports = { port };
 
-app.listen(port, () => {
-        console.log(`Server running at http://${hostname}:${port}`)
-});
+//app.listen(port, () => {
+//        console.log(`Server running at http://${hostname}:${port}`)
+//});
 
-//app.listen(port,() => {
-//    console.log(`Server running at http://${port}`)
-//})
+app.listen(port,() => {
+    console.log(`Server running at http://${port}`)
+})

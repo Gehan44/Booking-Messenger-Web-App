@@ -4,7 +4,7 @@ module.exports = async (req, res, next) => {
         if (!user) {
             return res.redirect('/')
         }
-        if (user.role !== 'Messenger') {
+        if (user.role !== 'Sale') {
             return res.redirect('/');
         }
         next();
