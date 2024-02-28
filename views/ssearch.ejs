@@ -102,6 +102,25 @@
     .bd-mode-toggle .dropdown-menu .active .bi {
       display: block !important;
     }
+
+    .table-responsive.small table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .table-responsive.small th,
+    .table-responsive.small td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+      white-space: nowrap;
+      /* Prevent line breaks */
+    }
+
+    .table-responsive.small tr:nth-child(even) {
+      background-color: #dddddd;
+    }
   </style>
 
 
@@ -132,7 +151,7 @@
     </symbol>
   </svg>
 
-  <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+  <div class="dropdown position-fixed top-0 end-0 mt-3 me-3 bd-mode-toggle">
     <button class="btn btn-primary btn-lg dropdown-toggle d-flex align-items-center" id="bd-theme" type="button"
       aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
       <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
@@ -326,71 +345,124 @@
         <div class="col-md-7 col-lg-8">
           <h1 class="display-5 fst-italic"> </h1>
 
+
+
           <form id="searchForm" action="/search/srun" method="POST">
             <select id="searchFilter" class="form-select" name="searchFilter" style="width: 200px;"
               onchange="changeInputType()">
               <option value="docID">DocID</option>
               <option value="status">สถานะ</option>
               <option value="userNameSend">ผู้ส่งงาน</option>
+
               <option value="createdDateTime">วันที่สั่งงาน ระบุเวลา</option>
               <option value="createdDate">วันที่สั่งงาน</option>
               <option value="requestDate">วันที่นัด</option>
+              <option value="docRound">รอบ</option>
+              <option value="docTime">เวลา</option>
+              <option value="docType">เอกสารประเภท</option>
+              <option value="docIs">เอกสารคือ</option>
+
               <option value="cusName">ชื่อลูกค้า/ผู้ติดต่อ</option>
+              <option value="cusTel">เบอร์ลูกค้า</option>
+              <option value="cusPlace">สถานที่</option>
+
               <option value="dispName">ผู้ฝากงาน</option>
+              <option value="dispTel">เบอร์ผู้ฝากงาน</option>
+              <option value="dispEmail">อีเมลผู้ฝากงาน</option>
+              <option value="dispNote">หมายเหตุ</option>
             </select>
-            <input id="searchTerm" class="form-control" type="search" name="searchTerm"
-              style="width: 600px; margin-bottom: 20px;">
-            <button class="btn btn-primary btn-lg px-4 gap-3">SUBMIT</button>
+            <input id="searchTerm" class="form-control" type="search" name="searchTerm" style="width: 600px;">
+            <button class="btn btn-primary btn-lg px-3 gap-1" style=" margin-bottom: 20px;">SUBMIT</button>
           </form>
 
           <script>
             function changeInputType() {
               var selectedFilter = document.getElementById("searchFilter").value;
               var dateTimeInput = document.getElementById("searchTerm");
-
-              if (selectedFilter === 'createdDateTime') {
+               if (selectedFilter === 'createdDateTime') {
                 dateTimeInput.type = "datetime-local";
               } else if (selectedFilter === 'createdDate') {
                 dateTimeInput.type = "date";
               } else if (selectedFilter === 'requestDate') {
                 dateTimeInput.type = "date";
+              } else if (selectedFilter === 'docTime') {
+                dateTimeInput.type = "time";
               } else {
                 dateTimeInput.type = "text";
               }
             }
             changeInputType();
           </script>
-
-          <% if (searchResults && searchResults.length> 0) { %>
-            <ul>
-              <% searchResults.forEach(result=> { %>
-                <li style="margin-bottom: 50px;">
-                  <p>DocID: <%= result.docID %></p>
-                  <p>สถานะ: <%= result.status %></p>
-                  <p>ผู้ส่งงาน: <%= result.userNameSend %></p>
-                  <p>วันที่สั่งงาน: <%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric' ,
-                      month: 'numeric' , year: 'numeric' , hour: '2-digit' , minute: '2-digit' , timeZone: 'UTC' }) %>
-                  </p>
-                  <p>วันที่นัด: <%= result.requestDate.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' ,
-                      year: 'numeric' , timeZone: 'UTC' }) %>
-                  </p>
-                  <p>
-                    <%= result.docRound %> เวลา <%= result.docTime.toLocaleString('en-GB', { hour: '2-digit' ,
-                        minute: '2-digit' , timeZone: 'UTC' }) %>
-                  </p>
-                  <p><%= result.docSendReturn %><%= result.docType %><%= result.docIs %></p>
-                  <p>ชื่อลูกค้า/ผู้ติดต่อ <%= result.cusName %></p>
-                  <p>ผู้ฝากงาน <%= result.dispName %></p>
-                </li>
-                <% }); %>
-            </ul>
-            <% } else { %>
-              <p></p>
-              <% } %>
         </div>
+
+
+        <div class="table-responsive small">
+          <table class="table table-striped table-sm">
+              <thead>
+                  <tr>
+                      <th scope="col">DocID</th>
+                      <th scope="col">สถานะ</th>
+                      <th scope="col">ผู้ส่งงาน</th>
+                      <th scope="col">เนื่องจาก</th>
+        
+                      <th scope="col">วันที่สั่งงาน</th>
+                      <th scope="col">วันที่นัด</th>
+                      <th scope="col">รอบ</th>
+                      <th scope="col">เวลา</th>
+                      <th scope="col">รับหรือส่ง</th>
+                      <th scope="col">ประเภท</th>
+                      <th scope="col">คือ</th>
+        
+                      <th scope="col">ชื่อลูกค้า/ผู้ติดต่อ</th>
+                      <th scope="col">โทร.ติดต่อ</th> 
+                      <th scope="col">สถานที่</th>  
+        
+                      <th scope="col">ผู้ฝากงาน</th>
+                      <th scope="col">โทร.ติดต่อ</th>
+                      <th scope="col">อีเมล</th>
+                      <th scope="col">หมายเหตุ/คำสั่งเพิ่มเติม</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <% if (searchResults && searchResults.length > 0) { %>
+                      <% searchResults.forEach(result => { %>
+                          <tr>
+                              <td><%= result.docID %></td>
+                              <td><%= result.status %></td>
+                              <td><%= result.userNameSend %></td>
+                              <td><%= result.docFnote %></td>
+        
+                              <td><%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></td>
+                              <td><%= result.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></td>
+                              <td><%= result.docRound %></td>
+                              <td><%= result.docTime.toLocaleString('en-GB', {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}) %></td>      
+                              <td><%= result.docSendReturn %></td>
+                              <td><%= result.docType %></td>
+                              <td><%= result.docIs %></td>
+        
+                              <td><%= result.cusName %></td>
+                              <td><%= result.cusTel %></td>
+                              <td><%= result.cusPlace %></td>
+        
+                              <td><%= result.dispName %></td> 
+                              <td><%= result.dispTel %></td>
+                              <td><%= result.dispEmail %></td>
+                              <td><%= result.dispNote %></td>                                     
+                          </tr>
+                      <% }); %>
+                  <% } else { %>
+                      <tr>
+                          <td colspan="auto">No results found.</td>
+                      </tr>
+                  <% } %>
+              </tbody>
+          </table>
+        </div>
+
+
+
       </main>
       <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
-
       <script src="/js/chart.umd.js" crossorigin="anonymous"></script>
       <script src="/js/dashboard.js"></script>
 

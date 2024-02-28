@@ -1,6 +1,6 @@
 const sql = require('mssql');
 const config = require('../sqlConfig');
-//const runDetect = require('./emailFunction');
+const runDetect = require('./emailFunction');
 
 module.exports = async (req, res) => {
     try {
@@ -9,6 +9,7 @@ module.exports = async (req, res) => {
 
         const editTerm = req.body.updatedEditTerm;
         const noteTerm = req.body.noteEditTerm;
+        const UserID = req.session.user.userID;
         const Username = req.session.user.name;
 
         const result = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
@@ -16,12 +17,20 @@ module.exports = async (req, res) => {
         if (result.recordset.length === 0) {
             console.log(`Variant with docID ${editTerm} not found`);
             return;
-        } else {
-            variantStatus = "Failed";
-            const combinedNote = `${noteTerm}, แจ้งโดย ${Username}`;
-            console.log(combinedNote)
-            await request.query(`UPDATE tracks SET status = '${variantStatus}', docFnote = '${combinedNote}' WHERE docID = '${editTerm}'`);
         }
+
+        const variant = result.recordset[0];
+        const variantEmail = variant.dispEmail;
+        const combinedNote = `${noteTerm}, แจ้งโดย ${Username}`;
+
+        if (variant.userIDSend === null && variant.userNameSend === null) {
+            await request.query(`UPDATE tracks SET userIDSend = '${UserID}', userNameSend = '${Username}' WHERE docID = '${editTerm}'`);
+        }
+
+        await request.query(`UPDATE tracks SET status = 'Failed', docFnote = '${combinedNote}' WHERE docID = '${editTerm}'`);
+        const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
+        const updatedVariant = updatedVariantResult.recordset[0];
+        await runDetect(variantEmail, updatedVariant);
 
         console.log("Update to status failed");
         res.redirect('/mHome');

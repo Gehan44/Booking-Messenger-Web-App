@@ -23,7 +23,9 @@ module.exports = async (req, res) => {
             query += ` WHERE userIDCreated = '${UserData.userID}'`;
         }
 
-        if (searchTerm) {
+        if (searchFilter === 'docTime') {
+            query += ` AND CONVERT(TIME, ${searchFilter}) = CONVERT(TIME, '${searchTerm}')`;
+        } else {
             query += ` AND CONVERT(VARCHAR, ${searchFilter}, 120) LIKE '%${searchTerm}%'`;
         }
 

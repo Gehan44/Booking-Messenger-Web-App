@@ -33,15 +33,18 @@ module.exports = async (req, res) => {
       if (variantSendReturn === "ส่ง") {
         variantStatus = "Done";
         await request.query(`UPDATE tracks SET status = '${variantStatus}' WHERE docID = '${editTerm}'`);
-        console.log(variantEmail)
-        console.log(variant)
-        runDetect(variantEmail, variant);
+        const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
+        const updatedVariant = updatedVariantResult.recordset[0];
+        await runDetect(variantEmail, updatedVariant);
+
       } else if (variantSendReturn === "รับ") {
         variantStatus = "Returned";
         await request.query(`UPDATE tracks SET status = '${variantStatus}' WHERE docID = '${editTerm}'`);
-        runDetect(variantEmail, variant);
+        const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
+        const updatedVariant = updatedVariantResult.recordset[0];
+        await runDetect(variantEmail, updatedVariant);
       }
-
+      
     } else if (variantStatus === "Picked") {
       console.log("Sorry, you are not allowed.");
     } else {

@@ -133,7 +133,7 @@
     </symbol>
   </svg>
 
-  <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+  <div class="dropdown position-fixed top-0 end-0 mt-3 me-3 bd-mode-toggle">
     <button class="btn btn-primary btn-lg dropdown-toggle d-flex align-items-center" id="bd-theme" type="button"
       aria-expanded="false" data-bs-toggle="dropdown" aria-label="Toggle theme (auto)">
       <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
@@ -180,6 +180,7 @@
       </li>
     </ul>
   </div>
+
 
 
   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -330,11 +331,16 @@
             <thead>
               <tr>
                 <th scope="col">DocID</th>
-                <th scope="col">Status</th>
-                <th scope="col">Messenger</th>
+                <th scope="col">สถานะ</th>
                 <th scope="col">วันที่สั่งงาน</th>
                 <th scope="col">วันที่นัด</th>
-                <th scope="col">ชื่อลูกค้า/ผู้ติดต่อ</th>
+                <th scope="col">รอบ</th>
+                <th scope="col">เวลา</th>
+                <th scope="col">รับหรือส่ง</th>
+                <th scope="col">ประเภท</th>
+                <th scope="col">คือ</th>
+                <th scope="col">ชื่อลูกค้า/ผู้ติดต่อ</th>                
+                <th scope="col">ผู้ส่งงาน</th>
                 <th scope="col">ผู้ฝากงาน</th>
               </tr>
             </thead>
@@ -344,16 +350,21 @@
                   <tr>
                     <td><%= result.docID %></td>
                     <td><%= result.status %></td>
-                    <td><%= result.userNameSend %></td>
                     <td><%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></td>
-                    <td><%= result.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></td>          
+                    <td><%= result.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></td>
+                    <td><%= result.docRound %></td>
+                    <td><%= result.docTime.toLocaleString('en-GB', {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}) %></td>      
+                    <td><%= result.docSendReturn %></td>
+                    <td><%= result.docType %></td>
+                    <td><%= result.docIs %></td>
                     <td><%= result.cusName %></td>
-                    <td><%= result.dispName %></td>
+                    <td><%= result.userNameSend %></td>
+                    <td><%= result.dispName %></td>      
                   </tr>
                 <% }); %>
               <% } else { %>
                 <tr>
-                  <td colspan="5">No results found.</td>
+                  <td colspan="auto">No results found.</td>
                 </tr>
               <% } %>
             </tbody>

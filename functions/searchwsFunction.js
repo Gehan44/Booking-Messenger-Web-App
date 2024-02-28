@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
         let searchFilter = req.body.searchFilter;
 
         if (searchFilter === 'createdDate') {
-            searchFilter = 'createdDateTime'
+            searchFilter = 'createdDateTime';
         }
         
         if (searchFilter === 'createdDateTime' || searchFilter === 'requestDate') {
@@ -16,7 +16,14 @@ module.exports = async (req, res) => {
         }
         await sql.connect(config);
         const request = new sql.Request();
-        let query = `SELECT * FROM tracks WHERE CONVERT(VARCHAR, ${searchFilter}, 120) LIKE '%${searchTerm}%'`;
+
+        let query;
+        if (searchFilter === 'docTime') {
+            query = `SELECT * FROM tracks WHERE CONVERT(TIME, ${searchFilter}) = CONVERT(TIME, '${searchTerm}')`;
+        } else {
+            query = `SELECT * FROM tracks WHERE CONVERT(VARCHAR, ${searchFilter}, 120) LIKE '%${searchTerm}%'`;
+        }
+
         const result = await request.query(query);
         const searchResults = result.recordset;
 

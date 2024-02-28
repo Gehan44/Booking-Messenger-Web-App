@@ -48,13 +48,9 @@ module.exports = async function createTrack(trackData) {
 
         //CreatedDate
         createdDateTime = moment().format('YYYY-MM-DD HH:mm')
-        console.log(createdDateTime)
-        console.log(trackData.requestDate)
-        console.log(trackData.docTime)
 
         //DocFnote
         trackData.docFnote = ""
-        console.log(trackData.docFnote)
 
         // Insert the new track
         const result = await request.query(`
