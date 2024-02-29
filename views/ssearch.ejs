@@ -350,7 +350,8 @@
           <form id="searchForm" action="/search/srun" method="POST">
             <select id="searchFilter" class="form-select" name="searchFilter" style="width: 200px;"
               onchange="changeInputType()">
-              <option value="docID">DocID</option>
+              <option value="">เลือกค้นหา...</option>
+              <option value="docID">เลขที่เอกสาร</option>
               <option value="status">สถานะ</option>
               <option value="userNameSend">ผู้ส่งงาน</option>
 
@@ -359,8 +360,9 @@
               <option value="requestDate">วันที่นัด</option>
               <option value="docRound">รอบ</option>
               <option value="docTime">เวลา</option>
-              <option value="docType">เอกสารประเภท</option>
-              <option value="docIs">เอกสารคือ</option>
+              <option value="docSendReturn">รับหรือส่ง</option>
+              <option value="docType">ประเภท</option>
+              <option value="docIs">รายละเอียด</option>
 
               <option value="cusName">ชื่อลูกค้า/ผู้ติดต่อ</option>
               <option value="cusTel">เบอร์ลูกค้า</option>
@@ -400,7 +402,7 @@
           <table class="table table-striped table-sm">
               <thead>
                   <tr>
-                      <th scope="col">DocID</th>
+                      <th scope="col">เลขที่เอกสาร</th>
                       <th scope="col">สถานะ</th>
                       <th scope="col">ผู้ส่งงาน</th>
                       <th scope="col">เนื่องจาก</th>
@@ -411,7 +413,7 @@
                       <th scope="col">เวลา</th>
                       <th scope="col">รับหรือส่ง</th>
                       <th scope="col">ประเภท</th>
-                      <th scope="col">คือ</th>
+                      <th scope="col">รายละเอียด</th>
         
                       <th scope="col">ชื่อลูกค้า/ผู้ติดต่อ</th>
                       <th scope="col">โทร.ติดต่อ</th> 

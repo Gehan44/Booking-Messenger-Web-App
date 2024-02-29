@@ -7,6 +7,12 @@ module.exports = async (req, res) => {
         let searchTerm = req.body.searchTerm;
         let searchFilter = req.body.searchFilter;
 
+        if (!searchFilter) {
+            let searchResults = null;
+            res.render('ssearch', { UserData, searchTerm, searchFilter, searchResults});
+            return
+        }
+
         if (searchFilter === 'createdDate') {
             searchFilter = 'createdDateTime';
         }
