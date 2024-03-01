@@ -23,6 +23,7 @@
     "moment": "^2.30.1",
     "mssql": "^10.0.2",
     "nodemailer": "^6.9.10",
-    "qr-image": "^3.2.0"
+    "qr-image": "^3.2.0",
+    "sendmail": "^1.6.1"
   }
 }

@@ -9,6 +9,10 @@ module.exports = async function loginUser(req, res) {
         const result = await sql.query`SELECT * FROM dbo.users WHERE email = ${email}`;
         const user = result.recordset[0];
 
+        const isValidPassword = /^[a-zA-Z0-9]+$/.test(password)
+        if (!isValidPassword) {
+            res.render('login', { message: 'กรุณาเปลี่ยนภาษา' });
+        }
         if (user) {
             const match = await bcrypt.compare(password, user.password);
             if (match) {
@@ -37,10 +41,10 @@ module.exports = async function loginUser(req, res) {
                     res.redirect('/login');
                 }
             } else {
-                res.render('login', { message: 'Incorrect email or password' });
+                res.render('login', { message: 'อีเมลหรือรหัสผ่านผิด' });
             }
         } else {
-            res.render('login', { message: 'User not found' });
+            res.render('login', { message: 'ไม่ค้นพบผู้ใช้งานนี้' });
         }
     } catch (error) {
         console.error(error);

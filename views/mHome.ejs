@@ -9,7 +9,7 @@
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.118.2">
   <title>Messenger Pinewealthsolution</title>
-
+  <link rel="icon" href="/image/logo.png" type="image/x-icon">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard/">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
 
@@ -197,7 +197,7 @@
           <% } else { %>
             <form action="/Mhome/edit" method="POST">
               <input class="form-control" type="hidden" name="updatedEditTerm" value="<%= updatedEditTerm %>">
-              <button class="btn btn-primary btn-lg px-4 gap-3">CONFIRM</button>
+              <button class="btn btn-primary btn-lg px-4 gap-3">ยืนยัน</button>
             </form>
           <% } %>
         <% } else if (updatedEditTerm && updatedEditTerm !== VariantData.docID) { %>
@@ -211,7 +211,7 @@
     <div class="b-example-divider"></div>
     <div class="px-4 pt-5 my-5 text-center">
       <h1 class="display-5 fw-bold text-body-emphasis">สวัสดี <%= UserData.name %>, <%= UserData.role %></h1>
-      <a type="button" class="btn btn-outline-secondary btn-lg px-4" href="/logout">Logout</a>
+      <a type="button" class="btn btn-outline-secondary btn-lg px-4" href="/logout">ออกจากระบบ</a>
     </div>
 
     <div class="b-example-divider"></div>
@@ -229,7 +229,7 @@
           <form action="/Mhome/edit/failed" method="POST" id="confirmForm">
             <input class="form-control" type="hidden" name="updatedEditTerm" value="<%= updatedEditTerm %>">
             <input class="form-control" type="text" name="noteEditTerm" value="<%= noteEditTerm %>">
-            <button class="btn btn-primary btn-danger px-4 gap-3" id="confirmButton">CONFIRM</button>
+            <button class="btn btn-primary btn-danger px-4 gap-3" id="confirmButton">ยืนยัน</button>
           </form>
         <% } %>
       <% } %>

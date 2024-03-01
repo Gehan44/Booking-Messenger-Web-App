@@ -1,18 +1,8 @@
-const nodemailer = require('nodemailer');
+const sendmail = require('sendmail')();
 
 module.exports = async function emailRun(mailSend, mailT) {
-    let transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
-        auth: {
-            user: 'gehan.dube@bumail.net',
-            pass: 'DubeBu2020'
-        }
-    });
-
+    console.log("Program Email Start")
     let emailBody;
-
     if (mailT.status === 'Failed') {
         emailBody = `
         <p style="font-size: 26px;">เรียน คุณ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.dispName},</p>
@@ -28,7 +18,7 @@ module.exports = async function emailRun(mailSend, mailT) {
             <li>วันที่นัด   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.requestDate.toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' })}</li>
             <li>เวลาที่นัด    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.docRound} ${mailT.docTime.toLocaleString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })}</li>
             <li>ประเภท (รับ/ส่ง) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.docSendReturn}</li>
-            <li>สถานที่   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.cusPlace}</li>
+            <li>สถานที่   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.cusPlace}</li>
             <li>หมายเลขโทรศัพท์ &nbsp;&nbsp;&nbsp;&nbsp; ${mailT.cusTel}</li>
             <li>นำส่งโดย    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.userNameSend}</li>
         </ul>
@@ -49,27 +39,23 @@ module.exports = async function emailRun(mailSend, mailT) {
             <li>วันที่นัด   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.requestDate.toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' })}</li>
             <li>เวลาที่นัด    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.docRound} ${mailT.docTime.toLocaleString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' })}</li>
             <li>ประเภท (รับ/ส่ง) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.docSendReturn}</li>
-            <li>สถานที่   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.cusPlace}</li>
+            <li>สถานที่   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.cusPlace}</li>
             <li>หมายเลขโทรศัพท์ &nbsp;&nbsp;&nbsp;&nbsp; ${mailT.cusTel}</li>
             <li>นำส่งโดย    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.userNameSend}</li>
         </ul>
         <p style="font-size: 26px;">จึงเรียนมาเพื่อทราบ</p>
         <img class="d-block mx-auto mb-4" src="cid:logowitha" alt="" width="320" height="100">
     `;
-    
     }
-
-    let info = await transporter.sendMail({
-        from: 'gehan.dube@bumail.net',
-        to: mailSend,
-        subject: 'จากระบบ Booking Messenger Web App',
-        html: emailBody,
-        attachment: [{
-            filename: 'logowitha.jpg',
-            path: '../public/image/logowitha.jpg',
-            cid: 'logowitha'
-        }]
-    });
-
-    console.log('Message sent: %s', info.messageId);
+    sendmail({
+      from: 'gehan.dube@bumail.net',
+      to: mailSend,
+      subject: 'จากระบบ Booking Messenger Web App',
+      html: emailBody
+    }, function (err, reply) {
+        if(err){
+            console.log("Error Alert")
+        }
+        console.log("Email Sent")
+    })
 }
