@@ -1,3 +1,4 @@
+require('dotenv').config();
 //module.exports = {
 //    server: 'localhost\\SQLEXPRESS',
 //    database: 'pine_bos',
@@ -9,7 +10,7 @@
 
 module.exports = {
     user: 'dev_pine',
-    password: 'bZJJHwDc5#',
+    password: process.env.DB_PASSWORD,
     server: '4.194.103.19',
     port: 1433,
     database: 'pine_bos',
