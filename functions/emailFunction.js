@@ -1,8 +1,18 @@
-const sendmail = require('sendmail')();
+const nodemailer = require('nodemailer');
 
 module.exports = async function emailRun(mailSend, mailT) {
-    console.log("Program Email Start")
+    let transporter = nodemailer.createTransport({
+        host: 'smtp.taximail.com',
+        port: 587,
+        secure: false,
+        auth: {
+            user: 'sm216623',
+            pass: 'sx7hl2SvACCO2j4'
+        }
+    });
+
     let emailBody;
+
     if (mailT.status === 'Failed') {
         emailBody = `
         <p style="font-size: 26px;">เรียน คุณ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.dispName},</p>
@@ -46,16 +56,20 @@ module.exports = async function emailRun(mailSend, mailT) {
         <p style="font-size: 26px;">จึงเรียนมาเพื่อทราบ</p>
         <img class="d-block mx-auto mb-4" src="cid:logowitha" alt="" width="320" height="100">
     `;
+    
     }
-    sendmail({
-      from: 'gehan.dube@bumail.net',
-      to: mailSend,
-      subject: 'จากระบบ Booking Messenger Web App',
-      html: emailBody
-    }, function (err, reply) {
-        if(err){
-            console.log("Error Alert")
-        }
-        console.log("Email Sent")
-    })
+
+    let info = await transporter.sendMail({
+        from: 'Pine Wealth Solution Company no-reply@pinewealthsolution.com',
+        to: mailSend,
+        subject: 'จากระบบ Booking Messenger Web App',
+        html: emailBody,
+        attachment: [{
+            filename: 'logowitha.jpg',
+            path: '../public/image/logowitha.jpg',
+            cid: 'logowitha'
+        }]
+    });
+
+    console.log('Message sent: %s', info.messageId);
 }
