@@ -11,7 +11,7 @@ module.exports = async function loginUser(req, res) {
 
         const isValidPassword = /^[a-zA-Z0-9]+$/.test(password)
         if (!isValidPassword) {
-            res.render('login', { message: 'กรุณาเปลี่ยนภาษา' });
+            return res.render('login', { message: 'กรุณาเปลี่ยนภาษา' });
         }
         if (user) {
             const match = await bcrypt.compare(password, user.password);
@@ -22,7 +22,7 @@ module.exports = async function loginUser(req, res) {
                         name: user.name,
                         role: user.role
                     };
-                    res.redirect('/mHome');
+                    return res.redirect('/mHome');
                 } else if (user.role === 'Wealth Support') {
                     req.session.user = {
                         userID: user.userID,
@@ -36,19 +36,19 @@ module.exports = async function loginUser(req, res) {
                         name: user.name,
                         role: user.role
                     };
-                    res.redirect('/sHome');
+                    return res.redirect('/sHome');
                 } else {
-                    res.redirect('/login');
+                    return res.redirect('/login');
                 }
             } else {
-                res.render('login', { message: 'อีเมลหรือรหัสผ่านผิด' });
+                return res.render('login', { message: 'อีเมลหรือรหัสผ่านผิด' });
             }
         } else {
-            res.render('login', { message: 'ไม่ค้นพบผู้ใช้งานนี้' });
+            return res.render('login', { message: 'ไม่ค้นพบผู้ใช้งานนี้' });
         }
     } catch (error) {
         console.error(error);
-        res.render('login', { message: 'An error occurred' });
+        return res.render('login', { message: 'An error occurred' });
     } finally {
         await sql.close();
     }

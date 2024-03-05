@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
         if (searchFilter === 'docTime') {
             query += ` AND CONVERT(TIME, ${searchFilter}) = CONVERT(TIME, '${searchTerm}')`;
         } else {
-            query += ` AND CONVERT(VARCHAR, ${searchFilter}, 120) LIKE '%${searchTerm}%'`;
+            query += ` AND CONVERT(TEXT, ${searchFilter}) LIKE '%${searchTerm}%'`;
         }
 
         const result = await request.query(query);

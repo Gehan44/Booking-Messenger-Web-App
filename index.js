@@ -50,8 +50,9 @@ app.use(session ({
     store: new MemoryStore({
       checkPeriod: 86400000
     }),
-    resave: false,
-    secret: 'keyboard cat'
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
 }))
 
 app.set('view engine','ejs')

@@ -7,10 +7,6 @@ function padWithZeros(number) {
     return String(number).padStart(3, '0');
 }
 
-function padWithZeroM(number) {
-    return String(number).padStart(2, '0');
-}
-
 module.exports = async function createTrack(trackData) {
     try {
         const currentDate = new Date();
@@ -51,7 +47,7 @@ module.exports = async function createTrack(trackData) {
 
         //DocFnote
         trackData.docFnote = ""
-
+        
         // Insert the new track
         const result = await request.query(`
             INSERT INTO tracks (
@@ -70,7 +66,6 @@ module.exports = async function createTrack(trackData) {
                 '${trackData.dispNote}'
             )
         `);
-        console.log('Track created successfully');
 
         // Retrieve the created track data
         const createdTrack = await request.query(`

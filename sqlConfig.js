@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 //module.exports = {
 //    server: 'localhost\\SQLEXPRESS',
 //    database: 'pine_bos',
@@ -14,8 +15,8 @@ module.exports = {
     server: '4.194.103.19',
     port: 1433,
     database: 'pine_bos',
-    trustServerCertificate: true,
     options: {
       encrypt: true, // If you're using Azure, set this to true
+      trustServerCertificate: true,
       }
 };

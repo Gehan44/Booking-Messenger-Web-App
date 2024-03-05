@@ -343,13 +343,11 @@
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">ค้นหา</h1>
         </div>
+
         <div class="col-md-7 col-lg-8">
           <h1 class="display-5 fst-italic"> </h1>
-
-
-
           <form id="searchForm" action="/search/run" method="POST">
-            <select id="searchFilter" class="form-select" name="searchFilter" style="width: 200px;"
+            <select id="searchFilter" class="form-select" name="searchFilter" style="width: auto;"
               onchange="changeInputType()">
               <option value="">เลือกค้นหา...</option>
               <option value="docID">เลขที่เอกสาร</option>
@@ -374,7 +372,7 @@
               <option value="dispEmail">อีเมลผู้ฝากงาน</option>
               <option value="dispNote">หมายเหตุ</option>
             </select>
-            <input id="searchTerm" class="form-control" type="search" name="searchTerm" style="width: 600px;">
+            <input id="searchTerm" class="form-control" type="search" name="searchTerm" style="width: auto;">
             <button class="btn btn-primary btn-lg px-3 gap-1" style=" margin-bottom: 20px;">ยืนยัน</button>
           </form>
 

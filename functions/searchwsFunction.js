@@ -27,12 +27,11 @@ module.exports = async (req, res) => {
         if (searchFilter === 'docTime') {
             query = `SELECT * FROM tracks WHERE CONVERT(TIME, ${searchFilter}) = CONVERT(TIME, '${searchTerm}')`;
         } else {
-            query = `SELECT * FROM tracks WHERE CONVERT(VARCHAR, ${searchFilter}, 120) LIKE '%${searchTerm}%'`;
+            query = `SELECT * FROM tracks WHERE CONVERT(TEXT, ${searchFilter}) LIKE '%${searchTerm}%'`;
         }
 
         const result = await request.query(query);
         const searchResults = result.recordset;
-
         res.render('search', { UserData, searchTerm, searchResults, searchFilter });
     } catch (error) {
         console.error('Error during search:', error);

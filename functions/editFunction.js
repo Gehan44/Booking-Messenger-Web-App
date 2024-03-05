@@ -51,7 +51,6 @@ module.exports = async (req, res) => {
       console.log("Unknown variant status:", variantStatus);
     }
 
-    console.log("Update Success");
     res.redirect('/mHome');
   } catch (error) {
     console.error("Error:", error);

@@ -1,5 +1,3 @@
-const sql = require('mssql');
-const sqlConfig = require('../sqlConfig.js');
 const runDetect = require('../functions/detectTrackFunction.js');
 
 module.exports = async (req, res) => {
