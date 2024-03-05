@@ -34,7 +34,6 @@ module.exports = async function emailRun(mailSend, mailT) {
             <li>นำส่งโดย    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.userNameSend}</li>
         </ul>
         <p style="font-size: 26px;">จึงเรียนมาเพื่อทราบ</p>
-        <img class="d-block mx-auto mb-4" src="cid:logowitha" alt="" width="320" height="100">
     `;
     } else {
         emailBody = `
@@ -55,7 +54,6 @@ module.exports = async function emailRun(mailSend, mailT) {
             <li>นำส่งโดย    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.userNameSend}</li>
         </ul>
         <p style="font-size: 26px;">จึงเรียนมาเพื่อทราบ</p>
-        <img class="d-block mx-auto mb-4" src="cid:logowitha" alt="" width="320" height="100">
     `;
     
     }
@@ -64,12 +62,7 @@ module.exports = async function emailRun(mailSend, mailT) {
         from: 'Pine Wealth Solution Company no-reply@pinewealthsolution.com',
         to: mailSend,
         subject: 'จากระบบ Booking Messenger Web App',
-        html: emailBody,
-        attachment: [{
-            filename: 'logowitha.jpg',
-            path: '../public/image/logowitha.jpg',
-            cid: 'logowitha'
-        }]
+        html: emailBody
     });
 
     console.log('Message sent: %s', info.messageId);

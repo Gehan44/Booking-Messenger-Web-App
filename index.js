@@ -2,7 +2,8 @@ const express = require('express')
 const cors = require("cors")
 const app = express()
 const ejs = require('ejs')
-const expressSession = require('express-session')
+const session  = require('express-session')
+const MemoryStore = require('memorystore')(session)
 const flash = require('connect-flash')
 global.loggedIn = null
 
@@ -44,7 +45,15 @@ app.use("*",(req,res,next) =>{
 })
 
 const hours = 2;
-app.use(expressSession({secret: "node sercet", cookie: { maxAge: hours * 60 * 60 * 1000 }}))
+app.use(session ({
+    cookie: { maxAge: hours * 60 * 60 * 1000  },
+    store: new MemoryStore({
+      checkPeriod: 86400000
+    }),
+    resave: false,
+    secret: 'keyboard cat'
+}))
+
 app.set('view engine','ejs')
 
 app.all('/', async function(req, res) {
