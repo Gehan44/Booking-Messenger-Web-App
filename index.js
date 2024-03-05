@@ -57,6 +57,10 @@ app.use(session ({
 
 app.set('view engine','ejs')
 
+process.on('warning', (warning) => {
+    console.log(warning.stack);
+});
+
 app.all('/', async function(req, res) {
     if (req.session.user){
         try {
