@@ -24,17 +24,23 @@ module.exports = async (req, res) => {
         await sql.connect(config);
         const request = new sql.Request();
         let query = `SELECT * FROM tracks`;
-
-        if (UserData.role === "Sale") {
-            query += ` WHERE userIDCreated = '${UserData.userID}'`;
-        }
-
+        
         if (searchFilter === 'docTime') {
-            query += ` AND CONVERT(TIME, ${searchFilter}) = CONVERT(TIME, '${searchTerm}')`;
+            query += ` WHERE CONVERT(TIME, ${searchFilter}) = CONVERT(TIME, '${searchTerm}')`;
+        } else if (searchFilter === 'createdDateTime' || searchFilter === 'requestDate') {
+            query += ` WHERE CONVERT(VARCHAR, ${searchFilter}, 120) LIKE '%${searchTerm}%'`;
         } else {
-            query += ` AND CONVERT(TEXT, ${searchFilter}) LIKE '%${searchTerm}%'`;
+            query += ` WHERE CONVERT(TEXT, ${searchFilter}) LIKE '%${searchTerm}%'`;
         }
-
+        
+        if (UserData.role === "Sale") {
+            if (query.includes('WHERE')) {
+                query += ` AND userIDCreated = '${UserData.userID}'`;
+            } else {
+                query += ` WHERE userIDCreated = '${UserData.userID}'`;
+            }
+        }
+        
         const result = await request.query(query);
         const searchResults = result.recordset;
 

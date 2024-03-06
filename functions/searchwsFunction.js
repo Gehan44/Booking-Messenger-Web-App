@@ -26,6 +26,8 @@ module.exports = async (req, res) => {
         let query;
         if (searchFilter === 'docTime') {
             query = `SELECT * FROM tracks WHERE CONVERT(TIME, ${searchFilter}) = CONVERT(TIME, '${searchTerm}')`;
+        } else if (searchFilter === 'createdDateTime' || searchFilter === 'requestDate') {
+            query = `SELECT * FROM tracks WHERE CONVERT(VARCHAR, ${searchFilter}, 120) LIKE '%${searchTerm}%'`;
         } else {
             query = `SELECT * FROM tracks WHERE CONVERT(TEXT, ${searchFilter}) LIKE '%${searchTerm}%'`;
         }
