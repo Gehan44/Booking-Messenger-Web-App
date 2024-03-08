@@ -17,7 +17,6 @@ const autofillFunction = async (req, res) => {
       };
       res.json(autofillData);
     } catch (error) {
-      console.error('Error during autofill:', error);
       res.status(500).send('Internal Server Error');
     }
 };
