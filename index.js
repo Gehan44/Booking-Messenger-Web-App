@@ -23,11 +23,13 @@ const ssearchController = require('./controllers/ssearchController.js')
 const loginUserFunction = require('./functions/loginUserFunction.js')
 const searchwsFunction = require('./functions/searchwsFunction.js')
 const searchsFunction = require('./functions/searchsFunction.js')
-const storeTrackFunction = require('./functions/storeTrackFunction.js');
-const sstoreTrackFunction = require('./functions/sstoreTrackFunction.js');
+const storeTrackFunction = require('./functions/storeTrackFunction.js')
+const sstoreTrackFunction = require('./functions/sstoreTrackFunction.js')
 const storeUserFunction = require('./functions/storeUserFunction.js')
 const editFunction = require('./functions/editFunction')
 const editFailedFunction = require('./functions/failedEditFunction')
+
+const autofillFunction = require('./functions/autofillFunction.js')
 
 //Middleware
 const redirectIfAuth = require('./middleware/redirectifAuth')
@@ -88,6 +90,7 @@ app.get('/search',wealthsMiddleware,searchController)
 app.get('/form',wealthsMiddleware,formController)
 app.post('/search/run',wealthsMiddleware,searchwsFunction)
 app.post('/track/form',wealthsMiddleware,storeTrackFunction)
+app.post('/form/autofill',wealthsMiddleware,autofillFunction)
 
 //Sale
 app.get('/sHome',saleMiddleware,sHomeController)

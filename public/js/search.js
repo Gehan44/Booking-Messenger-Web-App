@@ -1,10 +1,19 @@
 function searchAndFill() {
-    const cusName = document.getElementById('cusName').value;
-    
-    const cusPlace = "New York";
-    const cusTel = "911";
+  const cusName = document.getElementById('cusName').value;
   
-    document.querySelector('input[name="cusPlace"]').value = cusPlace;
-    document.querySelector('input[name="cusTel"]').value = cusTel;
-  }
-  
+  fetch('/form/autofill', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ cusName: cusName })
+  })
+  .then(response => response.json())
+  .then(data => {
+    document.querySelector('input[name="cusPlace"]').value = data.cusPlace;
+    document.querySelector('input[name="cusTel"]').value = data.cusTel;
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
