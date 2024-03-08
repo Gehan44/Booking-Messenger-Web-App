@@ -30,9 +30,8 @@ module.exports = async (req, res) => {
         await request.query(`UPDATE tracks SET status = 'Failed', docFnote = '${combinedNote}' WHERE docID = '${editTerm}'`);
         const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
         const updatedVariant = updatedVariantResult.recordset[0];
-        await runDetect(variantEmail, updatedVariant);
+        await runDetect( updatedVariant,variantEmail);
 
-        console.log("Update to status failed");
         res.redirect('/mHome');
     } catch (error) {
         console.error("Error:", error);

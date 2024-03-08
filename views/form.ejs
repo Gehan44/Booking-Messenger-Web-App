@@ -337,13 +337,22 @@
                 <div class="col-md-7 col-lg-8">
                   <form class="needs-validation" novalidate>
                     <div class="row g-3">
-                      <div class="col-md-3">
+                      <div class="col-md-4">
                         <label class="form-label">วันที่นัด</label>
-                        <input type="datetime-local" class="form-control" name="requestDate" required>
+                        <div class="input-group">
+                          <input type="datetime-local" class="form-control" name="requestDate" required>
+                          <button type="button" class="btn btn-outline-secondary" onclick="clearDateInput()">Clear</button>
+                        </div>
                         <div class="invalid-feedback">
                           Please enter
                         </div>
                       </div>
+
+                      <script>
+                        function clearDateInput() {
+                          document.querySelector('input[name="requestDate"]').value = '';
+                        }
+                      </script>
 
                       <div class="col-md-3">
                         <label for="state" class="form-label">รอบ</label>
@@ -357,14 +366,22 @@
                         </div>
                       </div>
           
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                         <label class="form-label">สะดวกเวลา</label>
-                        <input type="time-local" class="form-control" name="docTime">
+                        <div class="input-group">
+                          <input type="time-local" class="form-control" name="docTime">
+                          <button type="button" class="btn btn-outline-secondary" onclick="clearTimeInput()">Clear</button>
+                        </div>
                         <div class="invalid-feedback">
                           Please enter
                         </div>
                       </div>
 
+                      <script>
+                        function clearTimeInput() {
+                          document.querySelector('input[name="docTime"]').value = '';
+                        }
+                      </script>
 
                       <div class="row g-3">
                       <div class="col-md-3">
@@ -401,10 +418,22 @@
                         </div>
 
                         <div class="row g-3">
-                          <div class="col-12">
+                          <div class="col-6">
                             <h4 class="mb-3">ข้อมูลลูกค้า</h4>
                             <label class="form-label">ชื่อลูกค้า / ผู้ติดต่อ</label>
-                            <input type="text" class="form-control" name="cusName" required>
+                            <div class="input-group">
+                              <input type="text" class="form-control" name="cusName" id="cusName" required>
+                              <button type="button" class="btn btn-outline-secondary" onclick="searchAndFill()">Search</button>
+                            </div>
+                            <div class="invalid-feedback">
+                              Please enter
+                            </div>
+                          </div>
+                          <script src="/js/search.js"></script>
+                    
+                          <div class="col-12">
+                            <label class="form-label">โทรศัพท์ติดต่อได้</label>
+                            <input type="text" class="form-control" name="cusTel" required>
                             <div class="invalid-feedback">
                               Please enter
                             </div>
@@ -418,16 +447,8 @@
                             </div>
                           </div>
 
-                          <div class="col-12">
-                            <label class="form-label">โทรศัพท์ติดต่อได้</label>
-                            <input type="text" class="form-control" name="cusTel" required>
-                            <div class="invalid-feedback">
-                              Please enter
-                            </div>
-                          </div>
-
                           <div class="row g-3">
-                            <div class="col-12">
+                            <div class="col-10">
                               <h4 class="mb-3">ข้อมูลผู้ฝากงาน</h4>
                               <label class="form-label">ผู้ฝากงาน</label>
                               <input type="text" class="form-control" name="dispName" required>
@@ -478,7 +499,17 @@
     time_24hr: true,
     minuteIncrement: 30 },
     configd = {
-    minDate: "today"}
+    minDate: "today",
+    disable: [
+        function(date) {
+            // return true to disable
+            return (date.getDay() === 0 || date.getDay() === 6);
+
+        }
+    ],
+    locale: {
+        "firstDayOfWeek": 1 
+    }}
     flatpickr("input[type=time-local]", configt);
     flatpickr("input[type=datetime-local]", configd);
   </script>

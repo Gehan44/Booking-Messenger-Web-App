@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
       await request.query(`UPDATE tracks SET status = '${variantStatus}' WHERE docID = '${editTerm}'`);
       const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
       const updatedVariant = updatedVariantResult.recordset[0];
-      //await runDetect(updatedVariant,variantEmail);
+      await runDetect(updatedVariant,variantEmail);
 
     } else if (variantStatus === "Picked") {
       console.log("Sorry, you are not allowed.");
