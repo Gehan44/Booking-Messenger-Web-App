@@ -9,10 +9,6 @@ module.exports = async function loginUser(req, res) {
         const result = await sql.query`SELECT * FROM dbo.users WHERE email = ${email}`;
         const user = result.recordset[0];
 
-        const isValidPassword = /^[a-zA-Z0-9]+$/.test(password)
-        if (!isValidPassword) {
-            return res.render('login', { message: 'กรุณาเปลี่ยนภาษา' });
-        }
         if (user) {
             const match = await bcrypt.compare(password, user.password);
             if (match) {

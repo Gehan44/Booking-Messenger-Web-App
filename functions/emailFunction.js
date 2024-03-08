@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-module.exports = async function emailRun(mailSend, mailT) {
+module.exports = async function emailRun(mailT,mailSend) {
     let transporter = nodemailer.createTransport({
         host: 'smtp.taximail.com',
         port: 587,
@@ -60,7 +60,7 @@ module.exports = async function emailRun(mailSend, mailT) {
 
     let info = await transporter.sendMail({
         from: 'Pine Wealth Solution Company no-reply@pinewealthsolution.com',
-        to: mailSend,
+        to: `${mailSend},salesupport@pinewealthsolution.com`,
         subject: 'จากระบบ Booking Messenger Web App',
         html: emailBody
     });

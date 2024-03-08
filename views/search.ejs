@@ -12,8 +12,10 @@
   <link rel="icon" href="/image/logo.png" type="image/x-icon">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard/">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-
   <link href="/css/bootstrap.das.css" rel="stylesheet" crossorigin="anonymous">
+
+  <!--flatpickr-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -266,9 +268,7 @@
   </svg>
 
   <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/wsHome">สวัสดี <%= UserData.name %>, <%=
-          UserData.role %></a>
-
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/wsHome">สวัสดี<%=UserData.name%>, <%=UserData.role%></a>
     <ul class="navbar-nav flex-row d-md-none">
       <li class="nav-item text-nowrap">
         <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"
@@ -346,8 +346,8 @@
 
         <div class="col-md-7 col-lg-8">
           <h1 class="display-5 fst-italic"> </h1>
-          <form id="searchForm" action="/search/run" method="POST">
-            <select id="searchFilter" class="form-select" name="searchFilter" style="width: auto;"
+          <form id="searchForm" action="/search/run" method="POST" class="d-flex align-items-center">
+            <select id="searchFilter" class="form-select me-2" name="searchFilter" style="width: auto;"
               onchange="changeInputType()">
               <option value="">เลือกค้นหา...</option>
               <option value="docID">เลขที่เอกสาร</option>
@@ -372,30 +372,46 @@
               <option value="dispEmail">อีเมลผู้ฝากงาน</option>
               <option value="dispNote">หมายเหตุ</option>
             </select>
-            <input id="searchTerm" class="form-control" type="search" name="searchTerm" style="width: auto;">
-            <button class="btn btn-primary btn-lg px-3 gap-1" style=" margin-bottom: 20px;">ยืนยัน</button>
+            <input id="searchTerm" class="form-control me-2" type="search" name="searchTerm" style="width: auto;">
+            <button class="btn btn-primary btn-lg me-2" style=" margin-bottom: 5px;" type="submit">ยืนยัน</button>
           </form>
+          <hr class="my-4">
 
           <script>
-            function changeInputType() {
-              var selectedFilter = document.getElementById("searchFilter").value;
-              var dateTimeInput = document.getElementById("searchTerm");
-               if (selectedFilter === 'createdDateTime') {
-                dateTimeInput.type = "datetime-local";
-              } else if (selectedFilter === 'createdDate') {
-                dateTimeInput.type = "date";
-              } else if (selectedFilter === 'requestDate') {
-                dateTimeInput.type = "date";
-              } else if (selectedFilter === 'docTime') {
-                dateTimeInput.type = "time";
-              } else {
-                dateTimeInput.type = "text";
-              }
-            }
-            changeInputType();
-          </script>
-        </div>
+            var configdt = {
+              enableTime: true,
+              time_24hr: true,
+              dateFormat: "Y-m-d H:i",
+            };
 
+            var configt = {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true
+            };
+        
+            var configd = {
+            };
+        
+            function changeInputType() {
+                var selectedFilter = document.getElementById("searchFilter").value;
+                var dateTimeInput = document.getElementById("searchTerm");
+        
+                if (selectedFilter === 'createdDateTime') {
+                    flatpickr(dateTimeInput, configdt);
+                } else if (selectedFilter === 'createdDate' || selectedFilter === 'requestDate') {
+                    flatpickr(dateTimeInput, configd);
+                } else if (selectedFilter === 'docTime') {
+                    flatpickr(dateTimeInput, configt);
+                } else {
+                    dateTimeInput.removeAttribute('data-flatpickr');
+                }
+            }
+        
+            changeInputType();
+        </script>
+        </div>
 
         <div class="table-responsive small">
           <table class="table table-striped table-sm">
@@ -436,7 +452,11 @@
                               <td><%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></td>
                               <td><%= result.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></td>
                               <td><%= result.docRound %></td>
-                              <td><%= result.docTime.toLocaleString('en-GB', {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}) %></td>      
+                              <td>
+                                <% if (result.docTime !== null) { %>
+                                  <%= result.docTime.toLocaleString('en-GB', {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}) %>
+                                <% } %>
+                              </td> 
                               <td><%= result.docSendReturn %></td>
                               <td><%= result.docType %></td>
                               <td><%= result.docIs %></td>
@@ -459,12 +479,9 @@
               </tbody>
           </table>
         </div>
-
-
-
       </main>
       <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
       <script src="/js/chart.umd.js" crossorigin="anonymous"></script>
       <script src="/js/dashboard.js"></script>
-
+      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </html>

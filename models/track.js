@@ -1,10 +1,12 @@
-const moment = require('moment');
+const moment = require('moment-timezone');
+moment.tz.setDefault('Asia/Bangkok');
+
 const sql = require('mssql');
 const sqlConfig = require('../sqlConfig');
 const qr = require('qr-image')
 
 function padWithZeros(number) {
-    return String(number).padStart(3, '0');
+    return String(number).padStart(4, '0');
 }
 
 module.exports = async function createTrack(trackData) {
@@ -22,17 +24,21 @@ module.exports = async function createTrack(trackData) {
         `);
 
         if (!lastTrackQuery.recordset[0]) {
-            docID = `P${year}-001`;
+            docID = `P${year}0001`;
         } else {
             const lastDocID = lastTrackQuery.recordset[0].docID;
-            const lastDocIDParts = lastDocID.split('-');
-            const lastCounter = parseInt(lastDocIDParts[1]);
 
-            if (lastDocIDParts[0] === `P${year}`) {
+            // Extract 'P24'
+            let prefix = lastDocID.substring(0, 3);
+            // Extract '0001'
+            let suffix = lastDocID.substring(3);
+            const lastCounter = parseInt(suffix);
+
+            if (prefix === `P${year}`) {
                 const newCounter = lastCounter + 1;
-                docID = `P${year}-${padWithZeros(newCounter)}`;
+                docID = `P${year}${padWithZeros(newCounter)}`;
             } else {
-                docID = `P${year}-001`;
+                docID = `P${year}0001`;
             }
         }
 
@@ -44,6 +50,11 @@ module.exports = async function createTrack(trackData) {
 
         //CreatedDate
         createdDateTime = moment().format('YYYY-MM-DD HH:mm')
+
+        //DocTime
+        //if (trackData.docTime === "") {
+        //    trackData.docTime = null
+        //}
 
         //DocFnote
         trackData.docFnote = ""
@@ -59,7 +70,8 @@ module.exports = async function createTrack(trackData) {
                 '${docID}', '${docQR}', ${trackData.userIDCreated},
                 '${"Created"}', '${createdDateTime}',
                 '${trackData.requestDate}', '${trackData.docRound}',
-                '${trackData.docTime}', '${trackData.docSendReturn}',
+                 ${trackData.docTime ? `'${trackData.docTime}'` : 'NULL'}, 
+                '${trackData.docSendReturn}',
                 '${trackData.docType}', '${trackData.docIs}', '${trackData.docFnote}',
                 '${trackData.cusName}', '${trackData.cusPlace}', '${trackData.cusTel}',
                 '${trackData.dispName}', '${trackData.dispTel}', '${trackData.dispEmail}',

@@ -13,8 +13,10 @@
   <link rel="icon" href="/image/logo.png" type="image/x-icon">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard/">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-
   <link href="/css/bootstrap.das.css" rel="stylesheet" crossorigin="anonymous">
+
+  <!--flatpickr-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -249,7 +251,7 @@
   </svg>
 
   <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/wsHome">สวัสดี <%= UserData.name %>, <%= UserData.role %></a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/wsHome">สวัสดี<%=UserData.name%>, <%=UserData.role%></a>
 
     <ul class="navbar-nav flex-row d-md-none">
       <li class="nav-item text-nowrap">
@@ -334,11 +336,10 @@
 
                 <div class="col-md-7 col-lg-8">
                   <form class="needs-validation" novalidate>
-                    <h4 class="mb-3">รายละเอียดงาน</h4>
                     <div class="row g-3">
                       <div class="col-md-3">
                         <label class="form-label">วันที่นัด</label>
-                        <input type="date" class="form-control" name="requestDate" required>
+                        <input type="datetime-local" class="form-control" name="requestDate" required>
                         <div class="invalid-feedback">
                           Please enter
                         </div>
@@ -358,7 +359,7 @@
           
                       <div class="col-md-4">
                         <label class="form-label">สะดวกเวลา</label>
-                        <input type="time" class="form-control" name="docTime">
+                        <input type="time-local" class="form-control" name="docTime">
                         <div class="invalid-feedback">
                           Please enter
                         </div>
@@ -370,8 +371,9 @@
                         <label for="state" class="form-label">งานรับหรือส่ง</label>
                         <select class="form-select" id="state" name="docSendReturn" required>
                           <option value=""></option>
-                          <option>รับ</option>
+                          <option>ส่งรอรับกลับ</option>
                           <option>ส่ง</option>
+                          <option>รับ</option>
                         </select>
                         <div class="invalid-feedback">
                           Please enter
@@ -391,7 +393,7 @@
                         </div>
 
                         <div class="col-md-5">
-                          <label class="form-label">เป็น</label>
+                          <label class="form-label">รายละเอียด</label>
                           <input type="text" class="form-control" name="docIs">
                           <div class="invalid-feedback">
                             Please enter
@@ -402,7 +404,7 @@
                           <div class="col-12">
                             <h4 class="mb-3">ข้อมูลลูกค้า</h4>
                             <label class="form-label">ชื่อลูกค้า / ผู้ติดต่อ</label>
-                            <input type="text" class="form-control" placeholder="คุณ" name="cusName" required>
+                            <input type="text" class="form-control" name="cusName" required>
                             <div class="invalid-feedback">
                               Please enter
                             </div>
@@ -410,7 +412,7 @@
 
                           <div class="col-12">
                             <label class="form-label">สถานที่</label>
-                            <input type="text" class="form-control" placeholder="1234 อาคาร" name="cusPlace" required>
+                            <input type="text" class="form-control" name="cusPlace" required>
                             <div class="invalid-feedback">
                               Please enter
                             </div>
@@ -418,7 +420,7 @@
 
                           <div class="col-12">
                             <label class="form-label">โทรศัพท์ติดต่อได้</label>
-                            <input type="text" class="form-control" placeholder="089-123-4567" name="cusTel" required>
+                            <input type="text" class="form-control" name="cusTel" required>
                             <div class="invalid-feedback">
                               Please enter
                             </div>
@@ -427,8 +429,8 @@
                           <div class="row g-3">
                             <div class="col-12">
                               <h4 class="mb-3">ข้อมูลผู้ฝากงาน</h4>
-                              <label class="form-label">ผู้ฝากงาน (เขียนตัวบรรจง)</label>
-                              <input type="text" class="form-control" placeholder="คุณ" name="dispName" required>
+                              <label class="form-label">ผู้ฝากงาน</label>
+                              <input type="text" class="form-control" name="dispName" required>
                               <div class="invalid-feedback">
                                 Please enter
                               </div>
@@ -436,14 +438,14 @@
                             <div class="row g-3">
                               <div class="col-md-5">
                                 <label class="form-label">โทร.ติดต่อ</label>
-                                <input type="text" class="form-control" placeholder="089-123-4567" name="dispTel" required>
+                                <input type="text" class="form-control" name="dispTel" required>
                                 <div class="invalid-feedback">
                                   Please enter
                                 </div>
                               </div>
                                 <div class="col-md-5">
                                   <label class="form-label">อีเมล.ติดต่อ</label>
-                                  <input type="text" class="form-control" placeholder="@mail.com" name="dispEmail" required>
+                                  <input type="text" class="form-control" name="dispEmail" required>
                                   <div class="invalid-feedback">
                                     Please enter
                                   </div>
@@ -465,7 +467,19 @@
   </form>
   </main>
   <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
-
   <script src="/js/chart.umd.js" crossorigin="anonymous"></script>
   <script src="/js/dashboard.js"></script>>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    configt = {
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+    time_24hr: true,
+    minuteIncrement: 30 },
+    configd = {
+    minDate: "today"}
+    flatpickr("input[type=time-local]", configt);
+    flatpickr("input[type=datetime-local]", configd);
+  </script>
 </html>

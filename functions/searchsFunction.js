@@ -16,10 +16,6 @@ module.exports = async (req, res) => {
         if (searchFilter === 'createdDate') {
             searchFilter = 'createdDateTime';
         }
-        
-        if (searchFilter === 'createdDateTime' || searchFilter === 'requestDate') {
-            searchTerm = searchTerm.replace('T', ' ');
-        }
 
         await sql.connect(config);
         const request = new sql.Request();

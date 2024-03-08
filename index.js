@@ -109,14 +109,14 @@ app.get('/logout',logoutController)
 //Server
 //const http = require('http');
 //const hostname = 'wealth-han-tracker';
-//const hostname = '192.168.105.54';
+const hostname = '192.168.105.54';
 let port = process.env.PORT || 3000;
 module.exports = { port };
 
-//app.listen(port, () => {
-//        console.log(`Server running at http://${hostname}:${port}`)
-//});
+app.listen(port, () => {
+        console.log(`Server running at http://${hostname}:${port}`)
+});
 
-app.listen(port,() => {
-    console.log(`Server running at http://${port}`)
-})
+//app.listen(port,() => {
+//    console.log(`Server running at http://${port}`)
+//})

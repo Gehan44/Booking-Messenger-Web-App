@@ -9,7 +9,6 @@ module.exports = async function createUser(userData) {
     }
 
     try {
-        console.log(userData.password);
         const hashedPassword = await bcrypt.hash(userData.password, 10);
         const pool = await sql.connect(sqlConfig);
         const request = pool.request();
