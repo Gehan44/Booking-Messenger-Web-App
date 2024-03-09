@@ -340,7 +340,7 @@
                         <label class="form-label">วันที่นัด</label>
                         <div class="input-group">
                           <input type="datetime-local" class="form-control" name="requestDate" required>
-                          <button type="button" class="btn btn-outline-secondary" onclick="clearDateInput()">Clear</button>
+                          <button type="button" class="btn btn-outline-secondary" onclick="clearDateInput()">ลบ</button>
                         </div>
                         <div class="invalid-feedback">
                           Please enter
@@ -369,7 +369,7 @@
                         <label class="form-label">สะดวกเวลา</label>
                         <div class="input-group">
                           <input type="time-local" class="form-control" name="docTime" required>
-                          <button type="button" class="btn btn-outline-secondary" onclick="clearTimeInput()">Clear</button>
+                          <button type="button" class="btn btn-outline-secondary" onclick="clearTimeInput()">ลบ</button>
                         </div>
                         <div class="invalid-feedback">
                           Please enter
@@ -417,18 +417,18 @@
                         </div>
 
                         <div class="row g-3">
-                          <div class="col-6">
+                          <div class="col-10">
                             <h4 class="mb-3">ข้อมูลลูกค้า</h4>
                             <label class="form-label">ชื่อลูกค้า / ผู้ติดต่อ</label>
                             <div class="input-group">
                               <input type="text" class="form-control" name="cusName" id="cusName" required>
-                              <button type="button" class="btn btn-outline-secondary" onclick="searchAndFill()">Search</button>
+                              <button type="button" class="btn btn-outline-secondary" onclick="cussearchAndFill()">ค้นหา</button>
                             </div>
                             <div class="invalid-feedback">
                               Please enter
-                            </div>
+                            </div>  
                           </div>
-                          <script src="/js/search.js"></script>
+                          <script src="/js/searchcus.js"></script>
                     
                           <div class="col-12">
                             <label class="form-label">โทรศัพท์ติดต่อได้</label>
@@ -450,15 +450,20 @@
                             <div class="col-10">
                               <h4 class="mb-3">ข้อมูลผู้ฝากงาน</h4>
                               <label class="form-label">ผู้ฝากงาน</label>
-                              <input type="text" class="form-control" name="dispName" required>
+                              <div class="input-group">
+                                <input type="text" class="form-control" name="dispName" id="dispName" required>
+                                <button type="button" class="btn btn-outline-secondary" onclick="dispsearchAndFill()">ค้นหา</button>
+                              </div>
                               <div class="invalid-feedback">
                                 Please enter
                               </div>
                             </div>
+                            <script src="/js/searchdisp.js"></script>
+
                             <div class="row g-3">
                               <div class="col-md-5">
                                 <label class="form-label">โทร.ติดต่อ</label>
-                                <input type="text" class="form-control" name="dispTel" required>
+                                <input type="text" class="form-control" name="dispTel"  required>
                                 <div class="invalid-feedback">
                                   Please enter
                                 </div>
@@ -473,7 +478,7 @@
 
                             <div class="col-12">
                               <label class="form-label">หมายเหตุ / คำสั่งเพิ่มเติม</label>
-                              <input type="text" class="form-control" placeholder="" name="dispNote">
+                              <input type="text" class="form-control" name="dispNote">
                             </div>
                           </div>
                         </div>

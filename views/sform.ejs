@@ -342,7 +342,7 @@
                       <label class="form-label">วันที่นัด</label>
                       <div class="input-group">
                         <input type="datetime-local" class="form-control" name="requestDate" required>
-                        <button type="button" class="btn btn-outline-secondary" onclick="clearDateInput()">Clear</button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="clearDateInput()">ลบ</button>
                       </div>
                       <div class="invalid-feedback">
                         Please enter
@@ -371,7 +371,7 @@
                       <label class="form-label">สะดวกเวลา</label>
                       <div class="input-group">
                         <input type="time-local" class="form-control" name="docTime" required>
-                        <button type="button" class="btn btn-outline-secondary" onclick="clearTimeInput()">Clear</button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="clearTimeInput()">ลบ</button>
                       </div>
                       <div class="invalid-feedback">
                         Please enter
@@ -420,14 +420,18 @@
                         </div>
 
                         <div class="row g-3">
-                          <div class="col-12">
+                          <div class="col-10">
                             <h4 class="mb-3">ข้อมูลลูกค้า</h4>
                             <label class="form-label">ชื่อลูกค้า / ผู้ติดต่อ</label>
-                            <input type="text" class="form-control" name="cusName" required>
+                            <div class="input-group">
+                              <input type="text" class="form-control" name="cusName" id="cusName" required>
+                              <button type="button" class="btn btn-outline-secondary" onclick="cussearchAndFill()">ค้นหา</button>
+                            </div>
                             <div class="invalid-feedback">
                               Please enter
-                            </div>
+                            </div>  
                           </div>
+                          <script src="/js/ssearchcus.js"></script>
 
                           <div class="col-12">
                             <label class="form-label">สถานที่</label>
@@ -481,7 +485,17 @@
     time_24hr: true,
     minuteIncrement: 30 },
     configd = {
-    minDate: "today"}
+    minDate: "today",
+    disable: [
+        function(date) {
+            // return true to disable
+            return (date.getDay() === 0 || date.getDay() === 6);
+
+        }
+    ],
+    locale: {
+        "firstDayOfWeek": 1 
+    }}
     flatpickr("input[type=time-local]", configt);
     flatpickr("input[type=datetime-local]", configd);
   </script>

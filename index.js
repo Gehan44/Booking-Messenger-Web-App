@@ -28,8 +28,9 @@ const sstoreTrackFunction = require('./functions/sstoreTrackFunction.js')
 const storeUserFunction = require('./functions/storeUserFunction.js')
 const editFunction = require('./functions/editFunction')
 const editFailedFunction = require('./functions/failedEditFunction')
-
-const autofillFunction = require('./functions/autofillFunction.js')
+const cusautofillFunction = require('./functions/cusautofillFunction.js')
+const dispautofillFunction = require('./functions/dispautofillFunction.js')
+const salecusautofillFunction = require('./functions/scusautofillFunction.js')
 
 //Middleware
 const redirectIfAuth = require('./middleware/redirectifAuth')
@@ -90,7 +91,8 @@ app.get('/search',wealthsMiddleware,searchController)
 app.get('/form',wealthsMiddleware,formController)
 app.post('/search/run',wealthsMiddleware,searchwsFunction)
 app.post('/track/form',wealthsMiddleware,storeTrackFunction)
-app.post('/form/autofill',wealthsMiddleware,autofillFunction)
+app.post('/form/cus/autofill',wealthsMiddleware,cusautofillFunction)
+app.post('/form/disp/autofill',wealthsMiddleware,dispautofillFunction)
 
 //Sale
 app.get('/sHome',saleMiddleware,sHomeController)
@@ -98,6 +100,7 @@ app.get('/ssearch',saleMiddleware,ssearchController)
 app.get('/sform',saleMiddleware,sformController)
 app.post('/search/srun',saleMiddleware,searchsFunction)
 app.post('/track/sform',saleMiddleware,sstoreTrackFunction)
+app.post('/form/sale/cus/autofill',saleMiddleware,salecusautofillFunction)
 
 //Messenger
 app.get('/mHome',messMiddleware,mHomeController)

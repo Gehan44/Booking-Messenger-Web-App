@@ -1,7 +1,7 @@
-function searchAndFill() {
+function cussearchAndFill() {
   const cusName = document.getElementById('cusName').value;
   
-  fetch('/form/autofill', {
+  fetch('/form/cus/autofill', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

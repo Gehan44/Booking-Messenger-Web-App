@@ -344,45 +344,48 @@
         </div>
 
         <div class="col-md-7 col-lg-8">
-          <h1 class="display-5 fst-italic"> </h1>
           <form id="searchForm" action="/search/run" method="POST" class="d-flex align-items-center">
-            <select id="searchFilter" class="form-select me-2" name="searchFilter" style="width: auto;"
-              onchange="changeInputType()">
-              <option value="">เลือกค้นหา...</option>
-              <option value="docID">เลขที่เอกสาร</option>
-              <option value="status">สถานะ</option>
-              <option value="userNameSend">ผู้ส่งงาน</option>
+            <div class="row g-3">
+              <div class="col-md-4">
+              <select id="searchFilter" class="form-select" name="searchFilter" style="width: auto;"
+                onchange="changeInputType()">
+                <option value="">เลือกค้นหา...</option>
+                <option value="docID">เลขที่เอกสาร</option>
+                <option value="status">สถานะ</option>
+                <option value="userNameSend">ผู้ส่งงาน</option>
 
-              <option value="createdDateTime">วันที่สั่งงาน ระบุเวลา</option>
-              <option value="createdDate">วันที่สั่งงาน</option>
-              <option value="requestDate">วันที่นัด</option>
-              <option value="docRound">รอบ</option>
-              <option value="docTime">เวลา</option>
-              <option value="docSendReturn">รับหรือส่ง</option>
-              <option value="docType">ประเภท</option>
-              <option value="docIs">รายละเอียด</option>
-
-              <option value="cusName">ชื่อลูกค้า/ผู้ติดต่อ</option>
-              <option value="cusTel">เบอร์ลูกค้า</option>
-              <option value="cusPlace">สถานที่</option>
-
-              <option value="dispName">ผู้ฝากงาน</option>
-              <option value="dispTel">เบอร์ผู้ฝากงาน</option>
-              <option value="dispEmail">อีเมลผู้ฝากงาน</option>
-              <option value="dispNote">หมายเหตุ</option>
-            </select>
-            <div class="input-group me-4">
-              <input id="searchTerm" class="form-control" type="search" name="searchTerm" style="width: auto;">
-              <button type="button" class="btn btn-outline-secondary" onclick="clearInput()">Clear</button>
+                <option value="createdDateTime">วันที่สั่งงาน ระบุเวลา</option>
+                <option value="createdDate">วันที่สั่งงาน</option>
+                <option value="requestDate">วันที่นัด</option>
+                <option value="docRound">รอบ</option>
+                <option value="docTime">เวลา</option>
+                <option value="docSendReturn">รับหรือส่ง</option>
+                <option value="docType">ประเภท</option>
+                <option value="docIs">รายละเอียด</option>
+  
+                <option value="cusName">ชื่อลูกค้า/ผู้ติดต่อ</option>
+                <option value="cusTel">เบอร์ลูกค้า</option>
+                <option value="cusPlace">สถานที่</option>
+  
+                <option value="dispName">ผู้ฝากงาน</option>
+                <option value="dispTel">เบอร์ผู้ฝากงาน</option>
+                <option value="dispEmail">อีเมลผู้ฝากงาน</option>
+                <option value="dispNote">หมายเหตุ</option>
+              </select>
+              </div>
+            <div class="col-md-8">
+              <div class="input-group">
+                <input id="searchTerm" class="form-control" type="search" name="searchTerm" style="width: auto;">
+                <button type="button" class="btn btn-outline-secondary" onclick="clearInput()">ลบ</button>
+              </div>
             </div>
             <script>
               function clearInput() {
                 document.querySelector('input[name="searchTerm"]').value = '';
               }
             </script>
-            <button class="btn btn-primary btn-lg me-2" style=" margin-bottom: 5px;" type="submit">ยืนยัน</button>
+            <button class="w-50 btn btn-primary btn-lg me-2" style=" margin-bottom: 5px;" type="submit">ยืนยัน</button>
           </form>
-          <hr class="my-4">
 
           <script>
             var configdt = {
@@ -417,7 +420,9 @@
             }
         
             changeInputType();
-        </script>
+          </script>
+              <hr class="my-4">
+            </div>
         </div>
 
         <div class="table-responsive small">
