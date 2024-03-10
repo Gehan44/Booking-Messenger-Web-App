@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
         } else {
             query = `SELECT * FROM tracks WHERE CONVERT(TEXT, ${searchFilter}) LIKE '%${searchTerm}%'`;
         }
-
+        query += ` ORDER BY docID DESC`;
         const result = await request.query(query);
         const searchResults = result.recordset;
         res.render('search', { UserData, searchTerm, searchResults, searchFilter });

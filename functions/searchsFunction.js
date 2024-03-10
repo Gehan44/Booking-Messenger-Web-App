@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
                 query += ` WHERE userIDCreated = '${UserData.userID}'`;
             }
         }
-        
+        query += ` ORDER BY docID DESC`;
         const result = await request.query(query);
         const searchResults = result.recordset;
 
