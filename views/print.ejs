@@ -11,6 +11,27 @@
 <style>
 html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 body { background-color: white; }
+.printButton {
+        background-color: #007bff; /* Blue background color */
+        color: white; /* White text color */
+        border: none; /* No border */
+        padding: 10px 20px; /* Padding for the button */
+        font-size: 16px; /* Font size */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer; /* Cursor style */
+    }
+.printButton:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+.w3-container hr {
+        margin-top: 50px; /* Adjust the top margin as needed */
+        margin-bottom: 20px; /* Adjust the bottom margin as needed */
+    }
+@media print {
+  .noPrint{
+    display:none;
+  }
+}
 </style>
 </head>
 <body class="w3-light-grey">
@@ -63,7 +84,10 @@ body { background-color: white; }
           <p><b>ผู้ฝากงาน <%= createdTrack.dispName %></b></p>
           <p>โทร.ติดต่อ <%= createdTrack.dispTel %></p>
           <p>หมายเหตุ/คำสั่งเพิ่มเติม <%= createdTrack.dispNote %></p>
+        </div>
+        <div class="w3-container">
           <h5><b>ผู้รับเอกสาร(กรุณาเขียนตัวบรรจง)</b></h5>
+          <hr>
         </div>
     <!-- End Right Column -->
     </div>
@@ -74,8 +98,8 @@ body { background-color: white; }
   <!-- End Page Container -->
 </div>
 
-<footer class="w3-container w3 w3-center w3-margin-top">
-  <button onclick="window.print();">Print this Page</button>
+<footer class="w3-container w3 w3-center w3-margin-top noPrint">
+  <button  class="printButton noPrint" onclick="window.print();">Print</button>
   <a class="nav-link d-flex align-items-center gap-2" href="/wsHome">
     กดเมื่อเสร็จสิ้น
   </a>
