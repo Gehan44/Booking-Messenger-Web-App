@@ -36,7 +36,7 @@ body { background-color: white; }
           <p>
             <%= createdTrack.docRound %> 
             <% if (createdTrack.docTime !== null) { %>
-                สะดวกเวลา <%= createdTrack.docTime.toLocaleString('en-GB', {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}) %>
+              สะดวกเวลา <%= createdTrack.docTime.toLocaleString('en-GB', {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}) %>
             <% } %>
           </p>
           <h5><b><%= createdTrack.docSendReturn %></b></h5>
@@ -53,21 +53,17 @@ body { background-color: white; }
     <div class="w3-twothird">
     
       <div class="w3-container w3-card w3-white w3-margin-bottom">
-        <img class="d-block mx-auto mb-4" src="/image/logowitha.jpg" alt="" width="320" height="100">
+        <img class="d-block mx-auto mb-4" src="/image/logowitha.jpg" alt="" width="320" height="130">
         <div class="w3-container">
-          <h5 class="w3-opacity"><b>ใบแจ้งการรับ-ส่งเอกสาร</b></h5>
-          <p>ชื่อลูกค้า/ผู้ติดต่อ <%= createdTrack.cusName %></p>
+          <p><b>ชื่อลูกค้า/ผู้ติดต่อ <%= createdTrack.cusName %></b></p>
           <p>โทร.ติดต่อ <%= createdTrack.cusTel %></p>
           <p>สถานที่ <%= createdTrack.cusPlace %></p>
         </div>
         <div class="w3-container">
-          <p>ผู้ฝากงาน <%= createdTrack.dispName %></p>
+          <p><b>ผู้ฝากงาน <%= createdTrack.dispName %></b></p>
           <p>โทร.ติดต่อ <%= createdTrack.dispTel %></p>
           <p>หมายเหตุ/คำสั่งเพิ่มเติม <%= createdTrack.dispNote %></p>
-        </div>
-        <div class="w3-container">
-          <h4><b>ผู้รับเอกสาร(กรุณาเขียนตัวบรรจง)</b></h4>
-          <hr>
+          <h5><b>ผู้รับเอกสาร(กรุณาเขียนตัวบรรจง)</b></h5>
         </div>
     <!-- End Right Column -->
     </div>
@@ -79,9 +75,10 @@ body { background-color: white; }
 </div>
 
 <footer class="w3-container w3 w3-center w3-margin-top">
-    <a class="nav-link d-flex align-items-center gap-2" href="/sHome">
-        กดเมื่อเสร็จสิ้น
-    </a>
+  <button onclick="window.print();">Print this Page</button>
+  <a class="nav-link d-flex align-items-center gap-2" href="/sHome">
+    กดเมื่อเสร็จสิ้น
+  </a>
 </footer>
 </body>
 </html>

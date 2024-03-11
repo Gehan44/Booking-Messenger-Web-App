@@ -108,8 +108,8 @@ app.post('/mHome/edit',messMiddleware,editFunction)
 app.post('/mHome/edit/failed',messMiddleware,editFailedFunction)
 
 //Register
-app.get('/register',registerController)
-app.post('/user/register',storeUserFunction)
+//app.get('/register',registerController)
+//app.post('/user/register',storeUserFunction)
 app.get('/logout',logoutController)
 
 //Server
