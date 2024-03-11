@@ -68,8 +68,7 @@ module.exports = async function emailRun(mailT,mailSend) {
 
     let info = await transporter.sendMail({
         from: 'Pine Wealth Solution Messenger no-reply@pinewealthsolution.com',
-        to: `${mailSend}`,
-        //to: `${mailSend},salesupport@pinewealthsolution.com`,
+        to: `${mailSend},salesupport@pinewealthsolution.com`,
         subject: `เลขที่ใบงาน ${mailT.docID}`,
         html: emailBody
     });
