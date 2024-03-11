@@ -339,7 +339,7 @@
                 <form class="needs-validation" novalidate>
                   <div class="row g-3">
                     <div class="col-md-4">
-                      <label class="form-label">วันที่นัด</label>
+                      <label class="form-label">วันที่นัด <span class="text-danger">*</span></label>
                       <div class="input-group">
                         <input type="datetime-local" class="form-control" name="requestDate" required>
                         <button type="button" class="btn btn-outline-secondary" onclick="clearDateInput()">ลบ</button>
@@ -357,7 +357,7 @@
 
                     <div class="col-md-3">
                       <label for="state" class="form-label">รอบ</label>
-                      <select class="form-select" id="state" name="docRound" required>
+                      <select class="form-select" id="state" name="docRound">
                         <option value=""></option>
                         <option>รอบเช้า</option>
                         <option>รอบบ่าย</option>
@@ -370,7 +370,7 @@
                     <div class="col-md-3">
                       <label class="form-label">สะดวกเวลา</label>
                       <div class="input-group">
-                        <input type="time-local" class="form-control" name="docTime" required>
+                        <input type="time-local" class="form-control" name="docTime">
                         <button type="button" class="btn btn-outline-secondary" onclick="clearTimeInput()">ลบ</button>
                       </div>
                       <div class="invalid-feedback">
@@ -387,7 +387,7 @@
 
                     <div class="row g-3">
                     <div class="col-md-3">
-                      <label for="state" class="form-label">งานรับหรือส่ง</label>
+                      <label for="state" class="form-label">งานรับหรือส่ง <span class="text-danger">*</span></label>
                       <select class="form-select" id="state" name="docSendReturn" required>
                         <option value=""></option>
                         <option>ส่งรอรับกลับ</option>
@@ -399,7 +399,7 @@
                       </div>
                     </div>
                         <div class="col-md-3">
-                          <label for="state" class="form-label">ประเภท</label>
+                          <label for="state" class="form-label">ประเภท <span class="text-danger">*</span></label>
                           <select class="form-select" id="state" name="docType" required>
                             <option value=""></option>
                             <option>เอกสาร</option>
@@ -422,7 +422,7 @@
                         <div class="row g-3">
                           <div class="col-10">
                             <h4 class="mb-3">ข้อมูลลูกค้า</h4>
-                            <label class="form-label">ชื่อลูกค้า / ผู้ติดต่อ</label>
+                            <label class="form-label">ชื่อลูกค้า / ผู้ติดต่อ <span class="text-danger">*</span></label>
                             <div class="input-group">
                               <input type="text" class="form-control" name="cusName" id="cusName" required>
                               <button type="button" class="btn btn-outline-secondary" onclick="cussearchAndFill()">ค้นหา</button>
@@ -434,7 +434,7 @@
                           <script src="/js/ssearchcus.js"></script>
 
                           <div class="col-12">
-                            <label class="form-label">สถานที่</label>
+                            <label class="form-label">สถานที่ <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="cusPlace" required>
                             <div class="invalid-feedback">
                               Please enter
@@ -442,7 +442,7 @@
                           </div>
 
                           <div class="col-12">
-                            <label class="form-label">โทรศัพท์ติดต่อได้</label>
+                            <label class="form-label">โทรศัพท์ติดต่อได้ <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="cusTel" required>
                             <div class="invalid-feedback">
                               Please enter
@@ -452,7 +452,7 @@
                           <div class="row g-3">
                             <div class="col-12">
                               <h4 class="mb-3">ข้อมูลผู้ฝากงาน</h4>
-                              <label class="form-label">โทร.ติดต่อ</label>
+                              <label class="form-label">โทร.ติดต่อ <span class="text-danger">*</span></label>
                               <input type="text" class="form-control" name="dispTel" required>
                               <div class="invalid-feedback">
                                 Please enter
@@ -485,6 +485,7 @@
     time_24hr: true,
     minuteIncrement: 30 },
     configd = {
+    allowInput: true,
     minDate: "today",
     disable: [
         function(date) {
