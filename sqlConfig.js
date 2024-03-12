@@ -1,9 +1,9 @@
 require('dotenv').config();
 
 module.exports = {
-    user: 'dev_pine',
+    user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    server: '4.194.103.19',
+    server: process.env.DB_SERVER,
     port: 1433,
     database: 'pine_bos',
     options: {
