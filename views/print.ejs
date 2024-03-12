@@ -1,114 +1,168 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Messenger - Pine Wealth Solution</title>
-<link rel="icon" href="/image/logo.png" type="image/x-icon">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
-body { background-color: white; }
-.printButton {
-        background-color: #007bff; /* Blue background color */
-        color: white; /* White text color */
-        border: none; /* No border */
-        padding: 10px 20px; /* Padding for the button */
-        font-size: 16px; /* Font size */
-        border-radius: 5px; /* Rounded corners */
-        cursor: pointer; /* Cursor style */
+  <title>Messenger - Pine Wealth Solution</title>
+  <link rel="icon" href="/image/logo.png" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    html,
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Roboto", sans-serif
     }
-.printButton:hover {
-        background-color: #0056b3; /* Darker blue on hover */
+
+    body {
+      background-color: white;
     }
-.w3-container-sign {
-        display: inline-block; /* Make the div wrap around its content */
-        border: 2px solid #000; /* Add a black border */
-        padding: 10px; /* Add some padding for spacing */
-}
-.w3-container hr {
-        margin-top: 50px; /* Adjust the top margin as needed */
-        margin-bottom: 20px; /* Adjust the bottom margin as needed */
+
+    .printButton {
+      background-color: #007bff;
+      /* Blue background color */
+      color: white;
+      /* White text color */
+      border: none;
+      /* No border */
+      padding: 10px 20px;
+      /* Padding for the button */
+      font-size: 16px;
+      /* Font size */
+      border-radius: 5px;
+      /* Rounded corners */
+      cursor: pointer;
+      /* Cursor style */
     }
-@media print {
-  .noPrint{
-    display:none;
-  }
-}
-</style>
+
+    .printButton:hover {
+      background-color: #0056b3;
+      /* Darker blue on hover */
+    }
+
+    .w3-container-sign {
+      display: inline-block;
+      /* Make the div wrap around its content */
+      border: 2px solid #000;
+      /* Add a black border */
+      padding: 10px;
+      /* Add some padding for spacing */
+    }
+
+    .align-right {
+      float: right;
+    }
+
+    .w3-container hr {
+      margin-top: 50px;
+      /* Adjust the top margin as needed */
+      margin-bottom: 20px;
+      /* Adjust the bottom margin as needed */
+    }
+
+    @media print {
+      .noPrint {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body class="w3-light-grey">
 
-<!-- Page Container -->
-<div class="w3-content w3-margin-top" style="max-width:1400px;">
+  <!-- Page Container -->
+  <div class="w3-content w3-margin-top" style="max-width:1200px;">
 
-  <!-- The Grid -->
-  <div class="w2-row-padding">
-  
-    <!-- Left Column -->
-    <div class="w3-third">
-    
-      <div class="w3-card-4">
-        <div class="w3-display-container">
-          <img src="data:image/png;base64, <%= docQRCode.toString('base64') %>" alt="QR Code" />
-        </div>
+    <!-- The Grid -->
+    <div class="w2-row-padding">
+
+      <!-- Left Column -->
+      <div class="w3-third">
+
         <div class="w3-container">
+          <div class="w3-container">
+            <img src="data:image/png;base64, <%= docQRCode.toString('base64') %>" alt="QR Code" />
+          </div>
+          <div class="w3-container">
 
-          <h5><b><%= createdTrack.docID %></b></h5>
-          <h5><b>วันที่สั่งงาน</b> <%= createdTrack.createdDateTime.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></h5>
-          <h5><b>วันที่นัด</b>&nbsp;&nbsp;&nbsp;<%= createdTrack.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></h5>
-          <h5>
-            <%= createdTrack.docRound %> 
-            <% if (createdTrack.docTime !== null) { %>
-              สะดวกเวลา <%= createdTrack.docTime.toLocaleString('en-GB', {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}) %>
-            <% } %>
-          </p>
-          <h4><b><%= createdTrack.docSendReturn %></b></h4>
-          <h5><%= createdTrack.docType %> <%= createdTrack.docIs %></h5>
+            <h5><b>
+                <%= createdTrack.docID %>
+              </b></h5>
+            <h5>วันที่สั่งงาน <b>
+                <%= createdTrack.createdDateTime.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' ,
+                  year: 'numeric' , hour: '2-digit' , minute: '2-digit' , timeZone: 'UTC' }) %>
+              </b></h5>
+            <h5>วันที่นัด&nbsp;&nbsp;&nbsp; <b>
+                <%= createdTrack.requestDate.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' ,
+                  year: 'numeric' , timeZone: 'UTC' }) %>
+              </b></h5>
+            <h5>
+              <%= createdTrack.docRound %>
+                <% if (createdTrack.docTime !==null) { %>
+                  สะดวกเวลา <%= createdTrack.docTime.toLocaleString('en-GB', {hour: '2-digit' , minute: '2-digit' ,
+                    timeZone: 'UTC' }) %>
+                    <% } %>
+                      </p>
+                      <h4>
+                      <b>
+                        <%= createdTrack.docSendReturn %>
+                      </b>
+                      </h4>
+                      <h5>
+                      <%= createdTrack.docType %>
+                        <%= createdTrack.docIs %>
+                      </h5>
+          </div>
+        </div><br>
+        <!-- End Left Column -->
+      </div>
+
+      <!-- Right Column -->
+      <div class="w3-twothird">
+
+        <div class="w3-container w3-card w3-white w3-margin-bottom">
+          <img class="d-block mx-auto mb-4" src="/image/logowithl.jpg" alt="" width="700" height="90">
+          <div class="w3-container">
+            <h4>ชื่อลูกค้า/ผู้ติดต่อ&nbsp;&nbsp;<b>
+                <%=createdTrack.cusName%>
+              </b></h4>
+            <h4>โทร.ติดต่อ&nbsp;&nbsp;&nbsp;&nbsp;<b>
+                <%=createdTrack.cusTel%>
+              </b></h4>
+            <h4>สถานที่&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>
+                <%=createdTrack.cusPlace %>
+              </b></h4>
+          </div>
           <br>
           <br>
-          <br>
-          <br>
+            <div class="w3-container" style="display: inline-block; vertical-align: top;">
+              <p>ผู้ฝากงาน &nbsp;<%=createdTrack.dispName%>
+              </p>
+              <p>เบอร์โทร &nbsp;<%=createdTrack.dispTel%>
+              </p>
+            <p>หมายเหตุ &nbsp;<%= createdTrack.dispNote %>
+            </p>
+          </div>
+          <div class="align-right" style="display: inline-block;">
+            <div class="w3-container-sign">
+              <h6><b>ผู้รับเอกสาร(กรุณาเขียนตัวบรรจง)</b></h6>
+              <hr>
+            </div>
+          </div> 
         </div>
-      </div><br>
-
-    <!-- End Left Column -->
+      </div>
     </div>
-
-    <!-- Right Column -->
-    <div class="w3-twothird">
-    
-      <div class="w3-container w3-card w3-white w3-margin-bottom">
-        <img class="d-block mx-auto mb-4" src="/image/logowitha.jpg" alt="" width="320" height="130">
-        <div class="w3-container">
-          <h4><b>ชื่อลูกค้า/ผู้ติดต่อ</b>&nbsp;&nbsp;<%=createdTrack.cusName%></h4>
-          <h4><b>โทร.ติดต่อ</b>&nbsp;&nbsp;&nbsp;&nbsp;<%=createdTrack.cusTel%></h4>
-          <h4><b>สถานที่</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=createdTrack.cusPlace %></h4>
-        </div>
-        <div class="w3-container">
-          <p><b>ผู้ฝากงาน/เบอร์โทร</b>&nbsp;&nbsp;&nbsp;<%=createdTrack.dispName%>  <%=createdTrack.dispTel%></p>
-          <p><b>หมายเหตุ/คำสั่งเพิ่มเติม</b>&nbsp;&nbsp;<%= createdTrack.dispNote %></p>
-        </div>
-        <div class="w3-container-sign">
-          <h6><b>ผู้รับเอกสาร(กรุณาเขียนตัวบรรจง)</b></h6>
-          <hr>
-        </div>
-    <!-- End Right Column -->
-    </div>
-    
-  <!-- End Grid -->
-  </div>
-  
-  <!-- End Page Container -->
-</div>
-
-<footer class="w3-container w3 w3-center w3-margin-top noPrint">
-  <button  class="printButton noPrint" onclick="window.print();">Print</button>
-  <a class="nav-link d-flex align-items-center gap-2" href="/wsHome">
-    กดเมื่อเสร็จสิ้น
-  </a>
-</footer>
+    <footer class="w3-container w3 w3-center w3-margin-top noPrint">
+      <button class="printButton noPrint" onclick="window.print();">Print</button>
+      <a class="nav-link d-flex align-items-center gap-2" href="/wsHome">
+        กดเมื่อเสร็จสิ้น
+      </a>
+    </footer>
 </body>
 </html>
