@@ -14,7 +14,6 @@ module.exports = async (req, res) => {
     const result = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
 
     if (result.recordset.length === 0) {
-      console.log(`Variant with docID ${editTerm} not found`);
       return;
     }
 
@@ -41,9 +40,9 @@ module.exports = async (req, res) => {
       await runDetect(updatedVariant,variantEmail);
 
     } else if (variantStatus === "Picked") {
-      console.log("Sorry, you are not allowed.");
+      return;
     } else {
-      console.log("Unknown variant status:", variantStatus);
+      return;
     }
 
     res.redirect('/mHome');

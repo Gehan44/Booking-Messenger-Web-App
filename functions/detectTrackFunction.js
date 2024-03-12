@@ -13,7 +13,6 @@ module.exports = async function runDetect(_updatedEditTerm) {
     const result = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
 
     if (result.recordset.length === 0) {
-      console.log("Not Found");
       return { VariantData: false };
     }
     
