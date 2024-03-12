@@ -185,14 +185,38 @@
           <h1 class="display-5 fw-bold text-body-emphasis"><%=VariantData.messenger%> ได้รับงานไปเรียบร้อยแล้ว</h1>
         <% } else if (updatedEditTerm && updatedEditTerm === VariantData.docID) { %>
           <h1 class="display-5 fw-bold text-body-emphasis"><%= VariantData.docID %></h1>
-          <p class="lead my-3">วันที่สั่งงาน: <%= VariantData.createdDateTime.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></p>
-          <p class="lead my-3">วันที่นัด: <%= VariantData.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></p>
-          <p class="lead my-3"><%= VariantData.docRound %>
+          <p class="lead my-3">วันที่สั่งงาน: <b><%= VariantData.createdDateTime.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></b></p>
+          <p class="lead my-3">วันที่นัด: <b><%= VariantData.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></b></p>
+          <p class="lead my-3"><b><%= VariantData.docSendReturn %></b></p>
+          <p class="lead my-3"><b><%= VariantData.docRound %></b>
             <% if (VariantData.docTime !== null) { %>
-              สะดวกเวลา <%= VariantData.docTime.toLocaleString('en-GB', {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}) %>
+              สะดวกเวลา <b><%= VariantData.docTime.toLocaleString('en-GB', {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}) %></b>
           <% } %>
           </p>
-          <p class="lead my-3"><%= VariantData.docSendReturn %> สถานะ: <%= VariantData.status %></p>
+          <p class="lead my-3">สถานะ: <b id="statusText"><%= VariantData.status %></b></p>
+
+          <script>
+            var statusElement = document.getElementById("statusText");
+            var status = statusElement.textContent.trim();
+            switch (status) {
+              case "Created":
+                statusElement.style.color = "blue";
+                break;
+              case "Picked":
+                statusElement.style.color = "orange";
+                break;
+              case "Done":
+              case "Returned":
+                statusElement.style.color = "green";
+                break;
+              case "Failed":
+                statusElement.style.color = "red";
+                break;
+              default:
+                break;
+            }
+          </script>
+          
           <p class="lead my-3">ผู้ส่งเอกสาร: <%= VariantData.userNameSend %></p>
           <% if (VariantData.status==="Done" || VariantData.status==="Returned" ) { %>
           <% } else if ( VariantData.status==="Failed" ) { %>
