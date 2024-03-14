@@ -1,6 +1,7 @@
 const sql = require('mssql');
 const config = require('../sqlConfig');
 const runDetect = require('./emailFunction');
+const { taskStop } = require('./taskService');
 
 module.exports = async (req, res) => {
   try {
@@ -23,8 +24,8 @@ module.exports = async (req, res) => {
 
     if (variantStatus === "Created") {
       variantStatus = "Picked";
-
       await request.query(`UPDATE tracks SET status = '${variantStatus}', userIDSend = '${UserID}', userNameSend = '${Username}' WHERE docID = '${editTerm}'`);
+
     } else if (variantStatus === "Picked" && UserID === variantOwner) {
       const variantSendReturn = variant.docSendReturn;
       const variantEmail = variant.dispEmail;
@@ -37,6 +38,8 @@ module.exports = async (req, res) => {
       await request.query(`UPDATE tracks SET status = '${variantStatus}' WHERE docID = '${editTerm}'`);
       const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
       const updatedVariant = updatedVariantResult.recordset[0];
+
+      taskStop(editTerm)
       await runDetect(updatedVariant,variantEmail);
 
     } else if (variantStatus === "Picked") {
