@@ -1,13 +1,18 @@
-module.exports = async (req, res) => {
-  const searchTerm = req.query.searchTerm || '';
-  const searchResults = req.query.searchResults || '';
-  const searchFilter = req.query.searchFilter || '';
+module.exports = (req, res) => {
   const UserData = req.session.user;
+  let searchFilter = ""
+  let searchTerm = ""
+  let searchResults = ""
+  let data = req.flash('data')[0]
 
-  try {
-    res.render('search', { UserData, searchTerm, searchResults, searchFilter });
-  } catch (error) {
-    console.error('Error during search:', error);
-    res.status(500).send('Internal Server Error');
+  if (typeof data != "undefined") {
+    searchTerm = data.searchTerm
   }
-};
+  
+  res.render('search', { 
+    UserData,
+    searchFilter: searchFilter,
+    searchTerm: searchTerm,
+    searchResults: searchResults,
+    errors: req.flash('validationErrors') });
+}

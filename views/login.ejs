@@ -46,14 +46,14 @@
     <form action="/user/login" method="POST">
       <img class="d-block mx-auto mb-4" src="/image/logo.png" alt="" width="220" height="200">
 
-      <% if (message) { %>
+      <% if (errors != "") { %>
         <div class="alert alert-danger" role="alert">
-          <%= message %>
+          <%= errors %>
         </div>
         <% } %>
 
           <div class="form-floating">
-            <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <input type="email" name="email" value="<%= email %>" class="form-control" id="floatingInput" placeholder="name@example.com">
             <label for="floatingInput">อีเมลผู้ใช้งาน</label>
           </div>
           <div class="form-floating">

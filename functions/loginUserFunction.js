@@ -37,14 +37,16 @@ module.exports = async function loginUser(req, res) {
                     return res.redirect('/login');
                 }
             } else {
-                return res.render('login', { message: 'อีเมลหรือรหัสผ่านผิด' });
+                throw new Error('อีเมลหรือรหัสผ่านผิด')
             }
         } else {
-            return res.render('login', { message: 'ไม่ค้นพบผู้ใช้งานนี้' });
+            throw new Error('ไม่ค้นพบผู้ใช้งานนี้')
         }
     } catch (error) {
-        console.error(error);
-        return res.render('login', { message: 'An error occurred' });
+        req.flash('data', req.body);
+        req.flash('validationErrors', error.message);
+        return res.redirect('/login')
+
     } finally {
         await sql.close();
     }

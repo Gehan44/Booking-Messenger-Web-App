@@ -3,7 +3,6 @@ const config = require('../sqlConfig');
 const qr = require('qr-image')
 
 module.exports = async function runDetect(req,res) {
-  const UserData = req.session.user;
   const {searchTerm} = req.body;
   try {
     await sql.connect(config);
@@ -24,7 +23,6 @@ module.exports = async function runDetect(req,res) {
     if (createdTrackStatus != "Created") {
       throw new Error('ไม่ใช่สถานะ Created')
     }
-
 
     const docQR = createdTrack.docQR
     const docQRCode = qr.imageSync(docQR, { type: 'png', size: 4 });

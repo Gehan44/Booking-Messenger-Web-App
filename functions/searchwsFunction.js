@@ -4,8 +4,7 @@ const config = require('../sqlConfig');
 module.exports = async (req, res) => {
     try {
         const UserData = req.session.user;
-        let searchTerm = req.body.searchTerm;
-        let searchFilter = req.body.searchFilter;
+        let {searchTerm,searchFilter} = req.body;
 
         if (!searchFilter) {
             let searchResults = null;
@@ -29,12 +28,16 @@ module.exports = async (req, res) => {
             query = `SELECT * FROM tracks WHERE CONVERT(TEXT, ${searchFilter}) LIKE '%${searchTerm}%'`;
         }
         query += ` ORDER BY docID DESC`;
+
         const result = await request.query(query);
         const searchResults = result.recordset;
         res.render('search', { UserData, searchTerm, searchResults, searchFilter });
+
     } catch (error) {
-        console.error('Error during search:', error);
-        res.status(500).send('Internal Server Error');
+        req.flash('data', req.body);
+        req.flash('validationErrors', error.message);
+        return res.redirect('/search')
+
     } finally {
         await sql.close();
     }
