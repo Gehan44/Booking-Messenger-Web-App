@@ -55,8 +55,7 @@ module.exports = async function createTrack(trackData,hostname) {
         }
 
         //QRCode
-        const { port } = require('../index');
-        const docQR = `https://${hostname}:${port}/mHome?updatedEditTerm=${docID}`;
+        const docQR = `https://${hostname}/mHome?updatedEditTerm=${docID}`;
         const docQRCode = qr.imageSync(docQR, { type: 'png', size: 4 });
 
         //CreatedDate
