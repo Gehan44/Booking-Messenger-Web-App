@@ -6,13 +6,19 @@ const sqlConfig = require('../sqlConfig');
 const qr = require('qr-image')
 
 function padWithZeros(number) {
-    return String(number).padStart(4, '0');
+    return String(number).padStart(3, '0');
+}
+
+function padWithZeroM(number) {
+    return String(number).padStart(2, '0');
 }
 
 module.exports = async function createTrack(trackData) {
     try {
         const currentDate = new Date();
         const year = currentDate.getFullYear().toString().slice(-2);
+        const umonth = currentDate.getMonth() + 1;
+        const month = padWithZeroM(umonth);
 
         //DocID
         const pool = await sql.connect(sqlConfig);
@@ -24,21 +30,27 @@ module.exports = async function createTrack(trackData) {
         `);
 
         if (!lastTrackQuery.recordset[0]) {
-            docID = `P${year}0001`;
+            docID = `P${year}${month}001`;
         } else {
             const lastDocID = lastTrackQuery.recordset[0].docID;
 
             // Extract 'P24'
             let prefix = lastDocID.substring(0, 3);
-            // Extract '0001'
-            let suffix = lastDocID.substring(3);
+            // Extract '03'
+            let midfix = lastDocID.substring(3, 5);
+            // Extract '001'
+            let suffix = lastDocID.substring(5);
             const lastCounter = parseInt(suffix);
 
             if (prefix === `P${year}`) {
-                const newCounter = lastCounter + 1;
-                docID = `P${year}${padWithZeros(newCounter)}`;
+                if (midfix === `${month}`) {
+                    const newCounter = lastCounter + 1;
+                    docID = `P${year}${month}${padWithZeros(newCounter)}`;
+                } else {
+                    docID = `P${year}${month}001`;
+                }
             } else {
-                docID = `P${year}0001`;
+                docID = `P${year}${month}001`;
             }
         }
 

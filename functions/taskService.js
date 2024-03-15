@@ -5,9 +5,8 @@ const scheduledJobs = {};
 
 function taskStart(createdTrack,date) {
     ID = createdTrack.docID
-    console.log(ID)
 
-    date.setUTCHours(16);
+    date.setUTCHours(17);
     //date.setUTCMinutes();
     date = date.toISOString().replace('Z', '');
 
@@ -17,7 +16,7 @@ function taskStart(createdTrack,date) {
 
     if (delay > 0) {
         scheduledJobs[ID] = setTimeout(async () => {
-            console.log(`Task executed at specific time for docID ${ID}`);
+            //console.log(`Task executed at specific time for docID ${ID}`);
             try {
                 await sql.connect(config);
                 const request = new sql.Request();
@@ -25,11 +24,11 @@ function taskStart(createdTrack,date) {
                 mail = null
                 await runDetect(createdTrack, mail);
             } catch (error) {
-                console.error("Error occurred while executing the task:", error);
+                //console.error("Error occurred while executing the task:", error);
             }
         }, delay);
     } else {
-        console.error("Target date is in the past.");
+        //console.error("Target date is in the past.");
     }
     
 }
@@ -39,9 +38,9 @@ function taskStop(ID) {
     if (timeoutId) {
         clearTimeout(timeoutId);
         delete scheduledJobs[ID];
-        console.log(`Scheduled job with ID ${ID} stopped.`);
+        //console.log(`Scheduled job with ID ${ID} stopped.`);
     } else {
-        console.error(`No scheduled job found with ID ${ID}.`);
+        //console.error(`No scheduled job found with ID ${ID}.`);
     }
 }
 

@@ -1,6 +1,6 @@
 const sql = require('mssql');
 const config = require('../sqlConfig');
-const qr = require('qr-image')
+const qr = require('qr-image');
 
 module.exports = async function runDetect(req,res) {
   const {searchTerm} = req.body;
