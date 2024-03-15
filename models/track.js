@@ -13,7 +13,7 @@ function padWithZeroM(number) {
     return String(number).padStart(2, '0');
 }
 
-module.exports = async function createTrack(trackData) {
+module.exports = async function createTrack(trackData,hostname) {
     try {
         const currentDate = new Date();
         const year = currentDate.getFullYear().toString().slice(-2);
@@ -55,7 +55,6 @@ module.exports = async function createTrack(trackData) {
         }
 
         //QRCode
-        const hostname = req.headers.host;
         console.log(hostname)
         const docQQR = `https://${hostname}/mHome?updatedEditTerm=${docID}`;
         console.log(docQQR)
