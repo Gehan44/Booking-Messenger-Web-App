@@ -4,8 +4,7 @@ const config = require('../sqlConfig');
 module.exports = async (req, res) => {
     try {
         const UserData = req.session.user;
-        let searchTerm = req.body.searchTerm;
-        let searchFilter = req.body.searchFilter;
+        let { searchTerm, searchFilter } = req.body;
 
         if (!searchFilter) {
             let searchResults = null;
@@ -19,35 +18,43 @@ module.exports = async (req, res) => {
 
         await sql.connect(config);
         const request = new sql.Request();
-        let query = `SELECT * FROM tracks`;
-        
-        if (searchFilter === 'docTime') {
-            query += ` WHERE CONVERT(TIME, ${searchFilter}) = CONVERT(TIME, '${searchTerm}')`;
+
+        let query;
+        if (searchFilter === 'all') {
+            query = `SELECT TOP 200 * FROM tracks`;
+
+        } else if (searchFilter === 'alldoneandreturned') {
+            query = `SELECT * FROM tracks WHERE status IN ('Done', 'Returned')`;
+
+        } else if (searchFilter === 'allfailed') {
+            query = `SELECT * FROM tracks WHERE status IN ('Failed')`;
+
+        } else if (searchFilter === 'docTime') {
+            query = `SELECT * FROM tracks WHERE CONVERT(TIME, ${searchFilter}) = CONVERT(TIME, '${searchTerm}')`;
+
         } else if (searchFilter === 'createdDateTime' || searchFilter === 'requestDate') {
-            query += ` WHERE CONVERT(VARCHAR, ${searchFilter}, 120) LIKE '%${searchTerm}%'`;
+            query = `SELECT * FROM tracks WHERE CONVERT(VARCHAR, ${searchFilter}, 120) LIKE '%${searchTerm}%'`;
+
         } else {
-            query += ` WHERE CONVERT(TEXT, ${searchFilter}) LIKE '%${searchTerm}%'`;
+            query = `SELECT * FROM tracks WHERE CONVERT(TEXT, ${searchFilter}) LIKE '%${searchTerm}%'`;
         }
         
-        if (UserData.role === "Sale") {
-            if (query.includes('WHERE')) {
-                query += ` AND userIDCreated = '${UserData.userID}'`;
-            } else {
-                query += ` WHERE userIDCreated = '${UserData.userID}'`;
-            }
+        if (query.includes('WHERE')) {
+            query += ` AND userIDCreated = '${UserData.userID}'`;
+        } else {
+            query += ` WHERE userIDCreated = '${UserData.userID}'`;
         }
+
         query += ` ORDER BY docID DESC`;
         const result = await request.query(query);
         const searchResults = result.recordset;
+        res.render('ssearch', { UserData, searchTerm, searchResults, searchFilter });
 
-        if (UserData.role === "Sale") {
-            res.render('ssearch', { UserData, searchTerm, searchResults, searchFilter });
-        } else {
-            res.render('search', { UserData, searchTerm, searchResults, searchFilter });
-        }
     } catch (error) {
-        console.error('Error during search:', error);
-        res.status(500).send('Internal Server Error');
+        req.flash('data', req.body);
+        req.flash('validationErrors', error.message);
+        return res.redirect('/ssearch');
+
     } finally {
         await sql.close();
     }

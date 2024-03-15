@@ -349,6 +349,8 @@
                 <select id="searchFilter" class="form-select" name="searchFilter" style="width: auto;" onchange="changeInputType()">
                   <option value="">เลือกค้นหา...</option>
                   <option value="all" <%= searchFilter === 'all' ? 'selected' : '' %>>ค้นหาทั้งหมด</option>
+                  <option value="alldoneandreturned" <%= searchFilter === 'alldoneandreturned' ? 'selected' : '' %>>ค้นหาที่เสร็จแล้ว</option>
+                  <option value="allfailed" <%= searchFilter === 'allfailed' ? 'selected' : '' %>>ค้นหาที่ล้มเหลว</option>
                   <option value="docID" <%= searchFilter === 'docID' ? 'selected' : '' %>>เลขที่เอกสาร</option>
                   <option value="status" <%= searchFilter === 'status' ? 'selected' : '' %>>สถานะ</option>
                   <option value="userNameSend" <%= searchFilter === 'userNameSend' ? 'selected' : '' %>>ผู้ส่งงาน</option>
