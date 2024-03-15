@@ -55,13 +55,8 @@ module.exports = async function createTrack(trackData,hostname) {
         }
 
         //QRCode
-        console.log(hostname)
-        const docQQR = `https://${hostname}/mHome?updatedEditTerm=${docID}`;
-        console.log(docQQR)
-        const docQR = `https://messenger-pinewealthsolution.onrender.com/mHome?updatedEditTerm=${docID}`;
-        console.log(docQR)
-        //const { hostname,port } = require('../index');
-        //const docQR = `http://${hostname}:${port}/Mhome?updatedEditTerm=${docID}`;
+        const { port } = require('../index');
+        const docQR = `https://${hostname}:${port}/mHome?updatedEditTerm=${docID}`;
         const docQRCode = qr.imageSync(docQR, { type: 'png', size: 4 });
 
         //CreatedDate
