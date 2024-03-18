@@ -3,7 +3,7 @@ const createUser = require('../models/user');
 module.exports = async (req, res) => {
     const { email, password, name, role } = req.body;
     try {
-        const userID = await createUser(req.body);
+        await createUser(req.body);
         console.log("User registered successfully!");
         return res.redirect('/login');
     } catch (error) {

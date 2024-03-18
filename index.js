@@ -55,12 +55,13 @@ app.use(session ({
     store: new MemoryStore({
       checkPeriod: 86400000
     }),
-    secret: 'keyboard cat',
+    secret: 'keyboard bird',
     resave: true,
     saveUninitialized: true
 }))
 
 app.set('view engine','ejs')
+
 
 app.all('/', async function(req, res) {
     if (req.session.user){
@@ -84,8 +85,8 @@ app.all('/', async function(req, res) {
 
 
 //Login
-app.get('/login',loginController)
-app.post('/user/login',loginUserFunction)
+app.get('/login',redirectIfAuth,loginController)
+app.post('/user/login',redirectIfAuth,loginUserFunction)
 
 //Wealth Support
 app.get('/wsHome',wealthsMiddleware,wsHomeController)
@@ -116,17 +117,16 @@ app.post('/mHome/edit/failed',messMiddleware,editFailedFunction)
 //app.post('/user/register',storeUserFunction)
 app.get('/logout',logoutController)
 
-//Server
+//Simulator Server
 //const http = require('http');
 //const hostname = 'wealth-han-tracker';
 //const hostname = '192.168.105.54';
-
-let port = process.env.PORT || 3000;
-module.exports = { port };
-
 //app.listen(port, () => {
 //        console.log(`Server running at http://${hostname}:${port}`)
 //});
+
+let port = process.env.PORT || 3000;
+module.exports = { port };
 
 app.listen(port,() => {
     console.log(`Server running at http://${port}`)

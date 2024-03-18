@@ -7,7 +7,7 @@ function taskStart(createdTrack,date) {
     ID = createdTrack.docID
 
     date.setUTCHours(17);
-    //date.setUTCMinutes();
+    date.setUTCMinutes(30);
     date = date.toISOString().replace('Z', '');
 
     const targetDate = new Date(date);

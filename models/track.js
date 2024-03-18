@@ -28,12 +28,10 @@ module.exports = async function createTrack(trackData,hostname) {
             FROM tracks
             ORDER BY docID DESC
         `);
-
         if (!lastTrackQuery.recordset[0]) {
             docID = `P${year}${month}001`;
         } else {
             const lastDocID = lastTrackQuery.recordset[0].docID;
-
             // Extract 'P24'
             let prefix = lastDocID.substring(0, 3);
             // Extract '03'
@@ -41,7 +39,6 @@ module.exports = async function createTrack(trackData,hostname) {
             // Extract '001'
             let suffix = lastDocID.substring(5);
             const lastCounter = parseInt(suffix);
-
             if (prefix === `P${year}`) {
                 if (midfix === `${month}`) {
                     const newCounter = lastCounter + 1;
@@ -61,12 +58,22 @@ module.exports = async function createTrack(trackData,hostname) {
         //CreatedDate
         createdDateTime = moment().format('YYYY-MM-DD HH:mm')
 
-        //DocTime
-        //if (trackData.docTime === "") {
-        //    trackData.docTime = null
-        //}
+        //dispEmail
+        const dispEmail = trackData.dispEmail
+        const dispResult = await request.query(`
+        SELECT *
+        FROM dbo.users
+        WHERE email = '${dispEmail}'
+        `);
+        disp = dispResult.recordset[0]
+        let createdID = ""
+        if (disp && disp.role === "Sale") {
+            createdID = disp.userID 
+        } else {
+            createdID = trackData.userIDCreated
+        }
 
-        //DocFnote
+        //docFnote
         trackData.docFnote = ""
         
         // Insert the new track
@@ -77,7 +84,7 @@ module.exports = async function createTrack(trackData,hostname) {
                 cusName, cusPlace, cusTel, dispName, dispTel, dispEmail, dispNote
             )
             VALUES (
-                '${docID}', '${docQR}', ${trackData.userIDCreated},
+                '${docID}', '${docQR}', ${createdID},
                 '${"Created"}', '${createdDateTime}',
                 '${trackData.requestDate}', '${trackData.docRound}',
                  ${trackData.docTime ? `'${trackData.docTime}'` : 'NULL'}, 
@@ -100,6 +107,6 @@ module.exports = async function createTrack(trackData,hostname) {
         return { createdTrack: createdTrack.recordset[0], docQRCode };
 
     } catch (error) {
-        console.error('Error creating track:', error);
+        return res.redirect('/')
     }
 }

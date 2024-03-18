@@ -1,4 +1,4 @@
-module.exports = async (req, res) => {
+module.exports = (req, res) => {
     const UserData = req.session.user;
     try {
         let userIDCreated = UserData.userID

@@ -2,8 +2,8 @@ const sql = require('mssql');
 const sqlConfig = require('../sqlConfig')
 
 module.exports = async (req, res) => {
-    let UserData = req.session.user;
-    let userIDCreated = UserData.userID
+    const UserData = req.session.user;
+    const userIDCreated = UserData.userID
     let userEmail = ""
     const pool = await sql.connect(sqlConfig);
     const result = await pool.request()
@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
         userEmail = result.recordset[0].email;
     }
     try {
-        let userName = UserData.name
+        const userName = UserData.name
         let requestDate = ""
         let docRound = ""
         let docTime = ""
