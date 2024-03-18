@@ -131,3 +131,7 @@ module.exports = { port };
 app.listen(port,() => {
     console.log(`Server running at http://${port}`)
 })
+
+process.on('warning', (warning) => {
+    console.log(warning.stack);
+});
