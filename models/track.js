@@ -13,7 +13,7 @@ function padWithZeroM(number) {
     return String(number).padStart(2, '0');
 }
 
-module.exports = async function createTrack(trackData,hostname) {
+module.exports = async function createTrack(trackData,protocol,hostname) {
     try {
         const currentDate = new Date();
         const year = currentDate.getFullYear().toString().slice(-2);
@@ -52,7 +52,7 @@ module.exports = async function createTrack(trackData,hostname) {
         }
 
         //QRCode
-        const docQR = `https://${hostname}/mHome?updatedEditTerm=${docID}`;
+        const docQR = `${protocol}://${hostname}/mHome?updatedEditTerm=${docID}`;
         const docQRCode = qr.imageSync(docQR, { type: 'png', size: 4 });
 
         //CreatedDate
