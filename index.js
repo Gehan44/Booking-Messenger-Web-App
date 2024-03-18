@@ -133,5 +133,5 @@ app.listen(port,() => {
 })
 
 process.on('warning', (warning) => {
-    console.log(warning.stack);
+    //console.log(warning.stack);
 });

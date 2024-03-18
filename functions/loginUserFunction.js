@@ -34,7 +34,7 @@ module.exports = async function loginUser(req, res) {
                     };
                     return res.redirect('/sHome');
                 } else {
-                    return res.redirect('/login');
+                    return res.redirect('/');
                 }
             } else {
                 throw new Error('อีเมลหรือรหัสผ่านผิด')
@@ -45,7 +45,7 @@ module.exports = async function loginUser(req, res) {
     } catch (error) {
         req.flash('data', req.body);
         req.flash('validationErrors', error.message);
-        return res.redirect('/login')
+        return res.redirect('/')
 
     } finally {
         await sql.close();
