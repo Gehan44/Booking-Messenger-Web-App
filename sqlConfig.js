@@ -7,7 +7,7 @@ module.exports = {
     port: 1433,
     database: 'pine_bos',
     options: {
-      encrypt: true, // If you're using Azure, set this to true
+      encrypt: false, // If you're using Azure, set this to true
       trustServerCertificate: true,
       }
 };
