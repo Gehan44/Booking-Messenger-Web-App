@@ -20,15 +20,16 @@ function taskStart(createdTrack,date) {
             try {
                 await sql.connect(config);
                 const request = new sql.Request();
-                await request.query(`UPDATE tracks SET status = 'Failed', docFnote = 'ไม่ถูกนำส่งตามเวลาที่กำหนด' WHERE docID = '${ID}'`);
+                await request.query(`UPDATE tracks SET status = 'Failed', docFnote = 'ไม่ถูกนำส่งตามวันที่นัด' WHERE docID = '${ID}'`);
+                const createdTrack = await request.query(`SELECT * FROM tracks WHERE docID = '${ID}'`);
                 mail = null
-                await runDetect(createdTrack, mail);
+                await runDetect(createdTrack.recordset[0], mail);
             } catch (error) {
-                //console.error("Error occurred while executing the task:", error);
+                console.error("Error occurred while executing the task:", error);
             }
         }, delay);
     } else {
-        //console.error("Target date is in the past.");
+        console.error("Target date is in the past.");
     }
     
 }
@@ -40,7 +41,7 @@ function taskStop(ID) {
         delete scheduledJobs[ID];
         //console.log(`Scheduled job with ID ${ID} stopped.`);
     } else {
-        //console.error(`No scheduled job found with ID ${ID}.`);
+        console.error(`No scheduled job found with ID ${ID}.`);
     }
 }
 
