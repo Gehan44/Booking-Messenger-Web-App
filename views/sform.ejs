@@ -328,9 +328,6 @@
         </div>
 
         <form action="/track/sform" method="POST">
-          <input type="hidden" name="userIDCreated" value="<%= userIDCreated %>">
-          <input type="hidden" name="dispName" value="<%= userName %>">
-          <input type="hidden" name="dispEmail" value="<%= userEmail %>">
           <% if(errors !=null) { %>
             <%= errors %>
               <% } %>

@@ -5,7 +5,6 @@ const ejs = require('ejs')
 const session  = require('express-session')
 const MemoryStore = require('memorystore')(session)
 const flash = require('connect-flash')
-global.loggedIn = null
 
 //Page Control
 const searchController = require('./controllers/searchController.js')
@@ -51,13 +50,15 @@ app.use("*",(req,res,next) =>{
 
 const hours = 2;
 app.use(session ({
-    cookie: { maxAge: hours * 60 * 60 * 1000  },
-    store: new MemoryStore({
-      checkPeriod: 86400000
-    }),
     secret: 'keyboard bird',
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: hours * 60 * 60 * 1000  
+    },
+    store: new MemoryStore({
+        checkPeriod: 86400000
+    })
 }))
 
 app.set('view engine','ejs')
@@ -87,6 +88,7 @@ app.all('/', async function(req, res) {
 //Login
 app.get('/login',redirectIfAuth,loginController)
 app.post('/user/login',redirectIfAuth,loginUserFunction)
+app.get('/logout',logoutController)
 
 //Wealth Support
 app.get('/wsHome',wealthsMiddleware,wsHomeController)
@@ -115,7 +117,6 @@ app.post('/mHome/edit/failed',messMiddleware,editFailedFunction)
 //Register
 //app.get('/register',registerController)
 //app.post('/user/register',storeUserFunction)
-app.get('/logout',logoutController)
 
 //Simulator Server
 //const http = require('http');

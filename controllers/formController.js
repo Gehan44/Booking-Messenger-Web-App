@@ -1,7 +1,6 @@
 module.exports = (req, res) => {
-    const UserData = req.session.user;
     try {
-        let userIDCreated = UserData.userID
+        const UserData = req.session.user;
         let requestDate = ""
         let docRound = ""
         let docTime = ""
@@ -18,7 +17,6 @@ module.exports = (req, res) => {
         let data = req.flash('data')[0]
 
         if (typeof data != "undefined") {
-            userIDCreated = data.userIDCreated
             requestDate = data.requestDate
             docRound = data.docRound
             docTime = data.docTime
@@ -35,7 +33,6 @@ module.exports = (req, res) => {
         }
         res.render('form', { UserData,
             errors: req.flash('validationErrors'),
-            userIDCreated: userIDCreated,
             requestDate: requestDate,
             docRound: docRound,
             docTime: docTime,

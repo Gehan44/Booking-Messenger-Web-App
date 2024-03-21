@@ -13,7 +13,7 @@ function padWithZeroM(number) {
     return String(number).padStart(2, '0');
 }
 
-module.exports = async function createTrack(trackData,protocol,hostname) {
+module.exports = async function createTrack(userData,trackData,protocol,hostname) {
     try {
         const currentDate = new Date();
         const year = currentDate.getFullYear().toString().slice(-2);
@@ -58,19 +58,28 @@ module.exports = async function createTrack(trackData,protocol,hostname) {
         //CreatedDate
         createdDateTime = moment().format('YYYY-MM-DD HH:mm')
 
-        //dispEmail
-        const dispEmail = trackData.dispEmail
-        const dispResult = await request.query(`
-        SELECT *
-        FROM dbo.users
-        WHERE email = '${dispEmail}'
-        `);
-        disp = dispResult.recordset[0]
+        //disp
         let createdID = ""
-        if (disp && disp.role === "Sale") {
-            createdID = disp.userID 
-        } else {
-            createdID = trackData.userIDCreated
+        let dispName = ""
+        let dispEmail = ""
+
+        if (userData.role === "Wealth Support") {
+            dispName = trackData.dispName
+            dispEmail = trackData.dispEmail
+            const dispResult = await request.query(`
+            SELECT *
+            FROM dbo.users
+            WHERE email = '${dispEmail}'`);
+            disp = dispResult.recordset[0]
+            if (disp && disp.role === "Sale") {
+                createdID = disp.userID
+            } else {
+                createdID = userData.userID
+            }
+        } else if (userData.role === "Sale") {
+            createdID = userData.userID
+            dispName = userData.name
+            dispEmail = userData.email
         }
 
         //docFnote
@@ -91,7 +100,7 @@ module.exports = async function createTrack(trackData,protocol,hostname) {
                 '${trackData.docSendReturn}',
                 '${trackData.docType}', '${trackData.docIs}', '${trackData.docFnote}',
                 '${trackData.cusName}', '${trackData.cusPlace}', '${trackData.cusTel}',
-                '${trackData.dispName}', '${trackData.dispTel}', '${trackData.dispEmail}',
+                '${dispName}', '${trackData.dispTel}', '${dispEmail}',
                 '${trackData.dispNote}'
             )
         `);
