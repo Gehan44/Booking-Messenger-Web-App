@@ -79,7 +79,13 @@ module.exports = async function createTrack(userData,trackData,protocol,hostname
         } else if (userData.role === "Sale") {
             createdID = userData.userID
             dispName = userData.name
-            dispEmail = userData.email
+
+            const dispResult = await request.query(`
+            SELECT *
+            FROM dbo.users
+            WHERE userID = '${createdID}'`);
+            disp = dispResult.recordset[0]
+            dispEmail = disp.email
         }
 
         //docFnote
