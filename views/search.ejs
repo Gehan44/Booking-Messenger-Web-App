@@ -16,6 +16,7 @@
 
   <!--flatpickr-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -346,7 +347,7 @@
           <form id="searchForm" action="/search/run" method="POST" class="d-flex align-items-center">
             <div class="row g-3">
               <div class="col-md-4">
-                <select id="searchFilter" class="form-select" name="searchFilter" style="width: auto;" onchange="changeInputType()">
+                <select id="searchFilter" class="form-select" name="searchFilter" onchange="changeInputType()">
                   <option value="">เลือกค้นหา...</option>
                   <option value="all" <%= searchFilter === 'all' ? 'selected' : '' %>>ค้นหาทั้งหมด</option>
                   <option value="alldoneandreturned" <%= searchFilter === 'alldoneandreturned' ? 'selected' : '' %>>ค้นหาที่เสร็จแล้ว</option>
@@ -371,18 +372,27 @@
                   <option value="dispNote" <%= searchFilter === 'dispNote' ? 'selected' : '' %>>หมายเหตุ</option>
                 </select>                
               </div>
-            <div class="col-md-8">
-              <div class="input-group">
-                <input id="searchTerm" class="form-control" type="search" name="searchTerm" value="<%= searchTerm %>" style="width: auto;">
-                <button type="button" class="btn btn-outline-secondary" onclick="clearInput()">ลบ</button>
+              <div class="col-md-6">
+                <div class="input-group">
+                  <input id="searchTerm" class="form-control" type="search" name="searchTerm" value="<%= searchTerm %>">
+                  <button type="button" class="btn btn-outline-secondary" onclick="clearInput()">ลบ</button>
+                </div>
+              </div>
+              <script>
+                function clearInput() {
+                  document.querySelector('input[name="searchTerm"]').value = '';
+                }
+              </script>
+
+              <div class="col-md-4">
+                <button class="w-100 btn btn-primary me-2" style=" margin-bottom: 5px;"
+                  type="submit">ยืนยัน</button>
+              </div>
+              <div class="col-md-4">
+                <button id="downloadBtn" class="w-100 btn btn-primary me-2" style="margin-bottom: 5px;"
+                  type="button">ดาวน์โหลด Excel</button>
               </div>
             </div>
-            <script>
-              function clearInput() {
-                document.querySelector('input[name="searchTerm"]').value = '';
-              }
-            </script>
-            <button class="w-50 btn btn-primary btn-lg me-2" style=" margin-bottom: 5px;" type="submit">ยืนยัน</button>
           </form>
 
           <script>
@@ -403,96 +413,119 @@
         
             var configd = {
               disableMobile: "true",
+              mode: "range"
             };
         
             function changeInputType() {
-                var selectedFilter = document.getElementById("searchFilter").value;
-                var dateTimeInput = document.getElementById("searchTerm");
-        
-                if (selectedFilter === 'createdDateTime') {
-                    flatpickr(dateTimeInput, configdt);
-                } else if (selectedFilter === 'createdDate' || selectedFilter === 'requestDate') {
-                    flatpickr(dateTimeInput, configd);
-                } else if (selectedFilter === 'docTime') {
-                    flatpickr(dateTimeInput, configt);
-                } else {
-                    dateTimeInput.removeAttribute('data-flatpickr');
-                }
+              var selectedFilter = document.getElementById("searchFilter").value;
+              var dateTimeInput = document.getElementById("searchTerm");
+
+              if (selectedFilter === 'createdDateTime') {
+                flatpickr(dateTimeInput, configdt);
+              } else if (selectedFilter === 'createdDate' || selectedFilter === 'requestDate') {
+                flatpickr(dateTimeInput, configd);
+              } else if (selectedFilter === 'docTime') {
+                flatpickr(dateTimeInput, configt);
+              } else {
+                dateTimeInput._flatpickr.destroy();
+                dateTimeInput.type = 'text';
+              }
             }
-        
+
             changeInputType();
           </script>
-              <hr class="my-4">
+          <hr class="my-4">
         </div>
-      </div>
 
-        <div class="table-responsive small">
-          <table class="table table-striped table-sm">
-              <thead>
+    <div class="table-responsive small">
+      <table id="myTable" class="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">เลขที่เอกสาร</th>
+            <th scope="col">สถานะ</th>
+            <th scope="col">ผู้ส่งงาน</th>
+            <th scope="col">เนื่องจาก</th>
+
+            <th scope="col">วันที่สั่งงาน</th>
+            <th scope="col">วันที่นัด</th>
+            <th scope="col">รอบ</th>
+            <th scope="col">เวลา</th>
+            <th scope="col">รับหรือส่ง</th>
+            <th scope="col">ประเภท</th>
+            <th scope="col">รายละเอียด</th>
+
+            <th scope="col">ชื่อลูกค้า/ผู้ติดต่อ</th>
+            <th scope="col">โทร.ติดต่อ</th>
+            <th scope="col">สถานที่</th>
+
+            <th scope="col">ผู้ฝากงาน</th>
+            <th scope="col">โทร.ติดต่อ</th>
+            <th scope="col">อีเมล</th>
+            <th scope="col">หมายเหตุ/คำสั่งเพิ่มเติม</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (searchResults && searchResults.length> 0) { %>
+            <% searchResults.forEach(result=> { %>
+              <tr>
+                <td><%= result.docID %></td>
+                <td><%= result.status %></td>
+                <td><%= result.userNameSend %></td>
+                <td><%= result.docFnote %></td>
+                <td><%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' , year: 'numeric' , hour: '2-digit' , minute: '2-digit' , timeZone: 'UTC' }) %></td>
+                <td><%= result.requestDate.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' , year: 'numeric' ,timeZone: 'UTC' }) %></td>
+                <td><%= result.docRound %></td>
+                <td>
+                  <% if (result.docTime !==null) { %>
+                    <%= result.docTime.toLocaleString('en-GB', {hour: '2-digit' , minute: '2-digit' , timeZone: 'UTC' })%>
+                      <% } %>
+                </td>
+                <td><%= result.docSendReturn %></td>
+                <td><%= result.docType %></td>
+                <td><%= result.docIs %></td>
+                <td><%= result.cusName %></td>
+                <td><%= result.cusTel %></td>
+                <td><%= result.cusPlace %></td>
+                <td><%= result.dispName %></td>
+                <td><%= result.dispTel %></td>
+                <td><%= result.dispEmail %></td>
+                <td><%= result.dispNote %></td>
+              </tr>
+              <% }); %>
+                <% } else { %>
                   <tr>
-                      <th scope="col">เลขที่เอกสาร</th>
-                      <th scope="col">สถานะ</th>
-                      <th scope="col">ผู้ส่งงาน</th>
-                      <th scope="col">เนื่องจาก</th>
-        
-                      <th scope="col">วันที่สั่งงาน</th>
-                      <th scope="col">วันที่นัด</th>
-                      <th scope="col">รอบ</th>
-                      <th scope="col">เวลา</th>
-                      <th scope="col">รับหรือส่ง</th>
-                      <th scope="col">ประเภท</th>
-                      <th scope="col">รายละเอียด</th>
-        
-                      <th scope="col">ชื่อลูกค้า/ผู้ติดต่อ</th>
-                      <th scope="col">โทร.ติดต่อ</th> 
-                      <th scope="col">สถานที่</th>  
-        
-                      <th scope="col">ผู้ฝากงาน</th>
-                      <th scope="col">โทร.ติดต่อ</th>
-                      <th scope="col">อีเมล</th>
-                      <th scope="col">หมายเหตุ/คำสั่งเพิ่มเติม</th>
+                    <td colspan="auto">No results found.</td>
                   </tr>
-              </thead>
-              <tbody>
-                  <% if (searchResults && searchResults.length > 0) { %>
-                      <% searchResults.forEach(result => { %>
-                          <tr>
-                              <td><%= result.docID %></td>
-                              <td><%= result.status %></td>
-                              <td><%= result.userNameSend %></td>
-                              <td><%= result.docFnote %></td>
-        
-                              <td><%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></td>
-                              <td><%= result.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></td>
-                              <td><%= result.docRound %></td>
-                              <td>
-                                <% if (result.docTime !== null) { %>
-                                  <%= result.docTime.toLocaleString('en-GB', {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}) %>
-                                <% } %>
-                              </td> 
-                              <td><%= result.docSendReturn %></td>
-                              <td><%= result.docType %></td>
-                              <td><%= result.docIs %></td>
-        
-                              <td><%= result.cusName %></td>
-                              <td><%= result.cusTel %></td>
-                              <td><%= result.cusPlace %></td>
-        
-                              <td><%= result.dispName %></td> 
-                              <td><%= result.dispTel %></td>
-                              <td><%= result.dispEmail %></td>
-                              <td><%= result.dispNote %></td>                                     
-                          </tr>
-                      <% }); %>
-                  <% } else { %>
-                      <tr>
-                          <td colspan="auto">No results found.</td>
-                      </tr>
                   <% } %>
-              </tbody>
-          </table>
-        </div>
-      </main>
-      <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        </tbody>
+      </table>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
+    <script>
+      document.getElementById("downloadBtn").addEventListener("click", function () {
+        function tableToExcel(table, filename = '') {
+          const dataType = 'application/vnd.ms-excel';
+          const tableSelect = document.getElementById(table);
+          let tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+          const downloadLink = document.createElement("a");
+          document.body.appendChild(downloadLink);
+          if (navigator.msSaveOrOpenBlob) {
+            const blob = new Blob(['\ufeff', tableHTML], {
+              type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+          } else {
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+            downloadLink.download = filename;
+            downloadLink.click();
+          }
+        }
+        tableToExcel('myTable', 'BookingMessengerWebApp.xls');
+      });
+    </script>
+    </main>
+    <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
+    
 </html>

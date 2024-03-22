@@ -17,6 +17,7 @@
 
   <!--flatpickr-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -380,7 +381,6 @@
                         }
                       </script>
 
-                      <div class="row g-3">
                       <div class="col-md-3">
                         <label for="state" class="form-label">งานรับหรือส่ง <span class="text-danger">*</span></label>
                         <select class="form-select" id="state" name="docSendReturn" required>
@@ -393,95 +393,101 @@
                           Please enter
                         </div>
                       </div>
-                        <div class="col-md-3">
-                          <label for="state" class="form-label">ประเภท <span class="text-danger">*</span></label>
-                          <select class="form-select" id="state" name="docType" required>
-                            <option value=""></option>
-                            <option>เอกสาร</option>
-                            <option>เช็ค</option>
-                            <option>อื่นๆ (ระบุ)</option>
-                          </select>
-                          <div class="invalid-feedback">
-                            Please enter
-                          </div>
-                        </div>
 
+                      <div class="col-md-3">
+                        <label for="state" class="form-label">ประเภท <span class="text-danger">*</span></label>
+                        <select class="form-select" id="state" name="docType" required>
+                          <option value=""></option>
+                          <option>เอกสาร</option>
+                          <option>เช็ค</option>
+                          <option>อื่นๆ (ระบุ)</option>
+                        </select>
+                        <div class="invalid-feedback">
+                          Please enter
+                        </div>
+                      </div>
+
+                      <div class="col-md-5">
+                        <label class="form-label">รายละเอียด</label>
+                        <input type="text" class="form-control" name="docIs">
+                        <div class="invalid-feedback">
+                          Please enter
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+
+                    <div class="row g-3">
+                      <div class="col-10">
+                        <h4 class="mb-3">ข้อมูลลูกค้า</h4>
+                        <label class="form-label">ชื่อลูกค้า / ผู้ติดต่อ <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" name="cusName" id="cusName" required>
+                          <button type="button" class="btn btn-outline-secondary"
+                            onclick="cussearchAndFill()">ค้นหา</button>
+                        </div>
+                        <div class="invalid-feedback">
+                          Please enter
+                        </div>
+                      </div>
+                      <script src="/js/searchcus.js"></script>
+                      <div class="col-12">
+                        <label class="form-label">สถานที่ <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="cusPlace" required>
+                        <div class="invalid-feedback">
+                          Please enter
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <label class="form-label">โทรศัพท์ติดต่อได้ <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="cusTel" required>
+                        <div class="invalid-feedback">
+                          Please enter
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+
+                    <div class="row g-3">
+                      <div class="col-10">
+                        <h4 class="mb-3">ข้อมูลผู้ฝากงาน</h4>
+                        <label class="form-label">ผู้ฝากงาน <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" name="dispName" id="dispName" required>
+                          <button type="button" class="btn btn-outline-secondary"
+                            onclick="dispsearchAndFill()">ค้นหา</button>
+                        </div>
+                        <div class="invalid-feedback">
+                          Please enter
+                        </div>
+                      </div>
+                      <script src="/js/searchdisp.js"></script>
+
+                      <div class="row g-3">
                         <div class="col-md-5">
-                          <label class="form-label">รายละเอียด</label>
-                          <input type="text" class="form-control" name="docIs">
+                          <label class="form-label">โทร.ติดต่อ <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" name="dispTel" required>
+                          <div class="invalid-feedback">
+                            Please enter
+                          </div>
+                        </div>
+                        <div class="col-md-5">
+                          <label class="form-label">อีเมล.ติดต่อ <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" name="dispEmail" required>
                           <div class="invalid-feedback">
                             Please enter
                           </div>
                         </div>
 
-                        <div class="row g-3">
-                          <div class="col-10">
-                            <h4 class="mb-3">ข้อมูลลูกค้า</h4>
-                            <label class="form-label">ชื่อลูกค้า / ผู้ติดต่อ <span class="text-danger">*</span></label>
-                            <div class="input-group">
-                              <input type="text" class="form-control" name="cusName" id="cusName" required>
-                              <button type="button" class="btn btn-outline-secondary" onclick="cussearchAndFill()">ค้นหา</button>
-                            </div>
-                            <div class="invalid-feedback">
-                              Please enter
-                            </div>  
-                          </div>
-                          <script src="/js/searchcus.js"></script>
-
-                          <div class="col-12">
-                            <label class="form-label">สถานที่ <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="cusPlace" required>
-                            <div class="invalid-feedback">
-                              Please enter
-                            </div>
-                          </div>
-                    
-                          <div class="col-12">
-                            <label class="form-label">โทรศัพท์ติดต่อได้ <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="cusTel" required>
-                            <div class="invalid-feedback">
-                              Please enter
-                            </div>
-                          </div>
-
-                          <div class="row g-3">
-                            <div class="col-10">
-                              <h4 class="mb-3">ข้อมูลผู้ฝากงาน</h4>
-                              <label class="form-label">ผู้ฝากงาน <span class="text-danger">*</span></label>
-                              <div class="input-group">
-                                <input type="text" class="form-control" name="dispName" id="dispName" required>
-                                <button type="button" class="btn btn-outline-secondary" onclick="dispsearchAndFill()">ค้นหา</button>
-                              </div>
-                              <div class="invalid-feedback">
-                                Please enter
-                              </div>
-                            </div>
-                            <script src="/js/searchdisp.js"></script>
-
-                            <div class="row g-3">
-                              <div class="col-md-5">
-                                <label class="form-label">โทร.ติดต่อ <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="dispTel"  required>
-                                <div class="invalid-feedback">
-                                  Please enter
-                                </div>
-                              </div>
-                                <div class="col-md-5">
-                                  <label class="form-label">อีเมล.ติดต่อ <span class="text-danger">*</span></label>
-                                  <input type="text" class="form-control" name="dispEmail" required>
-                                  <div class="invalid-feedback">
-                                    Please enter
-                                  </div>
-                                </div>
-
-                            <div class="col-12">
-                              <label class="form-label">หมายเหตุ / คำสั่งเพิ่มเติม</label>
-                              <input type="text" class="form-control" name="dispNote">
-                            </div>
-                          </div>
+                        <div class="col-12">
+                          <label class="form-label">หมายเหตุ / คำสั่งเพิ่มเติม</label>
+                          <input type="text" class="form-control" name="dispNote">
                         </div>
-                        <hr class="my-4">
-                        <button class="w-50 btn btn-primary btn-lg" type="submit">ยืนยัน</button>
+                      </div>
+                    </div>
+
+                    <hr class="my-4">
+                    <button class="w-50 btn btn-primary btn-lg" type="submit">ยืนยัน</button>
                   </form>
                 </div>
     </div>
@@ -490,32 +496,34 @@
   </form>
   </main>
   <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
     configt = {
-    disableMobile: "true",
-    minTime:"8:00",
-    maxTime:"20:00",
-    enableTime: true,
-    noCalendar: true,
-    dateFormat: "H:i",
-    time_24hr: true,
-    minuteIncrement: 30 },
-    configd = {
-    disableMobile: "true",
-    allowInput: true,
-    minDate: "today",
-    disable: [
-        function(date) {
+      disableMobile: "true",
+      minTime: "8:00",
+      maxTime: "20:00",
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i",
+      time_24hr: true,
+      minuteIncrement: 30
+    },
+      configd = {
+        disableMobile: "true",
+        allowInput: true,
+        minDate: "today",
+        disable: [
+          function (date) {
             // return true to disable
             return (date.getDay() === 0 || date.getDay() === 6);
 
+          }
+        ],
+        locale: {
+          "firstDayOfWeek": 1
         }
-    ],
-    locale: {
-        "firstDayOfWeek": 1 
-    }}
+      }
     flatpickr("input[type=time-local]", configt);
     flatpickr("input[type=datetime-local]", configd);
   </script>
+
 </html>
