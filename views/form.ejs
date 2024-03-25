@@ -328,11 +328,12 @@
         </div>
 
         <form action="/track/form" method="POST">
-          <% if(errors !=null) { %>
-            <%= errors %>
-              <% } %>
-
                 <div class="col-md-7 col-lg-8">
+                  <% if (errors != "") { %>
+                    <div class="alert alert-danger" role="alert">
+                      <%= errors %>
+                    </div>
+                    <% } %>
                   <form class="needs-validation" novalidate>
                     <div class="row g-3">
                       <div class="col-md-4">
@@ -356,8 +357,8 @@
                         <label for="state" class="form-label">รอบ</label>
                         <select class="form-select" id="state" name="docRound">
                           <option value=""></option>
-                          <option>รอบเช้า</option>
-                          <option>รอบบ่าย</option>
+                          <option value="รอบเช้า" <%= docRound === 'รอบเช้า' ? 'selected' : '' %>>รอบเช้า</option>
+                          <option value="รอบบ่าย" <%= docRound === 'รอบบ่าย' ? 'selected' : '' %>>รอบบ่าย</option>
                         </select>
                         <div class="invalid-feedback">
                           Please enter
@@ -385,9 +386,9 @@
                         <label for="state" class="form-label">งานรับหรือส่ง <span class="text-danger">*</span></label>
                         <select class="form-select" id="state" name="docSendReturn" required>
                           <option value=""></option>
-                          <option>ส่งรอรับกลับ</option>
-                          <option>ส่ง</option>
-                          <option>รับ</option>
+                          <option value="ส่งรอรับกลับ" <%= docSendReturn === 'ส่งรอรับกลับ' ? 'selected' : '' %>>ส่งรอรับกลับ</option>
+                          <option value="ส่ง" <%= docSendReturn === 'ส่ง' ? 'selected' : '' %>>ส่ง</option>
+                          <option value="รับ" <%= docSendReturn === 'รับ' ? 'selected' : '' %>>รับ</option>
                         </select>
                         <div class="invalid-feedback">
                           Please enter
@@ -398,9 +399,9 @@
                         <label for="state" class="form-label">ประเภท <span class="text-danger">*</span></label>
                         <select class="form-select" id="state" name="docType" required>
                           <option value=""></option>
-                          <option>เอกสาร</option>
-                          <option>เช็ค</option>
-                          <option>อื่นๆ (ระบุ)</option>
+                          <option value="เอกสาร" <%= docType === 'เอกสาร' ? 'selected' : '' %>>เอกสาร</option>
+                          <option value="เช็ค" <%= docType === 'เช็ค' ? 'selected' : '' %>>เช็ค</option>
+                          <option value="อื่นๆ (ระบุ)" <%= docType === 'อื่นๆ (ระบุ)' ? 'selected' : '' %>>อื่นๆ (ระบุ)</option>
                         </select>
                         <div class="invalid-feedback">
                           Please enter
@@ -409,7 +410,7 @@
 
                       <div class="col-md-5">
                         <label class="form-label">รายละเอียด</label>
-                        <input type="text" class="form-control" name="docIs">
+                        <input type="text" class="form-control" name="docIs" value="<%= docIs %>">
                         <div class="invalid-feedback">
                           Please enter
                         </div>
@@ -422,7 +423,7 @@
                         <h4 class="mb-3">ข้อมูลลูกค้า</h4>
                         <label class="form-label">ชื่อลูกค้า / ผู้ติดต่อ <span class="text-danger">*</span></label>
                         <div class="input-group">
-                          <input type="text" class="form-control" name="cusName" id="cusName" required>
+                          <input type="text" class="form-control" name="cusName" id="cusName" value="<%= cusName %>" required>
                           <button type="button" class="btn btn-outline-secondary"
                             onclick="cussearchAndFill()">ค้นหา</button>
                         </div>
@@ -433,14 +434,14 @@
                       <script src="/js/searchcus.js"></script>
                       <div class="col-12">
                         <label class="form-label">สถานที่ <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="cusPlace" required>
+                        <input type="text" class="form-control" name="cusPlace" value="<%= cusPlace %>" required>
                         <div class="invalid-feedback">
                           Please enter
                         </div>
                       </div>
                       <div class="col-12">
                         <label class="form-label">โทรศัพท์ติดต่อได้ <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="cusTel" required>
+                        <input type="text" class="form-control" name="cusTel" value="<%= cusTel %>" required>
                         <div class="invalid-feedback">
                           Please enter
                         </div>
@@ -453,7 +454,7 @@
                         <h4 class="mb-3">ข้อมูลผู้ฝากงาน</h4>
                         <label class="form-label">ผู้ฝากงาน <span class="text-danger">*</span></label>
                         <div class="input-group">
-                          <input type="text" class="form-control" name="dispName" id="dispName" required>
+                          <input type="text" class="form-control" name="dispName" id="dispName" value="<%= dispName %>" required>
                           <button type="button" class="btn btn-outline-secondary"
                             onclick="dispsearchAndFill()">ค้นหา</button>
                         </div>
@@ -466,14 +467,14 @@
                       <div class="row g-3">
                         <div class="col-md-5">
                           <label class="form-label">โทร.ติดต่อ <span class="text-danger">*</span></label>
-                          <input type="text" class="form-control" name="dispTel" required>
+                          <input type="text" class="form-control" name="dispTel" value="<%= dispTel %>" required>
                           <div class="invalid-feedback">
                             Please enter
                           </div>
                         </div>
                         <div class="col-md-5">
                           <label class="form-label">อีเมล.ติดต่อ <span class="text-danger">*</span></label>
-                          <input type="text" class="form-control" name="dispEmail" required>
+                          <input type="text" class="form-control" name="dispEmail" value="<%= dispEmail %>" required>
                           <div class="invalid-feedback">
                             Please enter
                           </div>
@@ -481,7 +482,7 @@
 
                         <div class="col-12">
                           <label class="form-label">หมายเหตุ / คำสั่งเพิ่มเติม</label>
-                          <input type="text" class="form-control" name="dispNote">
+                          <input type="text" class="form-control" name="dispNote" value="<%= dispNote %>">
                         </div>
                       </div>
                     </div>
@@ -499,8 +500,8 @@
   <script>
     configt = {
       disableMobile: "true",
-      minTime: "8:00",
-      maxTime: "20:00",
+      minTime: "9:00",
+      maxTime: "18:00",
       enableTime: true,
       noCalendar: true,
       dateFormat: "H:i",
