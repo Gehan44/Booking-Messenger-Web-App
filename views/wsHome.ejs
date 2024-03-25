@@ -344,8 +344,14 @@
               <% if (allResults && allResults.length > 0) { %>
                 <% allResults.forEach(result => { %>
                   <tr>
-                    <td style="color:brown"><%= result.docID %></td>
+                    <td>
+                      <form id="form_<%= result.docID %>" action="/wsHome/details" method="POST">
+                        <a style="color: brown" class="btn-link" onclick="submitForm('<%= result.docID %>')"><%= result.docID %></a>
+                        <input class="form-control" type="hidden" name="detailsTerm" value="<%= result.docID %>">
+                      </form>
+                    </td>                    
                     <td class="statusCell"><%= result.status %></td>
+                    
                     <script>
                         var statusCells = document.querySelectorAll(".statusCell");
                         statusCells.forEach(function(statusCell) {
@@ -368,6 +374,9 @@
                                     break;
                             }
                         });
+                        function submitForm(docID) {
+                          document.getElementById("form_" + docID).submit();
+                        }
                     </script>
                     
                     <td><%= result.userNameSend %></td>

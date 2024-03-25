@@ -5,6 +5,9 @@ const autofillFunction = async (req, res) => {
     try {
       const UserData = req.session.user;
       const cusName = req.body.cusName;
+      if (cusName === "" || cusName === " ") {
+        throw new Error('Empty')
+      }
       const pool = await sql.connect(config);
       let query = `SELECT TOP 1 * FROM tracks WHERE CONVERT(TEXT, cusName) LIKE '%${cusName}%'`;
       query += ` AND userIDCreated = '${UserData.userID}'`;

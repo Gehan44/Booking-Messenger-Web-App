@@ -4,6 +4,9 @@ const config = require('../sqlConfig');
 const autofillFunction = async (req, res) => {
     try {
       const cusName = req.body.cusName;
+      if (cusName === "" || cusName === " ") {
+        throw new Error('Empty')
+      }
       await sql.connect(config);
       const request = new sql.Request();
       query = `SELECT TOP 1 * FROM tracks WHERE CONVERT(TEXT, cusName) LIKE '%${cusName}%' ORDER BY createdDateTime DESC;`;

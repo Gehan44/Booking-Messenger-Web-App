@@ -1,8 +1,8 @@
 const runDashboard = require('../functions/searchAllFunction');
 
 module.exports = async (req, res) => {
+  const UserData = req.session.user;
     try {
-      const UserData = req.session.user;
       const allResults = await runDashboard(UserData);
       res.render('sHome', { UserData,allResults });
     } catch (error) {

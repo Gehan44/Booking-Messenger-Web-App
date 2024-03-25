@@ -33,6 +33,8 @@ const dispautofillFunction = require('./functions/dispautofillFunction.js')
 const salecusautofillFunction = require('./functions/scusautofillFunction.js')
 const forgotFunction = require('./functions/forgotFunction.js')
 
+const detailsFunction = require('./functions/detailsFunction.js')
+
 //Middleware
 const redirectIfAuth = require('./middleware/redirectifAuth')
 const wealthsMiddleware = require('./middleware/wealthsMiddleware.js')
@@ -100,6 +102,7 @@ app.post('/search/run',wealthsMiddleware,searchwsFunction)
 app.post('/track/form',wealthsMiddleware,storeTrackFunction)
 app.post('/form/cus/autofill',wealthsMiddleware,cusautofillFunction)
 app.post('/form/disp/autofill',wealthsMiddleware,dispautofillFunction)
+app.post('/wsHome/details',wealthsMiddleware,detailsFunction)
 
 //Sale
 app.get('/sHome',saleMiddleware,sHomeController)
