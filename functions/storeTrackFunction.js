@@ -18,13 +18,12 @@ module.exports = async (req, res) => {
             }
         }
 
-        const parsedTime = parseInt(docTime.split(':')[0]);
         if (docRound === "รอบเช้า") {
-            if (parsedTime >= 13 && parsedTime <= 18) {
+            if (moment(docTime,'HH:mm').isAfter(moment('13:00','HH:mm'))) {
                 throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
             }
         } else if (docRound === "รอบบ่าย") {
-            if (parsedTime >= 8 && parsedTime <= 13) {
+            if (moment(docTime,'HH:mm').isBefore(moment('13:00','HH:mm'))) {
                 throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
             }
         }
