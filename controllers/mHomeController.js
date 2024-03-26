@@ -5,12 +5,18 @@ module.exports = async (req, res) => {
   let updatedEditTerm = req.query.updatedEditTerm;
   let noteEditTerm = req.query.noteEditTerm;
   let VariantData = null;
+
   try {
     if (updatedEditTerm) {
       updatedEditTerm = updatedEditTerm.toUpperCase();
       VariantData = await runDetect(updatedEditTerm);
     }
-    res.render('mHome', { updatedEditTerm, UserData, VariantData,noteEditTerm });
+    res.render('mHome', {
+      UserData, 
+      updatedEditTerm,
+      VariantData,
+      noteEditTerm 
+    });
     
     } catch (error) {
       delete req.session.user;
