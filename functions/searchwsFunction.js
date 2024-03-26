@@ -8,7 +8,12 @@ module.exports = async (req, res) => {
         
         if (!searchFilter) {
             let searchResults = null;
-            res.render('search', { UserData, searchTerm, searchFilter, searchResults });
+            res.render('search', { 
+                UserData,
+                searchFilter: searchFilter,
+                searchTerm: searchTerm,
+                searchResults: searchResults,
+                errors: req.flash('validationErrors') });
             return;
         }
 
@@ -55,7 +60,12 @@ module.exports = async (req, res) => {
 
         const result = await request.query(query);
         const searchResults = result.recordset;
-        res.render('search', { UserData, searchTerm, searchResults, searchFilter });
+        res.render('search', { 
+            UserData,
+            searchFilter: searchFilter,
+            searchTerm: searchTerm,
+            searchResults: searchResults,
+            errors: req.flash('validationErrors') });
 
     } catch (error) {
         req.flash('data', req.body);

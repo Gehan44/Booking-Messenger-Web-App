@@ -343,13 +343,14 @@
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">ค้นหา</h1>
         </div>
+        
+        <% if (errors != "") { %>
+          <div class="alert alert-danger" role="alert">
+            <%= errors %>
+          </div>
+          <% } %>
 
         <div class="col-md-7 col-lg-8">
-          <% if (errors != "") { %>
-            <div class="alert alert-danger" role="alert">
-              <%= errors %>
-            </div>
-            <% } %>
           <form id="searchForm" action="/search/srun" method="POST" class="d-flex align-items-center">
             <div class="row g-3">
               <div class="col-md-4">
