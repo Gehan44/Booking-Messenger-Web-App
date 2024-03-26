@@ -6,6 +6,7 @@ module.exports = async (req, res) => {
         await createUser(req.body);
         console.log("User registered successfully!");
         return res.redirect('/');
+        
     } catch (error) {
         req.flash('data', req.body);
         req.flash('validationErrors', error.message);

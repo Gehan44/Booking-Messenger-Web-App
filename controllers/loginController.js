@@ -7,7 +7,7 @@ module.exports = (req, res) => {
     }
 
     res.render('login',{
-        errors: req.flash('validationErrors'),
-        email: email
+        email: email,
+        errors: req.flash('validationErrors')
     })
 }

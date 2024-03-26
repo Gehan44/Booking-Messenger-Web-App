@@ -13,10 +13,10 @@ module.exports = (req,res) => {
     }
 
     res.render('register',{
-        errors: req.flash('validationErrors'),
         email: email,
         password: password,
         name: name,
-        role: role
+        role: role,
+        errors: req.flash('validationErrors')
     })
 }

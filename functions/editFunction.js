@@ -51,6 +51,7 @@ module.exports = async (req, res) => {
     res.redirect('/mHome');
   } catch (error) {
     console.error("Error:", error);
+    
   } finally {
     await sql.close();
   }

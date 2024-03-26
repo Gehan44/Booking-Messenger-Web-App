@@ -18,9 +18,11 @@ module.exports = async function runDashboard(UserData) {
 
     const result = await pool.request().query(query);
     return result.recordset;
+    
   } catch (error) {
     console.error('Error during search:', error);
     throw error;
+
   } finally {
     await sql.close();
   }

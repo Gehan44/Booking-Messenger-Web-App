@@ -2,7 +2,6 @@ const runDetect = require('../functions/detectTrackFunction.js');
 
 module.exports = async (req, res) => {
   const UserData = req.session.user;
-
   let updatedEditTerm = req.query.updatedEditTerm;
   let noteEditTerm = req.query.noteEditTerm;
   let VariantData = null;
@@ -12,8 +11,10 @@ module.exports = async (req, res) => {
       VariantData = await runDetect(updatedEditTerm);
     }
     res.render('mHome', { updatedEditTerm, UserData, VariantData,noteEditTerm });
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).send('Internal Server Error');
+    
+    } catch (error) {
+      delete req.session.user;
+      req.flash('validationErrors', error.message);
+      return res.redirect('/')
   }
 };

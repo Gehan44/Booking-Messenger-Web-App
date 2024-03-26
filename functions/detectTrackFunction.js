@@ -15,11 +15,11 @@ module.exports = async function runDetect(_updatedEditTerm) {
     if (result.recordset.length === 0) {
       return { VariantData: false };
     }
-    
     return result.recordset[0];
+
   } catch (error) {
-    console.error("Error:", error);
-    return { error };
+    req.flash('validationErrors', error.message);
+
   } finally {
     await sql.close();
   }

@@ -36,8 +36,10 @@ module.exports = async (req, res) => {
         await runDetect( updatedVariant,variantEmail);
 
         res.redirect('/mHome');
+        
     } catch (error) {
         console.error("Error:", error);
+
     } finally {
         await sql.close();
     }
