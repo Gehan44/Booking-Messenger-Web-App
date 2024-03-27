@@ -18,6 +18,17 @@ module.exports = async (req, res) => {
             }
         }
 
+        //For prevent delay
+        const currentDate = new Date();
+        const requestDateMilliseconds = new Date(requestDate).getTime();
+        const differenceInMilliseconds =  requestDateMilliseconds - currentDate;
+        const twentyThreeDaysMilliseconds = 23 * 24 * 60 * 60 * 1000;
+        console.log(differenceInMilliseconds)
+        console.log(twentyThreeDaysMilliseconds)
+        if (differenceInMilliseconds > twentyThreeDaysMilliseconds) {
+            throw new Error('The difference between Date.now() and requestDate exceeds 23 days');
+        }
+
         if (docRound === "รอบเช้า") {
             if (moment(docTime,'HH:mm').isAfter(moment('13:00','HH:mm'))) {
                 throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
