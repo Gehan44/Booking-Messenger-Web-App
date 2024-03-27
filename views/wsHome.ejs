@@ -323,7 +323,7 @@
           <h1 class="h2">ข้อมูลล่าสุด</h1>
         </div>
         
-        <div class="table-responsive small">
+        <div class="table-responsive">
           <table class="table table-striped table-sm">
             <thead>
               <tr>
@@ -346,7 +346,7 @@
                   <tr>
                     <td>
                       <form id="form_<%= result.docID %>" action="/wsHome/details" method="POST">
-                        <a style="color: brown" class="btn-link" onclick="submitForm('<%= result.docID %>')"><%= result.docID %></a>
+                        <a style="color: brown" class="btn" onclick="submitForm('<%= result.docID %>')"><%= result.docID %></a>
                         <input class="form-control" type="hidden" name="detailsTerm" value="<%= result.docID %>">
                       </form>
                     </td>                    
