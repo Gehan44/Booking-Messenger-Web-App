@@ -10,6 +10,7 @@ module.exports = async (req, res) => {
         const createdDate = moment().format('YYYY-MM-DD');
         const createdTime = moment().format('HH:mm');
 
+        //Prevent Sameday
         if (createdDate === requestDate) {
             if (moment(docTime, 'HH:mm').isBefore(moment(createdTime, 'HH:mm'))) {
                 throw new Error('สดวกเวลานั้นช้ากว่าปัจจุบัน');
@@ -18,17 +19,16 @@ module.exports = async (req, res) => {
             }
         }
 
-        //For prevent delay
+        //Prevent Delay
         const currentDate = new Date();
         const requestDateMilliseconds = new Date(requestDate).getTime();
         const differenceInMilliseconds =  requestDateMilliseconds - currentDate;
         const twentyThreeDaysMilliseconds = 23 * 24 * 60 * 60 * 1000;
-        console.log(differenceInMilliseconds)
-        console.log(twentyThreeDaysMilliseconds)
         if (differenceInMilliseconds > twentyThreeDaysMilliseconds) {
-            throw new Error('The difference between Date.now() and requestDate exceeds 23 days');
+            throw new Error('กรณีกรอกวันที่นัดเกิน 23 วันระบบจะทำงานได้ไม่เต็มที่ กรุณากรอกในภายหลัง');
         }
 
+        //Prevent Round
         if (docRound === "รอบเช้า") {
             if (moment(docTime,'HH:mm').isAfter(moment('13:00','HH:mm'))) {
                 throw new Error('กรุณากรอกเวลาให้ถูกต้อง');

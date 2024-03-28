@@ -7,18 +7,11 @@ module.exports = async (req, res) => {
     try {
         await sql.connect(config);
         const request = new sql.Request();
-
         const editTerm = req.body.updatedEditTerm;
         const noteTerm = req.body.noteEditTerm;
         const UserID = req.session.user.userID;
         const Username = req.session.user.name;
-
         const result = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
-
-        if (result.recordset.length === 0) {
-            console.log(`Variant with docID ${editTerm} not found`);
-            return;
-        }
 
         const variant = result.recordset[0];
         const variantEmail = variant.dispEmail;
@@ -31,7 +24,6 @@ module.exports = async (req, res) => {
         await request.query(`UPDATE tracks SET status = 'Failed', docFnote = '${combinedNote}' WHERE docID = '${editTerm}'`);
         const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
         const updatedVariant = updatedVariantResult.recordset[0];
-
         taskStop(editTerm)
         await runDetect( updatedVariant,variantEmail);
 

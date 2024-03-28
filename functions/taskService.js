@@ -3,7 +3,6 @@ const config = require('../sqlConfig');
 const runDetect = require('./emailFunction');
 const scheduledJobs = {};
 
-
 function taskStart(createdTrack, date) {
     const ID = createdTrack.docID;
     date.setUTCHours(17);
@@ -15,29 +14,25 @@ function taskStart(createdTrack, date) {
     const delay = targetDate.getTime() - currentDate.getTime();
     if (delay > 0) {
         scheduledJobs[ID] = setTimeout(async () => {
-            console.log(`Task executed at specific time for docID ${ID}`);
+            //console.log(`Task executed at specific time for docID ${ID}`);
             try {
                 await sql.connect(config);
                 const request = new sql.Request();
-                await request.query(`UPDATE tracks SET status = 'Failed', docFnote = 'ไม่ถูกนำส่งตามวันที่นัด' WHERE docID = '${ID}'`);
+                await request.query(`UPDATE tracks SET userNameSend = '' , status = 'Failed' , docFnote = 'ไม่ถูกนำส่งตามวันที่นัด' WHERE docID = '${ID}'`);
                 const createdTrack = await request.query(`SELECT * FROM tracks WHERE docID = '${ID}'`);
                 mail = null;
                 await runDetect(createdTrack.recordset[0], mail);
-                console.log("runDetect");
             } catch (error) {
                 console.error("Error occurred while executing the task:", error);
             }
         }, delay);
 
         scheduledJobs[ID].targetDate = targetDate;
-        const sortedJobs = sortJobs();
-        console.log("Sorted jobs:", sortedJobs);
+        sortJobs();
     } else {
         console.error("Target date is in the past.");
     }
-    console.log(scheduledJobs);
 }
-
 
 function sortJobs() {
     const sortedJobs = Object.entries(scheduledJobs).sort((a, b) => {
@@ -46,19 +41,15 @@ function sortJobs() {
     return sortedJobs.map(job => job[0]);
 }
 
-
 function taskStop(ID) {
     const timeoutId = scheduledJobs[ID];
-    console.log(timeoutId)
     if (timeoutId) {
         clearTimeout(timeoutId);
         delete scheduledJobs[ID];
-        console.log(`Scheduled job with ID ${ID} stopped.`);
+        //console.log(`Scheduled job with ID ${ID} stopped.`);
     } else {
         console.error(`No scheduled job found with ID ${ID}.`);
     }
-    console.log(scheduledJobs);
 }
-
 
 module.exports = { taskStart, taskStop, sortJobs };
