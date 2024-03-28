@@ -18,7 +18,10 @@ function taskStart(createdTrack, date) {
             try {
                 await sql.connect(config);
                 const request = new sql.Request();
-                await request.query(`UPDATE tracks SET userNameSend = '' , status = 'Failed' , docFnote = 'ไม่ถูกนำส่งตามวันที่นัด' WHERE docID = '${ID}'`);
+                await request.query(`UPDATE tracks 
+                    SET userNameSend = 
+                    CASE WHEN userNameSend IS NULL THEN '' ELSE userNameSend END,
+                    status = 'Failed',docFnote = 'ส่งไม่ทันตามวันที่นัด' WHERE docID = '${ID}'`);
                 const createdTrack = await request.query(`SELECT * FROM tracks WHERE docID = '${ID}'`);
                 mail = null;
                 await runDetect(createdTrack.recordset[0], mail);
