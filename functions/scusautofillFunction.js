@@ -10,7 +10,7 @@ const autofillFunction = async (req, res) => {
       }
       const pool = await sql.connect(config);
       let query = `SELECT TOP 1 * FROM tracks WHERE CONVERT(TEXT, cusName) LIKE '%${cusName}%'`;
-      query += ` AND userIDCreated = '${UserData.userID}'`;
+      query += ` AND dispEmail = '${UserData.email}'`;
       query += ` ORDER BY createdDateTime DESC;`;
       const result = await pool.request().query(query);
       const firstRecord = result.recordset[0];
