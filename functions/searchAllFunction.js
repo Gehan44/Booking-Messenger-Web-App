@@ -11,7 +11,7 @@ module.exports = async function runDashboard(UserData) {
     `;
 
     if (UserData.role === "Sale") {
-      query += ` AND userIDCreated = '${UserData.userID}'`;
+      query += ` AND dispEmail = '${UserData.email}'`;
     }
     
     query += ` ORDER BY docID DESC`;

@@ -59,35 +59,17 @@ module.exports = async function createTrack(userData,trackData,protocol,hostname
         createdDateTime = moment().format('YYYY-MM-DD HH:mm')
 
         //disp
-        let createdID = ""
         let dispName = ""
         let dispEmail = ""
-
         if (userData.role === "Wealth Support") {
             dispName = trackData.dispName
             dispEmail = trackData.dispEmail
-            const dispResult = await request.query(`
-            SELECT *
-            FROM dbo.users
-            WHERE email = '${dispEmail}'`);
-            disp = dispResult.recordset[0]
-            if (disp && disp.role === "Sale") {
-                createdID = disp.userID
-            } else {
-                createdID = userData.userID
-            }
+
         } else if (userData.role === "Sale") {
-            createdID = userData.userID
             dispName = userData.name
-
-            const dispResult = await request.query(`
-            SELECT *
-            FROM dbo.users
-            WHERE userID = '${createdID}'`);
-            disp = dispResult.recordset[0]
-            dispEmail = disp.email
+            dispEmail = userData.email
         }
-
+        
         //docFnote
         trackData.docFnote = ""
         
@@ -99,7 +81,7 @@ module.exports = async function createTrack(userData,trackData,protocol,hostname
                 cusName, cusPlace, cusTel, dispName, dispTel, dispEmail, dispNote
             )
             VALUES (
-                '${docID}', '${docQR}', ${createdID},
+                '${docID}', '${docQR}', ${userData.userID},
                 '${"Created"}', '${createdDateTime}',
                 '${trackData.requestDate}', '${trackData.docRound}',
                  ${trackData.docTime ? `'${trackData.docTime}'` : 'NULL'}, 
@@ -117,7 +99,7 @@ module.exports = async function createTrack(userData,trackData,protocol,hostname
                 FROM tracks
                 WHERE docID = '${docID}'
             `);
-
+        
         // Return the created track data
         return { createdTrack: createdTrack.recordset[0], docQRCode };
 

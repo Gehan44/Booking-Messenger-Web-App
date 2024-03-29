@@ -53,9 +53,9 @@ module.exports = async (req, res) => {
         }
 
         if (query.includes('WHERE')) {
-            query += ` AND userIDCreated = '${UserData.userID}'`;
+            query += ` AND dispEmail = '${UserData.email}'`;
         } else {
-            query += ` WHERE userIDCreated = '${UserData.userID}'`;
+            query += ` WHERE dispEmail = '${UserData.email}'`;
         }
 
         if (trueFilter === 'createdDateTime' || trueFilter === 'requestDate') {

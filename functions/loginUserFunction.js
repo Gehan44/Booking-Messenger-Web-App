@@ -15,6 +15,7 @@ module.exports = async function loginUser(req, res) {
                 if (user.role === 'Messenger') {
                     req.session.user = {
                         userID: user.userID,
+                        email: user.email,
                         name: user.name,
                         role: user.role
                     };
@@ -22,6 +23,7 @@ module.exports = async function loginUser(req, res) {
                 } else if (user.role === 'Wealth Support') {
                     req.session.user = {
                         userID: user.userID,
+                        email: user.email,
                         name: user.name,
                         role: user.role
                     };
@@ -29,6 +31,7 @@ module.exports = async function loginUser(req, res) {
                 } else if (user.role === 'Sale') {
                     req.session.user = {
                         userID: user.userID,
+                        email: user.email,
                         name: user.name,
                         role: user.role
                     };
