@@ -1,18 +1,23 @@
 const sql = require('mssql');
-const config = require('../sqlConfig');
+const sqlConfig = require('../sqlConfig');
 const qr = require('qr-image');
 
 module.exports = async function runDetails(req,res) {
   const {detailsTerm} = req.body;
+  const UserData = req.session.user;
   try {
-    await sql.connect(config);
-    const request = new sql.Request();
-    
     if (!detailsTerm) {
       throw new Error('กรุณากรอกข้อมูล')
     }
 
-    const result = await request.query(`SELECT * FROM tracks WHERE docID = '${detailsTerm}'`);
+    const pool = await sql.connect(sqlConfig);
+    let query = `SELECT * FROM tracks WHERE docID = '${detailsTerm}'`;
+
+    if (UserData.role === "Sale") {
+      query += ` AND dispEmail = '${UserData.email}'`;
+    }
+    const result = await pool.request().query(query)
+    
     if (result.recordset.length === 0) {
       throw new Error('กรุณากรอกข้อมูลให้ถูกต้อง')
     }
@@ -29,7 +34,7 @@ module.exports = async function runDetails(req,res) {
     res.render('print', { createdTrack, docQRCode });
 
   } catch (error) {
-    return res.redirect('/wsHome')
+    return res.redirect('/')
 
   } finally {
     await sql.close();

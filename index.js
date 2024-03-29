@@ -32,7 +32,6 @@ const cusautofillFunction = require('./functions/cusautofillFunction.js')
 const dispautofillFunction = require('./functions/dispautofillFunction.js')
 const salecusautofillFunction = require('./functions/scusautofillFunction.js')
 const forgotFunction = require('./functions/forgotFunction.js')
-
 const detailsFunction = require('./functions/detailsFunction.js')
 
 //Middleware
@@ -111,6 +110,7 @@ app.get('/sform',saleMiddleware,sformController)
 app.post('/search/srun',saleMiddleware,searchsFunction)
 app.post('/track/sform',saleMiddleware,sstoreTrackFunction)
 app.post('/form/sale/cus/autofill',saleMiddleware,salecusautofillFunction)
+app.post('/sHome/details',saleMiddleware,detailsFunction)
 
 //Messenger
 app.get('/mHome',messMiddleware,mHomeController)

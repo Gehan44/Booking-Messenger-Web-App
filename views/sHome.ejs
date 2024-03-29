@@ -347,31 +347,40 @@
               <% if (allResults && allResults.length > 0) { %>
                 <% allResults.forEach(result => { %>
                   <tr>
-                    <td style="color:brown"><%= result.docID %></td>
+                    <td>
+                      <form id="form_<%= result.docID %>" action="/sHome/details" method="POST">
+                        <a style="color: brown" class="btn" onclick="submitForm('<%= result.docID %>')"><%= result.docID %></a>
+                        <input class="form-control" type="hidden" name="detailsTerm" value="<%= result.docID %>">
+                      </form>
+                    </td>
                     <td class="statusCell"><%= result.status %></td>
+                    
                     <script>
-                        var statusCells = document.querySelectorAll(".statusCell");
-                        statusCells.forEach(function(statusCell) {
-                            var status = statusCell.innerHTML.trim();
-                            switch(status) {
-                                case "Picked":
-                                    statusCell.style.color = "orange";
-                                    break;
-                                case "Done":
-                                    statusCell.style.color = "green";
-                                    break;
-                                case "Returned":
-                                    statusCell.style.color = "green";
-                                    break;
-                                case "Failed":
-                                    statusCell.style.color = "red";
-                                    break;
-                                default:
-                                    statusCell.style.color = "blue";
-                                    break;
-                            }
-                        });
-                    </script>
+                      var statusCells = document.querySelectorAll(".statusCell");
+                      statusCells.forEach(function(statusCell) {
+                          var status = statusCell.innerHTML.trim();
+                          switch(status) {
+                              case "Picked":
+                                  statusCell.style.color = "orange";
+                                  break;
+                              case "Done":
+                                  statusCell.style.color = "green";
+                                  break;
+                              case "Returned":
+                                  statusCell.style.color = "green";
+                                  break;
+                              case "Failed":
+                                  statusCell.style.color = "red";
+                                  break;
+                              default:
+                                  statusCell.style.color = "blue";
+                                  break;
+                          }
+                      });
+                      function submitForm(docID) {
+                        document.getElementById("form_" + docID).submit();
+                      }
+                  </script>
                     
                     <td><%= result.userNameSend %></td>
                     <td><%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></td>

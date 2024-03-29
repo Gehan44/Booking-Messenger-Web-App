@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
         const hostname = req.headers.host;
         const { createdTrack, docQRCode } = await createTrack(userData,req.body,protocol,hostname);
         taskStart(createdTrack, createdTrack.requestDate);
-        res.render('sprint', { createdTrack, docQRCode });
+        res.render('print', { createdTrack, docQRCode });
           
     } catch (error) {
         req.flash('data', req.body);
