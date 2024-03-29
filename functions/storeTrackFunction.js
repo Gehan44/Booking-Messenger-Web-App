@@ -10,6 +10,15 @@ module.exports = async (req, res) => {
         const createdDate = moment().format('YYYY-MM-DD');
         const createdTime = moment().format('HH:mm');
 
+        //Prevent Sameday
+        if (createdDate === requestDate) {
+            if (moment(docTime, 'HH:mm').isBefore(moment(createdTime, 'HH:mm'))) {
+                throw new Error('สดวกเวลานั้นช้ากว่าปัจจุบัน');
+            } else if (moment('13:30', 'HH:mm').isBefore(moment(createdTime, 'HH:mm'))) {
+                throw new Error('วันที่นัดไม่ทันส่งวันนี้แล้ว');
+            }
+        }
+        
         //Prevent Delay
         const currentDate = new Date();
         const requestDateMilliseconds = new Date(requestDate).getTime();

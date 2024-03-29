@@ -5,13 +5,10 @@ const scheduledJobs = {};
 
 function taskStart(createdTrack,dateNow,date) {
     const ID = createdTrack.docID;
-    date.setUTCHours(15);
-    date.setUTCMinutes(15);
+    date.setUTCHours(17);
+    date.setUTCMinutes(30);
     const targetDate = date;
-    console.log(targetDate)
-    console.log(dateNow)
     const delay = targetDate - dateNow;
-    console.log(delay)
     if (delay > 0) {
         scheduledJobs[ID] = setTimeout(async () => {
             //console.log(`Task executed at specific time for docID ${ID}`);
@@ -24,8 +21,7 @@ function taskStart(createdTrack,dateNow,date) {
                     status = 'Failed',docFnote = 'ส่งไม่ทันตามวันที่นัด' WHERE docID = '${ID}'`);
                 const createdTrack = await request.query(`SELECT * FROM tracks WHERE docID = '${ID}'`);
                 mail = null;
-                console.log(`Task executed at specific time for docID ${ID}`);
-                //await runDetect(createdTrack.recordset[0], mail);
+                await runDetect(createdTrack.recordset[0], mail);
             } catch (error) {
                 console.error("Error occurred while executing the task:", error);
             }

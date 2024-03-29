@@ -42,7 +42,7 @@ module.exports = async (req, res) => {
         const protocol = req.protocol;
         const hostname = req.headers.host;
         const { createdTrack, docQRCode } = await createTrack(userData,req.body,protocol,hostname);
-        taskStart(createdTrack, createdTrack.requestDate);
+        taskStart(createdTrack,createdTrack.createdDateTime,createdTrack.requestDate);
         res.render('print', { createdTrack, docQRCode });
           
     } catch (error) {
