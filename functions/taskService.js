@@ -3,15 +3,15 @@ const config = require('../sqlConfig');
 const runDetect = require('./emailFunction');
 const scheduledJobs = {};
 
-function taskStart(createdTrack, date) {
+function taskStart(createdTrack,dateNow,date) {
     const ID = createdTrack.docID;
-    date.setUTCHours(17);
-    date.setUTCMinutes(30);
-    date = date.toISOString().replace('Z', '');
-
-    const targetDate = new Date(date);
-    const currentDate = new Date();
-    const delay = targetDate.getTime() - currentDate.getTime();
+    date.setUTCHours(15);
+    date.setUTCMinutes(10);
+    const targetDate = date;
+    console.log(targetDate)
+    console.log(dateNow)
+    const delay = targetDate - dateNow;
+    console.log(delay)
     if (delay > 0) {
         scheduledJobs[ID] = setTimeout(async () => {
             //console.log(`Task executed at specific time for docID ${ID}`);
@@ -24,7 +24,8 @@ function taskStart(createdTrack, date) {
                     status = 'Failed',docFnote = 'ส่งไม่ทันตามวันที่นัด' WHERE docID = '${ID}'`);
                 const createdTrack = await request.query(`SELECT * FROM tracks WHERE docID = '${ID}'`);
                 mail = null;
-                await runDetect(createdTrack.recordset[0], mail);
+                console.log(`Task executed at specific time for docID ${ID}`);
+                //await runDetect(createdTrack.recordset[0], mail);
             } catch (error) {
                 console.error("Error occurred while executing the task:", error);
             }
