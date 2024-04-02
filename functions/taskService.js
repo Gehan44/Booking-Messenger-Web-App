@@ -4,7 +4,7 @@ const runDetect = require('./emailFunction');
 const moment = require('moment-timezone');
 const scheduledJobs = {};
 
-function taskStart(createdTrack) {
+function taskStart(createdTrack,date) {
     const ID = createdTrack.docID;
     date.setUTCHours(18);
     date.setUTCMinutes(30);
