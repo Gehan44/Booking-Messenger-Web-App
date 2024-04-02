@@ -184,9 +184,7 @@
         <form>
           <input class="form-control" type="hidden" name="updatedEditTerm" id="updatedEditTerm">
         </form>
-        <% if (VariantData && VariantData.status==="Picked" && VariantData.userIDSend !== UserData.userID) { %>
-          <h1 class="display-5 fw-bold text-body-emphasis"><%=VariantData.messenger%> ได้รับงานไปเรียบร้อยแล้ว</h1>
-        <% } else if (updatedEditTerm && updatedEditTerm === VariantData.docID) { %>
+        <% if (updatedEditTerm && updatedEditTerm === VariantData.docID) { %>
           <h1 class="display-5 fw-bold text-body-emphasis"><%= VariantData.docID %></h1>
           <p class="lead my-3">วันที่นัด: <b><%= VariantData.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></b></p>
           <p class="lead my-3"><b><%= VariantData.docSendReturn %></b></p>

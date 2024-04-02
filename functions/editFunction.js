@@ -20,7 +20,8 @@ module.exports = async (req, res) => {
       variantStatus = "Picked";
       await request.query(`UPDATE tracks SET status = '${variantStatus}', userIDSend = '${UserID}', userNameSend = '${Username}' WHERE docID = '${editTerm}'`);
 
-    } else if (variantStatus === "Picked" || variantStatus === "Incomplete" && UserID === variantOwner) {
+    } else if (variantStatus === "Picked" || variantStatus === "Incomplete") {
+      await request.query(`UPDATE tracks SET status = '${variantStatus}', userIDSend = '${UserID}', userNameSend = '${Username}' WHERE docID = '${editTerm}'`);
       const variantSendReturn = variant.docSendReturn;
       const variantEmail = variant.dispEmail;
 
