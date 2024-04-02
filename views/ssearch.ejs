@@ -362,8 +362,7 @@
                   <option value="docID" <%= searchFilter === 'docID' ? 'selected' : '' %>>เลขที่เอกสาร</option>
                   <option value="status" <%= searchFilter === 'status' ? 'selected' : '' %>>สถานะ</option>
                   <option value="userNameSend" <%= searchFilter === 'userNameSend' ? 'selected' : '' %>>ผู้ส่งงาน</option>
-                  <option value="createdDateTime" <%= searchFilter === 'createdDateTime' ? 'selected' : '' %>>วันที่สั่งงาน ระบุเวลา</option>
-                  <option value="createdDate" <%= searchFilter === 'createdDate' ? 'selected' : '' %>>วันที่สั่งงาน</option>
+                  <option value="createdDateTime" <%= searchFilter === 'createdDateTime' ? 'selected' : '' %>>วันที่สั่งงาน</option>
                   <option value="requestDate" <%= searchFilter === 'requestDate' ? 'selected' : '' %>>วันที่นัด</option>
                   <option value="docRound" <%= searchFilter === 'docRound' ? 'selected' : '' %>>รอบ</option>
                   <option value="docTime" <%= searchFilter === 'docTime' ? 'selected' : '' %>>เวลา</option>
@@ -373,6 +372,7 @@
                   <option value="cusName" <%= searchFilter === 'cusName' ? 'selected' : '' %>>ชื่อลูกค้า/ผู้ติดต่อ</option>
                   <option value="cusTel" <%= searchFilter === 'cusTel' ? 'selected' : '' %>>เบอร์ลูกค้า</option>
                   <option value="cusPlace" <%= searchFilter === 'cusPlace' ? 'selected' : '' %>>สถานที่</option>
+                  <option value="dispName" <%= searchFilter === 'dispName' ? 'selected' : '' %>>ผู้ฝากงาน</option>
                   <option value="dispTel" <%= searchFilter === 'dispTel' ? 'selected' : '' %>>เบอร์ผู้ฝากงาน</option>
                   <option value="dispNote" <%= searchFilter === 'dispNote' ? 'selected' : '' %>>หมายเหตุ</option>
                 </select>                
@@ -397,43 +397,25 @@
           </form>
 
           <script>
-            var configdt = {
-              disableMobile: "true",
-              enableTime: true,
-              time_24hr: true,
-              dateFormat: "Y-m-d H:i",
-            };
-
-            var configt = {
-              disableMobile: "true",
-              enableTime: true,
-              noCalendar: true,
-              dateFormat: "H:i",
-              time_24hr: true
-            };
+            
+          var configd = {
+            disableMobile: "true",
+            mode: "range"
+          };
         
-            var configd = {
-              disableMobile: "true",
-              mode: "range"
-            };
-        
-            function changeInputType() {
-              var selectedFilter = document.getElementById("searchFilter").value;
-              var dateTimeInput = document.getElementById("searchTerm");
-
-              if (selectedFilter === 'createdDateTime') {
-                flatpickr(dateTimeInput, configdt);
-              } else if (selectedFilter === 'createdDate' || selectedFilter === 'requestDate') {
-                flatpickr(dateTimeInput, configd);
-              } else if (selectedFilter === 'docTime') {
-                flatpickr(dateTimeInput, configt);
-              } else {
-                dateTimeInput._flatpickr.destroy();
-                dateTimeInput.type = 'text';
-              }
+          function changeInputType() {
+            var selectedFilter = document.getElementById("searchFilter").value;
+            var dateTimeInput = document.getElementById("searchTerm");
+            
+            if (selectedFilter === 'createdDateTime' || selectedFilter === 'requestDate') {
+              flatpickr(dateTimeInput, configd);
+            } else {
+              dateTimeInput._flatpickr.destroy();
+              dateTimeInput.type = 'text';
             }
+          }
 
-            changeInputType();
+          changeInputType();
           </script>
           <hr class="my-4">
         </div>
@@ -472,7 +454,7 @@
                 <td><%= result.docID %></td>
                 <td><%= result.status %></td>
                 <td><%= result.userNameSend %></td>
-                <td><%= result.docFnote %></td>
+                <td><%= result.docNote %></td>
                 <td><%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' , year: 'numeric' , hour: '2-digit' , minute: '2-digit' , timeZone: 'UTC' }) %></td>
                 <td><%= result.requestDate.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' , year: 'numeric' ,timeZone: 'UTC' }) %></td>
                 <td><%= result.docRound %></td>

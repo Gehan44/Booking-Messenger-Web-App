@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
 
         //Prevent Sameday
         if (createdDate === requestDate) {
-            if (moment('14:00', 'HH:mm').isBefore(moment(createdTime, 'HH:mm'))) {
+            if (moment('16:00', 'HH:mm').isBefore(moment(createdTime, 'HH:mm'))) {
                 throw new Error('วันที่นัดไม่ทันส่งวันนี้แล้ว');
             }
         }
@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
         const differenceInMilliseconds =  requestDateMilliseconds - currentDate;
         const twentyThreeDaysMilliseconds = 23 * 24 * 60 * 60 * 1000;
         if (differenceInMilliseconds > twentyThreeDaysMilliseconds) {
-            throw new Error('กรณีกรอกวันที่นัดเกิน 23 วันระบบจะทำงานได้ไม่เต็มที่ กรุณากรอกในภายหลัง');
+            throw new Error('ไม่สามารถกรอกวันที่นัดเกิน 23 วัน');
         }
         
         const protocol = req.protocol;

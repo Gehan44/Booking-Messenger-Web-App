@@ -278,11 +278,11 @@
       <h1 class="display-6 fw-bold text-body-emphasis"><%= VariantData.docNote %></h1>
     <% } else { %>
       <h1 class="display-6 fw-bold text-body-emphasis">หมายเหตุส่งพัสดุไม่สำเร็จ</h1>
-      <form action="/Mhome/edit/failed" method="POST" id="confirmForm">
+      <form action="/Mhome/edit/failed" method="POST" id="confirmFailed">
         <input class="form-control" type="hidden" name="updatedEditTerm" value="<%= updatedEditTerm %>">
         <input class="form-control" type="text" name="noteEditTerm" value="<%= noteEditTerm %>">
         <br>
-        <button class="btn btn-primary btn-danger px-4 gap-3" id="confirmButton">ยืนยัน</button>
+        <button class="btn btn-primary btn-danger px-4 gap-3" id="failedButton">ยืนยัน</button>
       </form>
     <% } %>
   <% } %>
@@ -290,8 +290,8 @@
   
     <script>
       document.addEventListener("DOMContentLoaded", function() {
-        var confirmForm = document.getElementById("confirmForm");
-        var confirmButton = document.getElementById("confirmButton");
+        var confirmForm = document.getElementById("confirmFailed");
+        var confirmButton = document.getElementById("failedButton");
         confirmButton.addEventListener("click", function(event) {
           event.preventDefault();
           var isConfirmed = confirm("คุณแน่ใจหรือไม่ว่าต้องการดำเนินการต่อ?");

@@ -16,8 +16,6 @@ module.exports = async (req, res) => {
         const updatedVariant = updatedVariantResult.recordset[0];
         const variantEmail = updatedVariant.dispEmail;
         await runDetect(updatedVariant,variantEmail);
-        
-        taskStart(updatedVariant);
         res.redirect('/mHome');
         
     } catch (error) {

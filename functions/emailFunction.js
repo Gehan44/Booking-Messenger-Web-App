@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-module.exports = async function emailRun(mailT,mailSend) {
+module.exports = async function emailRun(mailT) {
     let transporter = nodemailer.createTransport({
         host: 'smtp.taximail.com',
         port: 587,
@@ -83,24 +83,14 @@ module.exports = async function emailRun(mailT,mailSend) {
         <p style="font-size: 26px;">จึงเรียนมาเพื่อทราบ</p>
     `;
     }
-    
-    //salesupport@pinewealthsolution.com
-    let info;
-    if (mailSend === null) {
-        info = await transporter.sendMail({
-            from: 'Pine Wealth Solution Messenger no-reply@pinewealthsolution.com',
-            to: `gehan.dube@bumail.net`,
-            subject: `เลขที่ใบงาน ${mailT.docID}`,
-            html: emailBody
-        });
-    } else {
-        info = await transporter.sendMail({
-            from: 'Pine Wealth Solution Messenger no-reply@pinewealthsolution.com',
-            to: `${mailSend}`,
-            cc: `gehan.dube@bumail.net`,
-            subject: `เลขที่ใบงาน ${mailT.docID}`,
-            html: emailBody
-        });
-    }
-    console.log('Message sent: %s', info.messageId);
+
+    const mailSend = mailT.dispEmail
+    info = await transporter.sendMail({
+        from: 'Pine Wealth Solution Messenger no-reply@pinewealthsolution.com',
+        to: `${mailSend}`,
+        cc: `salesupport@pinewealthsolution.com`,
+        subject: `เลขที่ใบงาน ${mailT.docID}`,
+        html: emailBody
+    });
+    //console.log('Message sent: %s', info.messageId);
 }

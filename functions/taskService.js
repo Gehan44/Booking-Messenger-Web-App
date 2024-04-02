@@ -6,32 +6,22 @@ const scheduledJobs = {};
 function taskStart(createdTrack) {
     const ID = createdTrack.docID;
     let date = createdTrack.requestDate;
-    date.setUTCHours(18);
-    date.setUTCMinutes(30);
+    date.setUTCHours(19);
+    //date.setUTCMinutes();
     const targetDate = date;
-
-    const createdDateTime = createdTrack.createdDateTime
-
-    console.log(createdDateTime);
-    console.log(targetDate);
-    
-    const delay = targetDate.getTime() - createdDateTime.getTime();
-    console.log(delay);
-    
-    const sum = new Date(createdDateTime.getTime() + delay);
-    console.log(sum);    
-    
+    const createdDateTime = createdTrack.createdDateTime 
+    const delay = targetDate.getTime() - createdDateTime.getTime();   
 
     if (delay > 0) {
         scheduledJobs[ID] = setTimeout(async () => {
-            console.log(`Task executed at specific time for docID ${ID}`);
+            //console.log(`Task executed at specific time for docID ${ID}`);
             try {
                 await sql.connect(config);
                 const request = new sql.Request();
                 await request.query(`UPDATE tracks 
                     SET userNameSend = 
                     CASE WHEN userNameSend IS NULL THEN '' ELSE userNameSend END,
-                    status = 'Failed',docFnote = 'ส่งไม่ทันตามวันที่นัด' WHERE docID = '${ID}'`);
+                    status = 'Failed',docNote = 'พัสดุส่งไม่ทันตามวันที่นัด' WHERE docID = '${ID}'`);
                 const createdTrack = await request.query(`SELECT * FROM tracks WHERE docID = '${ID}'`);
                 mail = null;
                 await runDetect(createdTrack.recordset[0], mail);

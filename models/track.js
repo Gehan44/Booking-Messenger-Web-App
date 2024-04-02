@@ -77,7 +77,7 @@ module.exports = async function createTrack(userData,trackData,protocol,hostname
         const result = await request.query(`
             INSERT INTO tracks (
                 docID, docQR, userIDCreated, status, createdDateTime, requestDate,
-                docRound, docTime, docSendReturn, docType, docIs, docFnote,
+                docRound, docTime, docSendReturn, docType, docIs, docNote,
                 cusName, cusPlace, cusTel, dispName, dispTel, dispEmail, dispNote
             )
             VALUES (

@@ -373,12 +373,6 @@
                         </div>
                       </div>
 
-                      <script>
-                        function clearTimeInput() {
-                          document.querySelector('input[name="docTime"]').value = '';
-                        }
-                      </script>
-
                       <div class="col-md-3">
                         <label for="state" class="form-label">งานรับหรือส่ง <span class="text-danger">*</span></label>
                         <select class="form-select" id="state" name="docSendReturn" required>
@@ -495,16 +489,6 @@
   </main>
   <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script>
-    configt = {
-      disableMobile: "true",
-      minTime: "8:00",
-      maxTime: "19:00",
-      enableTime: true,
-      noCalendar: true,
-      dateFormat: "H:i",
-      time_24hr: true,
-      minuteIncrement: 30
-    },
       configd = {
         disableMobile: "true",
         allowInput: true,
@@ -518,7 +502,6 @@
           "firstDayOfWeek": 1
         }
       }
-    flatpickr("input[type=time-local]", configt);
     flatpickr("input[type=datetime-local]", configd);
   </script>
 
