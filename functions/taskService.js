@@ -18,9 +18,9 @@ function taskStart(createdTrack,date) {
 
     console.log(targetDate)
     console.log(dateNow)
-    console.log(delay)
-
     const delay = targetDate - dateNow;
+    console.log(delay)
+    
     if (delay > 0) {
         scheduledJobs[ID] = setTimeout(async () => {
             //console.log(`Task executed at specific time for docID ${ID}`);
