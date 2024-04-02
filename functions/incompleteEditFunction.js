@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
         const variantEmail = updatedVariant.dispEmail;
         await runDetect(updatedVariant,variantEmail);
         
-        taskStart(updatedVariant,updatedVariant.requestDate);
+        taskStart(updatedVariant);
         res.redirect('/mHome');
         
     } catch (error) {

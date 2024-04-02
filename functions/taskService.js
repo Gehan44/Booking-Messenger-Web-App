@@ -3,18 +3,24 @@ const config = require('../sqlConfig');
 const runDetect = require('./emailFunction');
 const scheduledJobs = {};
 
-function taskStart(createdTrack,date) {
+function taskStart(createdTrack) {
     const ID = createdTrack.docID;
+    let date = createdTrack.requestDate;
     date.setUTCHours(18);
     date.setUTCMinutes(30);
     const targetDate = date;
 
     const createdDateTime = createdTrack.createdDateTime
 
-    console.log(createdDateTime)
-    console.log(targetDate)
-    const delay = targetDate - createdDateTime;
-    console.log(delay)
+    console.log(createdDateTime);
+    console.log(targetDate);
+    
+    const delay = targetDate.getTime() - createdDateTime.getTime();
+    console.log(delay);
+    
+    const sum = new Date(createdDateTime.getTime() + delay);
+    console.log(sum);    
+    
 
     if (delay > 0) {
         scheduledJobs[ID] = setTimeout(async () => {
