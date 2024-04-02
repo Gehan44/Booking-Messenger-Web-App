@@ -1,7 +1,6 @@
 const sql = require('mssql');
 const config = require('../sqlConfig');
 const runDetect = require('./emailFunction');
-const moment = require('moment-timezone');
 const scheduledJobs = {};
 
 function taskStart(createdTrack,date) {
@@ -10,22 +9,16 @@ function taskStart(createdTrack,date) {
     date.setUTCMinutes(30);
     const targetDate = date;
 
-    //newCreatedDate
-    const created = moment().format('YYYY-MM-DD HH:mm')
-    const offset =  moment['tz'](moment(new Date()),'Asia/Bangkok').utcOffset() * 60000;
-    dateNow = new Date(new Date(created).getTime() + offset)
-
     const createdDateTime = createdTrack.createdDateTime
 
     console.log(createdDateTime)
     console.log(targetDate)
-    console.log(dateNow)
-    const delay = targetDate - dateNow;
+    const delay = targetDate - createdDateTime;
     console.log(delay)
 
     if (delay > 0) {
         scheduledJobs[ID] = setTimeout(async () => {
-            //console.log(`Task executed at specific time for docID ${ID}`);
+            console.log(`Task executed at specific time for docID ${ID}`);
             try {
                 await sql.connect(config);
                 const request = new sql.Request();
