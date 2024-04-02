@@ -12,8 +12,11 @@
   <link rel="icon" href="/image/logo.png" type="image/x-icon">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard/">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-
   <link href="/css/bootstrap.das.css" rel="stylesheet" crossorigin="anonymous">
+
+  <!--flatpickr-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -185,7 +188,6 @@
           <h1 class="display-5 fw-bold text-body-emphasis"><%=VariantData.messenger%> ได้รับงานไปเรียบร้อยแล้ว</h1>
         <% } else if (updatedEditTerm && updatedEditTerm === VariantData.docID) { %>
           <h1 class="display-5 fw-bold text-body-emphasis"><%= VariantData.docID %></h1>
-          <p class="lead my-3">วันที่สั่งงาน: <b><%= VariantData.createdDateTime.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></b></p>
           <p class="lead my-3">วันที่นัด: <b><%= VariantData.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></b></p>
           <p class="lead my-3"><b><%= VariantData.docSendReturn %></b></p>
           <p class="lead my-3"><b><%= VariantData.docRound %></b>
@@ -205,14 +207,15 @@
               case "Picked":
                 statusElement.style.color = "orange";
                 break;
+              case "Incomplete":
+                statusElement.style.color = "purple";
+                break;
               case "Done":
               case "Returned":
                 statusElement.style.color = "green";
                 break;
               case "Failed":
                 statusElement.style.color = "red";
-                break;
-              default:
                 break;
             }
           </script>
@@ -224,6 +227,7 @@
           <% } else { %>
             <form action="/Mhome/edit" method="POST">
               <input class="form-control" type="hidden" name="updatedEditTerm" value="<%= updatedEditTerm %>">
+              <br>
               <button class="btn btn-primary btn-lg px-4 gap-3">ยืนยัน</button>
             </form>
           <% } %>
@@ -241,27 +245,49 @@
       <a type="button" class="btn btn-outline-secondary btn-lg px-4" href="/logout">ออกจากระบบ</a>
     </div>
 
-    <div class="b-example-divider"></div>
-    <div class="px-4 pt-5 my-5 text-center">
-      <form>
-        <input class="form-control" type="hidden" name="updatedEditTerm" id="updatedEditTerm">
-      </form>
       <% if (updatedEditTerm && VariantData && updatedEditTerm===VariantData.docID) { %>
-        <% if (VariantData.status==="Done" || VariantData.status==="Returned" ) { %>
-          <h1 class="display-6 fw-bold text-body-emphasis">พัสดุส่งสำเร็จแล้ว</h1>
-        <% } else if (VariantData.status === "Failed") { %>
-          <h1 class="display-6 fw-bold text-body-emphasis"><%= VariantData.docFnote %></h1>
-        <% } else { %>
-          <h1 class="display-6 fw-bold text-body-emphasis">หมายเหตุส่งพัสดุไม่สำเร็จ</h1>
-          <form action="/Mhome/edit/failed" method="POST" id="confirmForm">
+        <% if (VariantData.status==="Picked" || VariantData.status==="Incomplete") { %>
+        <div class="b-example-divider"></div>
+        <div class="px-4 pt-5 my-5 text-center">
+          <h1 class="display-6 fw-bold text-body-emphasis">ขอเลื่อนวันที่นัด</h1>
+          <form action="/Mhome/edit/incomplete" method="POST" id="confirmForm">
             <input class="form-control" type="hidden" name="updatedEditTerm" value="<%= updatedEditTerm %>">
-            <input class="form-control" type="text" name="noteEditTerm" value="<%= noteEditTerm %>">
-            <button class="btn btn-primary btn-danger px-4 gap-3" id="confirmButton">ยืนยัน</button>
+            <div class="input-group">
+              <input type="datetime-local" class="form-control" name="noteEditTerm" value="<%= noteEditTerm %>" autocomplete="off" required>
+              <button type="button" class="btn btn-outline-secondary" onclick="clearDateInput()">ลบ</button>
+            </div>
+            <br>
+            <button class="btn btn-primary px-4 gap-3" style="background-color: orange; color: white; border-color: orange;">ยืนยัน</button>
           </form>
+        </div>
         <% } %>
       <% } %>
-    </div>
-    
+
+    <script>
+      function clearDateInput() {
+        document.querySelector('input[name="noteEditTerm"]').value = '';
+      }
+    </script>
+
+<div class="b-example-divider"></div>
+<div class="px-4 pt-5 my-5 text-center">
+  <% if (updatedEditTerm && VariantData && updatedEditTerm===VariantData.docID) { %>
+    <% if (VariantData.status==="Done" || VariantData.status==="Returned" ) { %>
+      <h1 class="display-6 fw-bold text-body-emphasis">พัสดุส่งสำเร็จแล้ว</h1>
+    <% } else if (VariantData.status === "Failed") { %>
+      <h1 class="display-6 fw-bold text-body-emphasis"><%= VariantData.docNote %></h1>
+    <% } else { %>
+      <h1 class="display-6 fw-bold text-body-emphasis">หมายเหตุส่งพัสดุไม่สำเร็จ</h1>
+      <form action="/Mhome/edit/failed" method="POST" id="confirmForm">
+        <input class="form-control" type="hidden" name="updatedEditTerm" value="<%= updatedEditTerm %>">
+        <input class="form-control" type="text" name="noteEditTerm" value="<%= noteEditTerm %>">
+        <br>
+        <button class="btn btn-primary btn-danger px-4 gap-3" id="confirmButton">ยืนยัน</button>
+      </form>
+    <% } %>
+  <% } %>
+</div>
+  
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         var confirmForm = document.getElementById("confirmForm");
@@ -278,4 +304,20 @@
     
   </main>
   <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script>
+      configd = {
+        disableMobile: "true",
+        allowInput: true,
+        minDate: "today",
+        disable: [
+          function (date) {
+            return (date.getDay() === 0 || date.getDay() === 6);
+          }
+        ],
+        locale: {
+          "firstDayOfWeek": 1
+        }
+      }
+    flatpickr("input[type=datetime-local]", configd);
+  </script>
 </html>

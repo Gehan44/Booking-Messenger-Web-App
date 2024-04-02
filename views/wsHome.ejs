@@ -357,21 +357,22 @@
                         statusCells.forEach(function(statusCell) {
                             var status = statusCell.innerHTML.trim();
                             switch(status) {
-                                case "Picked":
-                                    statusCell.style.color = "orange";
-                                    break;
-                                case "Done":
-                                    statusCell.style.color = "green";
-                                    break;
-                                case "Returned":
-                                    statusCell.style.color = "green";
-                                    break;
-                                case "Failed":
-                                    statusCell.style.color = "red";
-                                    break;
-                                default:
-                                    statusCell.style.color = "blue";
-                                    break;
+                              case "Created":
+                                statusCell.style.color = "blue";
+                                break;
+                              case "Picked":
+                                statusCell.style.color = "orange";
+                                break;
+                              case "Incomplete":
+                                statusCell.style.color = "purple";
+                                break;
+                              case "Done":
+                              case "Returned":
+                                statusCell.style.color = "green";
+                                break;
+                              case "Failed":
+                                statusCell.style.color = "red";
+                                break;
                             }
                         });
                         function submitForm(docID) {

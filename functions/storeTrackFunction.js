@@ -12,9 +12,7 @@ module.exports = async (req, res) => {
 
         //Prevent Sameday
         if (createdDate === requestDate) {
-            if (moment(docTime, 'HH:mm').isBefore(moment(createdTime, 'HH:mm'))) {
-                throw new Error('สดวกเวลานั้นช้ากว่าปัจจุบัน');
-            } else if (moment('13:30', 'HH:mm').isBefore(moment(createdTime, 'HH:mm'))) {
+            if (moment('14:00', 'HH:mm').isBefore(moment(createdTime, 'HH:mm'))) {
                 throw new Error('วันที่นัดไม่ทันส่งวันนี้แล้ว');
             }
         }
@@ -27,25 +25,15 @@ module.exports = async (req, res) => {
         if (differenceInMilliseconds > twentyThreeDaysMilliseconds) {
             throw new Error('กรณีกรอกวันที่นัดเกิน 23 วันระบบจะทำงานได้ไม่เต็มที่ กรุณากรอกในภายหลัง');
         }
-
-        //Prevent Round
-        if (docRound === "รอบเช้า") {
-            if (moment(docTime,'HH:mm').isAfter(moment('13:00','HH:mm'))) {
-                throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
-            }
-        } else if (docRound === "รอบบ่าย") {
-            if (moment(docTime,'HH:mm').isBefore(moment('13:00','HH:mm'))) {
-                throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
-            }
-        }
         
         const protocol = req.protocol;
         const hostname = req.headers.host;
         const { createdTrack, docQRCode } = await createTrack(userData,req.body,protocol,hostname);
-        taskStart(createdTrack,createdTrack.createdDateTime,createdTrack.requestDate);
+        taskStart(createdTrack,createdTrack.requestDate);
         res.render('print', { createdTrack, docQRCode });  
 
     } catch (error) {
+        console.error(error)
         req.flash('data', req.body);
         req.flash('validationErrors', error.message);
         return res.redirect('/form');

@@ -17,43 +17,33 @@ module.exports = async (req, res) => {
             return;
         }
 
-        let trueFilter = ""
-        if (searchFilter === 'createdDate') {
-            trueFilter = 'createdDateTime';
-        } else {
-            trueFilter = searchFilter
-        }
-
         await sql.connect(config);
         const request = new sql.Request();
         let query;
-        if (trueFilter === 'all') {
+        if (searchFilter === 'all') {
             query = `SELECT TOP 200 * FROM tracks`;
 
-        } else if (trueFilter === 'alldoneandreturned') {
+        } else if (searchFilter === 'alldoneandreturned') {
             query = `SELECT * FROM tracks WHERE status IN ('Done', 'Returned')`;
 
-        } else if (trueFilter === 'allfailed') {
+        } else if (searchFilter === 'allfailed') {
             query = `SELECT * FROM tracks WHERE status IN ('Failed')`;
 
-        } else if (trueFilter === 'docTime') {
-            query = `SELECT * FROM tracks WHERE CONVERT(TIME, ${trueFilter}) = CONVERT(TIME, '${searchTerm}')`;
-
-        } else if (trueFilter === 'createdDateTime' || trueFilter === 'requestDate') {
+        } else if (searchFilter === 'createdDateTime' || searchFilter === 'requestDate') {
             if (searchTerm.length > 10) {
                 const [startDateString, endDateString] = searchTerm.split(' to ');
                 const startDate = `${startDateString.trim()} 00:00:00.000`;
                 const endDate = `${endDateString.trim()} 23:59:59.000`;
-                query = `SELECT * FROM tracks WHERE ${trueFilter} BETWEEN '${startDate}' AND '${endDate}'`;
+                query = `SELECT * FROM tracks WHERE ${searchFilter} BETWEEN '${startDate}' AND '${endDate}'`;
             } else {
-                query = `SELECT * FROM tracks WHERE CONVERT(VARCHAR, ${trueFilter}, 120) LIKE '%${searchTerm}%'`;
+                query = `SELECT * FROM tracks WHERE CONVERT(VARCHAR, ${searchFilter}, 120) LIKE '%${searchTerm}%'`;
             }
         } else {
-            query = `SELECT * FROM tracks WHERE CONVERT(TEXT, ${trueFilter}) LIKE '%${searchTerm}%'`;
+            query = `SELECT * FROM tracks WHERE CONVERT(TEXT, ${searchFilter}) LIKE '%${searchTerm}%'`;
         }
 
-        if (trueFilter === 'createdDateTime' || trueFilter === 'requestDate') {
-            query += ` ORDER BY ${trueFilter} DESC`;
+        if (searchFilter === 'createdDateTime' || searchFilter === 'requestDate') {
+            query += ` ORDER BY ${searchFilter} DESC`;
         } else {
             query += ` ORDER BY docID DESC`;
         }

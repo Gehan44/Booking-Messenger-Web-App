@@ -71,13 +71,13 @@ module.exports = async function createTrack(userData,trackData,protocol,hostname
         }
         
         //docFnote
-        trackData.docFnote = ""
+        trackData.docNote = ""
         
         // Insert the new track
         const result = await request.query(`
             INSERT INTO tracks (
                 docID, docQR, userIDCreated, status, createdDateTime, requestDate,
-                docRound, docTime, docSendReturn, docType, docIs, docFnote,
+                docRound, docTime, docSendReturn, docType, docIs, docNote,
                 cusName, cusPlace, cusTel, dispName, dispTel, dispEmail, dispNote
             )
             VALUES (
@@ -86,7 +86,7 @@ module.exports = async function createTrack(userData,trackData,protocol,hostname
                 '${trackData.requestDate}', '${trackData.docRound}',
                  ${trackData.docTime ? `'${trackData.docTime}'` : 'NULL'}, 
                 '${trackData.docSendReturn}',
-                '${trackData.docType}', '${trackData.docIs}', '${trackData.docFnote}',
+                '${trackData.docType}', '${trackData.docIs}', '${trackData.docNote}',
                 '${trackData.cusName}', '${trackData.cusPlace}', '${trackData.cusTel}',
                 '${dispName}', '${trackData.dispTel}', '${dispEmail}',
                 '${trackData.dispNote}'

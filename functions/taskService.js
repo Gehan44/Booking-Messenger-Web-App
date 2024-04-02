@@ -1,13 +1,25 @@
 const sql = require('mssql');
 const config = require('../sqlConfig');
 const runDetect = require('./emailFunction');
+const moment = require('moment-timezone');
+moment.tz.setDefault('Asia/Bangkok');
 const scheduledJobs = {};
 
-function taskStart(createdTrack,dateNow,date) {
+function taskStart(createdTrack,date) {
     const ID = createdTrack.docID;
-    date.setUTCHours(17);
+    date.setUTCHours(18);
     date.setUTCMinutes(30);
     const targetDate = date;
+
+    //newCreatedDate
+    createdDateTime = moment().format('YYYY-MM-DD HH:mm')
+    const offset =  moment['tz'](moment(new Date()),'Asia/Bangkok').utcOffset() * 60000;
+    dateNow = new Date(new Date(createdDateTime).getTime() + offset)
+
+    console.log(targetDate)
+    console.log(dateNow)
+    console.log(delay)
+
     const delay = targetDate - dateNow;
     if (delay > 0) {
         scheduledJobs[ID] = setTimeout(async () => {

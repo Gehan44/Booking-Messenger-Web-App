@@ -27,6 +27,7 @@ const storeTrackFunction = require('./functions/storeTrackFunction.js')
 const sstoreTrackFunction = require('./functions/sstoreTrackFunction.js')
 const storeUserFunction = require('./functions/storeUserFunction.js')
 const editFunction = require('./functions/editFunction')
+const editIncompleteFunction = require('./functions/incompleteEditFunction.js')
 const editFailedFunction = require('./functions/failedEditFunction')
 const cusautofillFunction = require('./functions/cusautofillFunction.js')
 const dispautofillFunction = require('./functions/dispautofillFunction.js')
@@ -115,6 +116,7 @@ app.post('/sHome/details',saleMiddleware,detailsFunction)
 //Messenger
 app.get('/mHome',messMiddleware,mHomeController)
 app.post('/mHome/edit',messMiddleware,editFunction)
+app.post('/mHome/edit/incomplete',messMiddleware,editIncompleteFunction)
 app.post('/mHome/edit/failed',messMiddleware,editFailedFunction)
 
 //Register
