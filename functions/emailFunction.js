@@ -14,7 +14,7 @@ module.exports = async function emailRun(mailT) {
 
     function formatDate(time) {
         if (time) {
-            return time.toLocaleString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' });
+            return time
         } else {
             return '';
         }

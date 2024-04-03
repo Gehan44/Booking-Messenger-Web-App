@@ -14,7 +14,6 @@ module.exports = async (req, res) => {
         const result = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
 
         const variant = result.recordset[0];
-        const variantEmail = variant.dispEmail;
         const combinedNote = `${noteTerm}, แจ้งโดย ${Username}`;
 
         if (variant.userIDSend === null && variant.userNameSend === null) {
@@ -25,7 +24,7 @@ module.exports = async (req, res) => {
         const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
         const updatedVariant = updatedVariantResult.recordset[0];
         taskStop(editTerm)
-        await runDetect( updatedVariant,variantEmail);
+        await runDetect( updatedVariant);
 
         res.redirect('/mHome');
         

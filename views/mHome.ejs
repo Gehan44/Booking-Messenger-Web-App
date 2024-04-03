@@ -190,7 +190,7 @@
           <p class="lead my-3"><b><%= VariantData.docSendReturn %></b></p>
           <p class="lead my-3"><b><%= VariantData.docRound %></b>
             <% if (VariantData.docTime !== null) { %>
-              สะดวกเวลา <b><%= VariantData.docTime.toLocaleString('en-GB', {hour: '2-digit', minute: '2-digit', timeZone: 'UTC'}) %></b>
+              สะดวกเวลา <b><%= VariantData.docTime %></b>
           <% } %>
           </p>
           <p class="lead my-3">สถานะ: <b id="statusText"><%= VariantData.status %></b></p>

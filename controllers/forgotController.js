@@ -1,15 +1,27 @@
-module.exports = (req, res) => {
-    const UserData = req.session.user;
-    let searchTerm = ""
-    let data = req.flash('data')[0]
+const runDashboard = require('../functions/searchForgotFunction');
 
-    if (typeof data != "undefined") {
-      searchTerm = data.searchTerm
+module.exports = async (req, res) => {
+    const UserData = req.session.user;
+    let searchTerm = "";
+    let data = req.flash('data')[0];
+
+    if (typeof data !== "undefined") {
+        searchTerm = data.searchTerm;
     }
 
-    res.render('forgot', {
-      UserData,
-      searchTerm: searchTerm,
-      errors: req.flash('validationErrors')
-    });
-  };
+    try {
+        const allResults = await runDashboard(UserData);
+        const createdResults = allResults.filter(result => result.status === 'Created');
+        res.render('forgot', {
+            UserData,
+            allResults: createdResults,
+            searchTerm: searchTerm,
+            errors: req.flash('validationErrors')
+        });
+      
+    } catch (error) {
+        delete req.session.user;
+        req.flash('validationErrors', error.message);
+        return res.redirect('/');
+    }
+};
