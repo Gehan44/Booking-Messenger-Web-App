@@ -7,17 +7,18 @@ const MemoryStore = require('memorystore')(session)
 const flash = require('connect-flash')
 
 //Page Control
-const searchController = require('./controllers/searchController.js')
 const loginController = require('./controllers/loginController.js')
 const logoutController = require('./controllers/logoutController.js')
-const mHomeController = require('./controllers/mHomeController.js')
-const formController = require('./controllers/formController.js')
-const wsHomeController = require('./controllers/wsHomeController.js')
 const registerController = require('./controllers/registerController.js')
-const sHomeController = require('./controllers/sHomeController.js')
-const sformController = require('./controllers/sformController.js')
-const ssearchController = require('./controllers/ssearchController.js')
+const wsHomeController = require('./controllers/wsHomeController.js')
+const manageController = require('./controllers/manageController.js')
+const searchController = require('./controllers/searchController.js')
+const formController = require('./controllers/formController.js')
 const forgotController = require('./controllers/forgotController.js')
+const sHomeController = require('./controllers/sHomeController.js')
+const ssearchController = require('./controllers/ssearchController.js')
+const sformController = require('./controllers/sformController.js')
+const mHomeController = require('./controllers/mHomeController.js')
 
 //Function
 const loginUserFunction = require('./functions/loginUserFunction.js')
@@ -34,6 +35,7 @@ const dispautofillFunction = require('./functions/dispautofillFunction.js')
 const salecusautofillFunction = require('./functions/scusautofillFunction.js')
 const forgotFunction = require('./functions/forgotFunction.js')
 const detailsFunction = require('./functions/detailsFunction.js')
+const manageFunction = require('./functions/editwsFunction.js')
 
 //Middleware
 const redirectIfAuth = require('./middleware/redirectifAuth')
@@ -94,24 +96,25 @@ app.get('/logout',logoutController)
 
 //Wealth Support
 app.get('/wsHome',wealthsMiddleware,wsHomeController)
+app.get('/manage',wealthsMiddleware,manageController)
+app.post('/manage/action',wealthsMiddleware,manageFunction)
 app.get('/search',wealthsMiddleware,searchController)
-app.get('/form',wealthsMiddleware,formController)
-app.get('/forgot',wealthsMiddleware,forgotController)
-app.post('/search/print',wealthsMiddleware,forgotFunction)
 app.post('/search/run',wealthsMiddleware,searchwsFunction)
-app.post('/track/form',wealthsMiddleware,storeTrackFunction)
+app.get('/form',wealthsMiddleware,formController)
 app.post('/form/cus/autofill',wealthsMiddleware,cusautofillFunction)
 app.post('/form/disp/autofill',wealthsMiddleware,dispautofillFunction)
-app.post('/wsHome/details',wealthsMiddleware,detailsFunction)
+app.post('/form/store',wealthsMiddleware,storeTrackFunction)
+app.get('/forgot',wealthsMiddleware,forgotController)
+app.post('/search/print',wealthsMiddleware,forgotFunction)
 
 //Sale
 app.get('/sHome',saleMiddleware,sHomeController)
-app.get('/ssearch',saleMiddleware,ssearchController)
-app.get('/sform',saleMiddleware,sformController)
-app.post('/search/srun',saleMiddleware,searchsFunction)
-app.post('/track/sform',saleMiddleware,sstoreTrackFunction)
-app.post('/form/sale/cus/autofill',saleMiddleware,salecusautofillFunction)
 app.post('/sHome/details',saleMiddleware,detailsFunction)
+app.get('/ssearch',saleMiddleware,ssearchController)
+app.post('/ssearch/run',saleMiddleware,searchsFunction)
+app.get('/sform',saleMiddleware,sformController)
+app.post('/form/sale/cus/autofill',saleMiddleware,salecusautofillFunction)
+app.post('/sform/store',saleMiddleware,sstoreTrackFunction)
 
 //Messenger
 app.get('/mHome',messMiddleware,mHomeController)
@@ -120,8 +123,12 @@ app.post('/mHome/edit/incomplete',messMiddleware,editIncompleteFunction)
 app.post('/mHome/edit/failed',messMiddleware,editFailedFunction)
 
 //Register
-//app.get('/register',registerController)
-//app.post('/user/register',storeUserFunction)
+app.get('/register',registerController)
+app.post('/user/register',storeUserFunction)
+
+//Admin
+const testerController = require('./controllers/testerController.js')
+app.get('/han/test',testerController)
 
 //Simulator Server
 //const http = require('http');

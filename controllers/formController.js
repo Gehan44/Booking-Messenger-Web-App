@@ -6,6 +6,7 @@ module.exports = (req, res) => {
     let docSendReturn = ""
     let docType = ""
     let docIs = ""
+    let messenger = ""
     let cusName = ""
     let cusPlace = ""
     let cusTel = ""
@@ -22,6 +23,7 @@ module.exports = (req, res) => {
         docSendReturn = data.docSendReturn
         docType = data.docType
         docIs = data.docIs
+        messenger = data.messenger
         cusName = data.cusName
         cusPlace = data.cusPlace
         cusTel = data.cusTel
@@ -38,6 +40,7 @@ module.exports = (req, res) => {
         docSendReturn: docSendReturn,
         docType: docType,
         docIs: docIs,
+        messenger: messenger,
         cusName: cusName,
         cusPlace: cusPlace,
         cusTel: cusTel,

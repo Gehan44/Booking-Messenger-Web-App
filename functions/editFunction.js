@@ -38,7 +38,6 @@ module.exports = async (req, res) => {
       taskStop(editTerm)
       await runDetect(updatedVariant,variantEmail);
     }
-
     res.redirect('/mHome');
 
   } catch (error) {

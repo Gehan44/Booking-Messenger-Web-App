@@ -1,10 +1,15 @@
-const runDashboard = require('../functions/searchAllFunction');
+const runDashboard = require('../functions/searchLimitFunction');
 
 module.exports = async (req, res) => {
   const UserData = req.session.user;
     try {
       const allResults = await runDashboard(UserData);
-      res.render('wsHome', { UserData,allResults });
+
+      const createdResults = allResults.filter(result => result.status !== 'Done' && result.status !== 'Returned' && result.status !== 'Failed');
+      res.render('wsHome', {
+        UserData,
+        allResult: createdResults,
+        allResults });
       
     } catch (error) {
       delete req.session.user;

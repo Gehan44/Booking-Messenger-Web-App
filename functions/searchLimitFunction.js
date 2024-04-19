@@ -5,7 +5,7 @@ module.exports = async function runDashboard(UserData) {
   try {
     const pool = await sql.connect(sqlConfig);
     let query = `
-      SELECT *
+      SELECT TOP 30 *
       FROM tracks
       WHERE 1=1
     `;

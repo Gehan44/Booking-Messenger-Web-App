@@ -10,12 +10,11 @@ function taskStart(createdTrack) {
     //date.setUTCMinutes();
     const targetDate = date;
     const createdDateTime = createdTrack.createdDateTime 
-    const delay = targetDate.getTime() - createdDateTime.getTime();   
+    const delay = targetDate.getTime() - createdDateTime.getTime();
 
     if (delay > 0) {
         scheduledJobs[ID] = setTimeout(async () => {
             //console.log(`Task executed at specific time for docID ${ID}`);
-            taskStop(ID)
             try {
                 await sql.connect(config);
                 const request = new sql.Request();
@@ -25,6 +24,7 @@ function taskStart(createdTrack) {
                     status = 'Failed',docNote = 'พัสดุส่งไม่ทันตามวันที่นัด' WHERE docID = '${ID}'`);
                 const createdTrack = await request.query(`SELECT * FROM tracks WHERE docID = '${ID}'`);
                 await runDetect(createdTrack.recordset[0]);
+                taskStop(ID)
             } catch (error) {
                 console.error("Error occurred while executing the task:", error);
             }
@@ -45,4 +45,4 @@ function taskStop(ID) {
     }
 }
 
-module.exports = { taskStart, taskStop };
+module.exports = { taskStart, taskStop, scheduledJobs };

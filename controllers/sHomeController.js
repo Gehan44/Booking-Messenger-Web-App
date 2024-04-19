@@ -1,4 +1,4 @@
-const runDashboard = require('../functions/searchAllFunction');
+const runDashboard = require('../functions/searchLimitFunction');
 
 module.exports = async (req, res) => {
   const UserData = req.session.user;

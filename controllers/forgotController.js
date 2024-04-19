@@ -1,4 +1,4 @@
-const runDashboard = require('../functions/searchForgotFunction');
+const runDashboard = require('../functions/searchAllFunction');
 
 module.exports = async (req, res) => {
     const UserData = req.session.user;

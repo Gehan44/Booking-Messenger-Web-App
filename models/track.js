@@ -51,10 +51,6 @@ module.exports = async function createTrack(userData,trackData,protocol,hostname
             }
         }
 
-        //QRCode
-        const docQR = `${protocol}://${hostname}/mHome?updatedEditTerm=${docID}`;
-        const docQRCode = qr.imageSync(docQR, { type: 'png', size: 4 });
-
         //CreatedDate
         createdDateTime = moment().format('YYYY-MM-DD HH:mm')
 
@@ -72,21 +68,41 @@ module.exports = async function createTrack(userData,trackData,protocol,hostname
         
         //docNote
         trackData.docNote = ""
+
+        //QRCode
+        let docQR = ""
+        let docQRCode = ""
+
+        //messenger
+        let messenger = trackData.messenger 
+        let messengerID = ""
+
+        if (messenger === "WS") {
+            messengerID = userData.userID
+        } else if (messenger === "Outsource") {            
+        } else {
+            docQR = `${protocol}://${hostname}/mHome?updatedEditTerm=${docID}`;
+            docQRCode = qr.imageSync(docQR, { type: 'png', size: 4 }); 
+        }
         
         // Insert the new track
         const result = await request.query(`
             INSERT INTO tracks (
                 docID, docQR, userIDCreated, status, createdDateTime, requestDate,
-                docRound, docTime, docSendReturn, docType, docIs, docNote,
+                docRound, docTime, docSendReturn, docType, docIs, docNote, userIDSend, userNameSend,
                 cusName, cusPlace, cusTel, dispName, dispTel, dispEmail, dispNote
             )
             VALUES (
-                '${docID}', '${docQR}', ${userData.userID},
+                '${docID}',
+                ${docQR ? `'${docQR}'` : 'NULL'}, 
+                '${userData.userID}',
                 '${"Created"}', '${createdDateTime}',
                 '${trackData.requestDate}', '${trackData.docRound}',
-                 ${trackData.docTime ? `'${trackData.docTime}'` : 'NULL'}, 
+                ${trackData.docTime ? `'${trackData.docTime}'` : 'NULL'}, 
                 '${trackData.docSendReturn}',
                 '${trackData.docType}', '${trackData.docIs}', '${trackData.docNote}',
+                ${messengerID ? `'${messengerID}'` : 'NULL'}, 
+                ${messenger ? `'${messenger}'` : 'NULL'}, 
                 '${trackData.cusName}', '${trackData.cusPlace}', '${trackData.cusTel}',
                 '${dispName}', '${trackData.dispTel}', '${dispEmail}',
                 '${trackData.dispNote}'
@@ -104,6 +120,7 @@ module.exports = async function createTrack(userData,trackData,protocol,hostname
         return { createdTrack: createdTrack.recordset[0], docQRCode };
 
     } catch (error) {
+        console.error(error)
         return res.redirect('/')
     }
 }

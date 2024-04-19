@@ -5,7 +5,7 @@ moment.tz.setDefault('Asia/Bangkok');
 
 module.exports = async (req, res) => {
     const userData = req.session.user;
-    const { requestDate, docRound, docTime, docSendReturn, docType, docIs, docFnote, cusName, cusPlace, cusTel, dispName, dispTel, dispEmail, dispNote } = req.body;
+    const { requestDate, docRound, docTime, docSendReturn, docType, docIs, messenger, cusName, cusPlace, cusTel, dispName, dispTel, dispEmail, dispNote } = req.body;
     try {
         const createdDate = moment().format('YYYY-MM-DD');
         const createdTime = moment().format('HH:mm');

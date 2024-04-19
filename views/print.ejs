@@ -87,7 +87,11 @@
 
         <div class="w3-container">
           <div class="w3-container">
-            <img src="data:image/png;base64, <%= docQRCode.toString('base64') %>" alt="QR Code" />
+            <% if (docQRCode) { %>
+              <img src="data:image/png;base64, <%= docQRCode.toString('base64') %>" alt="QR Code" />
+          <% } else { %>
+              <img class="d-block mx-auto mb-4" src="/image/logol.png" alt="" width="180" height="170">
+          <% } %>          
           </div>
           <div class="w3-container">
 

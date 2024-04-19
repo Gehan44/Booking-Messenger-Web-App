@@ -25,8 +25,13 @@ module.exports = async function runDetect(req,res) {
     }
 
     const docQR = createdTrack.docQR
-    const docQRCode = qr.imageSync(docQR, { type: 'png', size: 4 });
-    res.render('print', { createdTrack, docQRCode });
+    if (docQR) {
+      const docQRCode = qr.imageSync(docQR, { type: 'png', size: 4 });
+      res.render('print', { createdTrack, docQRCode });
+    } else {
+      const docQRCode = null
+      res.render('print', { createdTrack, docQRCode });
+    }
 
   } catch (error) {
     req.flash('data', req.body);
