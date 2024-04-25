@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
         variantStatus = "Returned";
       }
 
-      await request.query(`UPDATE tracks SET status = '${variantStatus}' WHERE docID = '${editTerm}'`);
+      await request.query(`UPDATE tracks SET status = '${variantStatus}', userIDSend = '${UserID}', userNameSend = '${Username}' WHERE docID = '${editTerm}'`);
       const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
       const updatedVariant = updatedVariantResult.recordset[0];
       taskStop(editTerm)
