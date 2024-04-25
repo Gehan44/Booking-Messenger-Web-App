@@ -19,7 +19,6 @@ module.exports = async (req, res) => {
 
     if (variantStatus === "Created" || variantStatus === "Incomplete") {
       const variantSendReturn = variant.docSendReturn;
-      const variantEmail = variant.dispEmail;
 
       if (variantSendReturn === "ส่ง") {
         variantStatus = "Done";
@@ -31,10 +30,11 @@ module.exports = async (req, res) => {
       await request.query(`UPDATE tracks SET status = '${variantStatus}', userIDSend = '${UserID}', userNameSend = '${Username}' WHERE docID = '${editTerm}'`);
       const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
       const updatedVariant = updatedVariantResult.recordset[0];
+      
       taskStop(editTerm)
-      //await runDetect(updatedVariant,variantEmail);
-      res.render('sign', { editTerm });
-      redirectTriggered = true;
+      await runDetect(updatedVariant);
+      //res.render('sign', { editTerm });
+      //redirectTriggered = true;
     }
 
     if (!redirectTriggered) {

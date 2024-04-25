@@ -9,13 +9,12 @@ module.exports = async (req, res) => {
         const request = new sql.Request();
         const editTerm = req.body.updatedEditTerm;
         const dateTerm = req.body.noteEditTerm;
-        taskStop(editTerm)
-
         await request.query(`UPDATE tracks SET status = 'Incomplete', requestDate = '${dateTerm}' WHERE docID = '${editTerm}'`);
         const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
         const updatedVariant = updatedVariantResult.recordset[0];
-        const variantEmail = updatedVariant.dispEmail;
-        await runDetect(updatedVariant,variantEmail);
+
+        taskStop(editTerm)        
+        await runDetect(updatedVariant);
         res.redirect('/mHome');
         
     } catch (error) {

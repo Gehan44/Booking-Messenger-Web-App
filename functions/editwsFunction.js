@@ -13,11 +13,9 @@ module.exports = async (req, res) => {
     const button = req.body.clickedButton;
     const combinedNote = `${noteTerm}, แจ้งโดย ${Username}`;
     const result = await request.query(`SELECT * FROM tracks WHERE docID = '${searchTerm}'`);
-
     const variant = result.recordset[0];
     let variantStatus = variant.status;
     const variantSendReturn = variant.docSendReturn;
-    const variantEmail = variant.dispEmail;
 
     if (button === "success") {
       if (variantSendReturn === "ส่ง") {
@@ -30,11 +28,11 @@ module.exports = async (req, res) => {
     } else if (button === "failure") {
       await request.query(`UPDATE tracks SET status = 'Failed', docNote = '${combinedNote}' WHERE docID = '${searchTerm}'`);
     }
-
     const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${searchTerm}'`);
     const updatedVariant = updatedVariantResult.recordset[0];
+
     taskStop(searchTerm)
-    await runDetect(updatedVariant,variantEmail);
+    await runDetect(updatedVariant);
     res.redirect('/manage');
 
   } catch (error) {
