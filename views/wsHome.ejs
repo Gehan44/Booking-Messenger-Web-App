@@ -388,11 +388,8 @@
                               case "Created":
                                 statusCell.style.color = "blue";
                                 break;
-                              case "Picked":
-                                statusCell.style.color = "orange";
-                                break;
                               case "Incomplete":
-                                statusCell.style.color = "purple";
+                                statusCell.style.color = "orange";
                                 break;
                               case "Done":
                               case "Returned":
@@ -416,11 +413,11 @@
                       <% if (result.docTime !== null) { %>
                         <%= result.docTime %>
                       <% } %>
-                    </td>    
+                    </td>
                     <td><%= result.docSendReturn %></td>
                     <td><%= result.docType %></td>
                     <td><%= result.cusName %></td>
-                    <td><%= result.dispName %></td>      
+                    <td><%= result.dispName %></td>
                   </tr>
                 <% }); %>
               <% } else { %>

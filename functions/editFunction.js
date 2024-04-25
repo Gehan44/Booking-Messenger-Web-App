@@ -4,6 +4,7 @@ const runDetect = require('./emailFunction');
 const { taskStop } = require('./taskService');
 
 module.exports = async (req, res) => {
+  let redirectTriggered = false;
   try {
     await sql.connect(config);
     const request = new sql.Request();
@@ -16,12 +17,7 @@ module.exports = async (req, res) => {
     let variantStatus = variant.status;
     const variantOwner = variant.userIDSend;
 
-    if (variantStatus === "Created") {
-      variantStatus = "Picked";
-      await request.query(`UPDATE tracks SET status = '${variantStatus}', userIDSend = '${UserID}', userNameSend = '${Username}' WHERE docID = '${editTerm}'`);
-
-    } else if (variantStatus === "Picked" || variantStatus === "Incomplete") {
-      await request.query(`UPDATE tracks SET status = '${variantStatus}', userIDSend = '${UserID}', userNameSend = '${Username}' WHERE docID = '${editTerm}'`);
+    if (variantStatus === "Created" || variantStatus === "Incomplete") {
       const variantSendReturn = variant.docSendReturn;
       const variantEmail = variant.dispEmail;
 
@@ -36,9 +32,14 @@ module.exports = async (req, res) => {
       const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
       const updatedVariant = updatedVariantResult.recordset[0];
       taskStop(editTerm)
-      await runDetect(updatedVariant,variantEmail);
+      //await runDetect(updatedVariant,variantEmail);
+      res.render('sign', { editTerm });
+      redirectTriggered = true;
     }
-    res.redirect('/mHome');
+
+    if (!redirectTriggered) {
+      res.redirect('/mHome');
+    }
 
   } catch (error) {
     console.error("Error:", error);

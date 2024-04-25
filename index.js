@@ -19,6 +19,7 @@ const sHomeController = require('./controllers/sHomeController.js')
 const ssearchController = require('./controllers/ssearchController.js')
 const sformController = require('./controllers/sformController.js')
 const mHomeController = require('./controllers/mHomeController.js')
+const mSummaryController = require('./controllers/mSummaryController.js')
 
 //Function
 const loginUserFunction = require('./functions/loginUserFunction.js')
@@ -36,6 +37,7 @@ const salecusautofillFunction = require('./functions/scusautofillFunction.js')
 const forgotFunction = require('./functions/forgotFunction.js')
 const detailsFunction = require('./functions/detailsFunction.js')
 const manageFunction = require('./functions/editwsFunction.js')
+const storeSignFunction = require('./functions/storeSignFunction.js')
 
 //Middleware
 const redirectIfAuth = require('./middleware/redirectifAuth')
@@ -118,7 +120,9 @@ app.post('/sform/store',saleMiddleware,sstoreTrackFunction)
 
 //Messenger
 app.get('/mHome',messMiddleware,mHomeController)
+app.get('/mHome/summary',messMiddleware,mSummaryController)
 app.post('/mHome/edit',messMiddleware,editFunction)
+app.post('/sign/store',messMiddleware,storeSignFunction)
 app.post('/mHome/edit/incomplete',messMiddleware,editIncompleteFunction)
 app.post('/mHome/edit/failed',messMiddleware,editFailedFunction)
 
@@ -130,13 +134,6 @@ app.post('/user/register',storeUserFunction)
 const testerController = require('./controllers/testerController.js')
 app.get('/han/test',testerController)
 
-//Simulator Server
-//const http = require('http');
-//const hostname = 'wealth-han-tracker';
-//const hostname = '192.168.105.54';
-//app.listen(port, () => {
-//        console.log(`Server running at http://${hostname}:${port}`)
-//});
 
 let port = process.env.PORT || 3000;
 module.exports = { port };
@@ -144,6 +141,13 @@ module.exports = { port };
 app.listen(port,() => {
     console.log(`Server running at http://${port}`)
 })
+
+//Simulator Server
+//const http = require('http');
+//const hostname = '192.168.105.54';
+//app.listen(port, () => {
+//        console.log(`Server running at http://${hostname}:${port}`)
+//});
 
 process.on('warning', (warning) => {
     //console.log(warning.stack);
