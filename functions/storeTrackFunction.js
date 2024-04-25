@@ -5,7 +5,7 @@ moment.tz.setDefault('Asia/Bangkok');
 
 module.exports = async (req, res) => {
     const userData = req.session.user;
-    const { requestDate, docRound, docTime, docSendReturn, docType, docIs, messenger, cusName, cusPlace, cusTel, dispName, dispTel, dispEmail, dispNote } = req.body;
+    const { requestDate } = req.body;
     try {
         const createdDate = moment().format('YYYY-MM-DD');
         const createdTime = moment().format('HH:mm');
@@ -36,6 +36,10 @@ module.exports = async (req, res) => {
         console.error(error)
         req.flash('data', req.body);
         req.flash('validationErrors', error.message);
-        return res.redirect('/form');
+        if (userData.role === "Wealth Support") {
+            return res.redirect('/form');
+        } else if (userData.role === "Sale") {
+            return res.redirect('/sform');
+        }
     }
 };
