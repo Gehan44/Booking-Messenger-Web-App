@@ -13,6 +13,7 @@
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard/">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
   <link href="/css/bootstrap.das.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/style.css">
 
   <!--flatpickr-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -238,6 +239,14 @@
           <a type="button" class="w-30 btn btn-primary btn-lg" href="/mHome">ออก</a>
         <% } else { %>
           <h1 class="display-5 fw-bold text-body-emphasis">กำลังรอ QR Code .....</h1>
+          <div class="container">
+            <div class="section">
+                <div id="my-qr-reader">
+                </div>
+            </div>
+        </div>
+        <script src="https://unpkg.com/html5-qrcode"></script>
+        <script src="/js/script.js"></script>
         <% } %>
       </div>
     </div>

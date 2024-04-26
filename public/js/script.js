@@ -10,10 +10,9 @@ function domReady(fn) {
 }
  
 domReady(function () {
- 
-    // If found you qr code
     function onScanSuccess(decodeText, decodeResult) {
-        alert("You Qr is : " + decodeText, decodeResult);
+        let url = decodeText;
+        window.location.href = url;
     }
  
     let htmlscanner = new Html5QrcodeScanner(
