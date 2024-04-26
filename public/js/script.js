@@ -14,14 +14,15 @@ domReady(function () {
         const isURL = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i.test(decodeText);
         if (!isURL) {
             alert("This is not link");
+            return
         }
         let url = decodeText;
         const protocol = window.location.protocol;
         const hostname = window.location.hostname;
-        if (url.startsWith(protocol + "://" + hostname)) {
+        if (url.startsWith(protocol + "//" + hostname)) {
             window.location.href = url;
         } else {
-            alert("Failed");
+            alert(protocol + "//" + hostname);
         }
     }
  
