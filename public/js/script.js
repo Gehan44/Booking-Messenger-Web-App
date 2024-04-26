@@ -22,7 +22,7 @@ domReady(function () {
         if (url.startsWith(protocol + "//" + hostname)) {
             window.location.href = url;
         } else {
-            alert(protocol + "//" + hostname);
+            alert(url);
         }
     }
  
