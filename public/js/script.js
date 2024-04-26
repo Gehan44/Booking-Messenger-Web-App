@@ -11,8 +11,16 @@ function domReady(fn) {
  
 domReady(function () {
     function onScanSuccess(decodeText, decodeResult) {
+        const isURL = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i.test(decodeText);
+        if (!isURL) {
+            return;
+        }
         let url = decodeText;
-        window.location.href = url;
+        const protocol = window.location.protocol;
+        const hostname = window.location.hostname;
+        if (url.startsWith(protocol + "//" + hostname)) {
+            window.location.href = url;
+        }
     }
  
     let htmlscanner = new Html5QrcodeScanner(
