@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
         const updatedVariant = updatedVariantResult.recordset[0];
 
         taskStop(editTerm)        
-        await runDetect(updatedVariant);
+        //await runDetect(updatedVariant);
         res.redirect('/mHome');
         
     } catch (error) {

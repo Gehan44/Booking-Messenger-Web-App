@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
     const updatedVariant = updatedVariantResult.recordset[0];
 
     taskStop(searchTerm)
-    await runDetect(updatedVariant);
+    //await runDetect(updatedVariant);
     res.redirect('/manage');
 
   } catch (error) {
