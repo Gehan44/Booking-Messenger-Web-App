@@ -13,7 +13,7 @@ function padWithZeroM(number) {
     return String(number).padStart(2, '0');
 }
 
-module.exports = async function createTrack(userData,trackData,protocol,hostname) {
+module.exports = async function createTrack(userData,trackData,hostname) {
     try {
         const currentDate = new Date();
         const year = currentDate.getFullYear().toString().slice(-2);
@@ -81,7 +81,7 @@ module.exports = async function createTrack(userData,trackData,protocol,hostname
             messengerID = userData.userID
         } else if (messenger === "Outsource") {            
         } else {
-            docQR = `${protocol}://${hostname}/mHome?updatedEditTerm=${docID}`;
+            docQR = `https://${hostname}/mHome?updatedEditTerm=${docID}`;
             docQRCode = qr.imageSync(docQR, { type: 'png', size: 4 }); 
         }
         

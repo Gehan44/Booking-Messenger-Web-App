@@ -26,9 +26,8 @@ module.exports = async (req, res) => {
             throw new Error('ไม่สามารถกรอกวันที่นัดเกิน 23 วัน');
         }
         
-        const protocol = req.protocol;
         const hostname = req.headers.host;
-        const { createdTrack, docQRCode } = await createTrack(userData,req.body,protocol,hostname);
+        const { createdTrack, docQRCode } = await createTrack(userData,req.body,hostname);
         taskStart(createdTrack);
         res.render('print', { createdTrack, docQRCode });  
 
