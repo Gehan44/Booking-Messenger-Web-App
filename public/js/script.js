@@ -10,6 +10,7 @@ function domReady(fn) {
 }
  
 domReady(function () {
+    let isRedirecting = false;
     function onScanSuccess(decodeText, decodeResult) {
         const isURL = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i.test(decodeText);
         if (!isURL) {
@@ -20,7 +21,10 @@ domReady(function () {
         const protocol = window.location.protocol;
         const hostname = window.location.hostname;
         if (url.startsWith(protocol + "//" + hostname)) {
-            window.location.href = url;
+            if (!isRedirecting) {
+                isRedirecting = true;
+                window.location.href = url;
+            }
         } else {
             alert(url);
         }
