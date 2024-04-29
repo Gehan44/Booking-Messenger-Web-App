@@ -11,8 +11,6 @@
   <link rel="icon" href="/image/logo.png" type="image/x-icon">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
 
-
-
   <!-- Bootstrap core CSS -->
   <link href="/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
@@ -77,13 +75,19 @@
       </div>
 
       <div class="form-floating">
-        <input type="role" name="role" value="<%= role %>" class="form-control" id="floatingInput"
-          placeholder="Role">
+        <select class="form-select" id="state" name="role" required>
+          <option value=""></option>
+          <option value="Wealth Support" <%= role === 'Wealth Support' ? 'selected' : '' %>>Wealth Support</option>
+          <option value="Sale" <%= role === 'Sale' ? 'selected' : '' %>>Sale</option>
+          <option value="Messenger" <%= role === 'Messenger' ? 'selected' : '' %>>Messenger</option>
+        </select>
         <label for="floatingInput">Role</label>
       </div>
-
+      <br>
       <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
     </form>
+    <br>
+    <a type="button" class="w-100 btn btn-lg btn-primary" href="/logout">ออกจากระบบ</a>
   </main>
 </body>
 </html>

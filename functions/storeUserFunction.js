@@ -4,8 +4,7 @@ module.exports = async (req, res) => {
     const { email, password, name, role } = req.body;
     try {
         await createUser(req.body);
-        console.log("User registered successfully!");
-        return res.redirect('/');
+        return res.redirect('/register');
         
     } catch (error) {
         req.flash('data', req.body);

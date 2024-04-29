@@ -20,6 +20,7 @@ const ssearchController = require('./controllers/ssearchController.js')
 const sformController = require('./controllers/sformController.js')
 const mHomeController = require('./controllers/mHomeController.js')
 const mSummaryController = require('./controllers/mSummaryController.js')
+const testerController = require('./controllers/testerController.js')
 
 //Function
 const loginUserFunction = require('./functions/loginUserFunction.js')
@@ -43,6 +44,7 @@ const redirectIfAuth = require('./middleware/redirectifAuth')
 const wealthsMiddleware = require('./middleware/wealthsMiddleware.js')
 const messMiddleware = require('./middleware/messMiddleware.js')
 const saleMiddleware = require('./middleware/saleMiddleware.js')
+const adminMiddleware = require('./middleware/adminMiddleware.js')
 
 app.use(cors());
 app.use(express.static('public'))
@@ -125,14 +127,10 @@ app.post('/sign/store',messMiddleware,storeSignFunction)
 app.post('/mHome/edit/incomplete',messMiddleware,editIncompleteFunction)
 app.post('/mHome/edit/failed',messMiddleware,editFailedFunction)
 
-//Register
-app.get('/register',registerController)
-app.post('/user/register',storeUserFunction)
-
 //Admin
-const testerController = require('./controllers/testerController.js')
-app.get('/han/test',testerController)
-
+app.get('/register',adminMiddleware,registerController)
+app.post('/user/register',adminMiddleware,storeUserFunction)
+app.get('/han/test',adminMiddleware,testerController)
 
 let port = process.env.PORT || 3000;
 module.exports = { port };

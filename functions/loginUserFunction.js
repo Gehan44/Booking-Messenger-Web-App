@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const sql = require('mssql');
 const sqlConfig = require('../sqlConfig.js');
+require('dotenv').config();
 
 module.exports = async function loginUser(req, res) {
     const { email, password } = req.body;
@@ -12,7 +13,15 @@ module.exports = async function loginUser(req, res) {
         if (user) {
             const match = await bcrypt.compare(password, user.password);
             if (match) {
-                if (user.role === 'Messenger') {
+                if (user.email === process.env.EMAIL_REGISTER) {
+                    req.session.user = {
+                        userID: user.userID,
+                        email: user.email,
+                        name: user.name,
+                        role: "Admin"
+                    };
+                    return res.redirect('/register');
+                } else if (user.role === 'Messenger') {
                     req.session.user = {
                         userID: user.userID,
                         email: user.email,
