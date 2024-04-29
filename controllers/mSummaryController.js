@@ -7,7 +7,8 @@ module.exports = async (req, res) => {
   const UserData = req.session.user;
     try {
       const createdResults = await runDashboard(UserData);
-      const allResults = createdResults.filter(result => moment(result.requestDate).format('YYYY-MM-DD') === nowDateTime && result.status === 'Created');
+      const allResults = createdResults.filter(result => moment(result.requestDate).format('YYYY-MM-DD') === nowDateTime 
+      && (result.status === 'Created' || result.status === 'Incomplete'));
       res.render('mSummary', {
         UserData,
         allResults });
