@@ -417,69 +417,75 @@
           <hr class="my-4">
         </div>
 
-    <div class="table-responsive small">
-      <table id="myTable" class="table table-sm">
-        <thead>
-          <tr>
-            <th scope="col">เลขที่เอกสาร</th>
-            <th scope="col">สถานะ</th>
-            <th scope="col">ผู้ส่งงาน</th>
-            <th scope="col">เนื่องจาก</th>
-
-            <th scope="col">วันที่สั่งงาน</th>
-            <th scope="col">วันที่นัด</th>
-            <th scope="col">รอบ</th>
-            <th scope="col">เวลา</th>
-            <th scope="col">รับหรือส่ง</th>
-            <th scope="col">ประเภท</th>
-            <th scope="col">รายละเอียด</th>
-
-            <th scope="col">ชื่อลูกค้า/ผู้ติดต่อ</th>
-            <th scope="col">โทร.ติดต่อ</th>
-            <th scope="col">สถานที่</th>
-
-            <th scope="col">ผู้ฝากงาน</th>
-            <th scope="col">โทร.ติดต่อ</th>
-            <th scope="col">อีเมล</th>
-            <th scope="col">หมายเหตุ/คำสั่งเพิ่มเติม</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if (searchResults && searchResults.length> 0) { %>
-            <% searchResults.forEach(result=> { %>
+        <div class="table-responsive small">
+          <table id="myTable" class="table table-sm">
+            <thead>
               <tr>
-                <td><%= result.docID %></td>
-                <td><%= result.status %></td>
-                <td><%= result.userNameSend %></td>
-                <td><%= result.docNote %></td>
-                <td><%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' , year: 'numeric' , hour: '2-digit' , minute: '2-digit' , timeZone: 'UTC' }) %></td>
-                <td><%= result.requestDate.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' , year: 'numeric' ,timeZone: 'UTC' }) %></td>
-                <td><%= result.docRound %></td>
-                <td>
-                  <% if (result.docTime !==null) { %>
-                    <%= result.docTime %>
-                      <% } %>
-                </td>
-                <td><%= result.docSendReturn %></td>
-                <td><%= result.docType %></td>
-                <td><%= result.docIs %></td>
-                <td><%= result.cusName %></td>
-                <td><%= result.cusTel %></td>
-                <td><%= result.cusPlace %></td>
-                <td><%= result.dispName %></td>
-                <td><%= result.dispTel %></td>
-                <td><%= result.dispEmail %></td>
-                <td><%= result.dispNote %></td>
+                <th scope="col">เลขที่เอกสาร</th>
+                <th scope="col">สถานะ</th>
+                <th scope="col">ผู้ส่งงาน</th>
+    
+                <th scope="col">วันที่สั่งงาน</th>
+                <th scope="col">วันที่นัด</th>
+                <th scope="col">รอบ</th>
+                <th scope="col">เวลา</th>
+                <th scope="col">รับหรือส่ง</th>
+                <th scope="col">ประเภท</th>
+                <th scope="col">รายละเอียด</th>
+    
+                <th scope="col">ชื่อลูกค้า/ผู้ติดต่อ</th>
+                <th scope="col">โทร.ติดต่อ</th>
+                <th scope="col">สถานที่</th>
+    
+                <th scope="col">ผู้ฝากงาน</th>
+                <th scope="col">โทร.ติดต่อ</th>
+                <th scope="col">อีเมล</th>
+    
+                <th scope="col">หมายเหตุ/คำสั่งเพิ่มเติม</th>
+                <th scope="col">หมายเหตุส่งไม่สำเร็จ</th>
+                <th scope="col">หลักฐาน</th>
               </tr>
-              <% }); %>
-                <% } else { %>
+            </thead>
+            <tbody>
+              <% if (searchResults && searchResults.length> 0) { %>
+                <% searchResults.forEach(result=> { %>
                   <tr>
-                    <td colspan="auto">No results found.</td>
+                    <td><%= result.docID %></td>
+                    <td><%= result.status %></td>
+                    <td><%= result.userNameSend %></td>
+    
+                    <td><%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' , year: 'numeric' , hour: '2-digit' , minute: '2-digit' , timeZone: 'UTC' }) %></td>
+                    <td><%= result.requestDate.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' , year: 'numeric' ,timeZone: 'UTC' }) %></td>
+                    <td><%= result.docRound %></td>
+                    <td><% if (result.docTime !==null) { %>
+                        <%= result.docTime %>
+                          <% } %>
+                    </td>
+                    <td><%= result.docSendReturn %></td>
+                    <td><%= result.docType %></td>
+                    <td><%= result.docIs %></td>
+                    
+                    <td><%= result.cusName %></td>
+                    <td><%= result.cusTel %></td>
+                    <td><%= result.cusPlace %></td>
+    
+                    <td><%= result.dispName %></td>
+                    <td><%= result.dispTel %></td>
+                    <td><%= result.dispEmail %></td>
+    
+                    <td><%= result.dispNote %></td>
+                    <td><%= result.docNote %></td>
+                    <td><img src="<%=result.sign%>" alt="sign" width="45" height="28"/></td>
                   </tr>
-                  <% } %>
-        </tbody>
-      </table>
-    </div>
+                  <% }); %>
+                    <% } else { %>
+                      <tr>
+                        <td colspan="auto">No results found.</td>
+                      </tr>
+                      <% } %>
+            </tbody>
+          </table>
+        </div>
     </main>
     <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
     
