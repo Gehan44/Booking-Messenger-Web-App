@@ -77,9 +77,7 @@ module.exports = async function createTrack(userData,trackData,hostname) {
         let messenger = trackData.messenger 
         let messengerID = ""
 
-        if (messenger === "WS") {
-            messengerID = userData.userID
-        } else if (messenger === "Outsource") {            
+        if (messenger === "Outsource") {            
         } else {
             docQR = `https://${hostname}/mHome?updatedEditTerm=${docID}`;
             docQRCode = qr.imageSync(docQR, { type: 'png', size: 4 }); 
