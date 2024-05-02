@@ -100,6 +100,22 @@
     .bd-mode-toggle .dropdown-menu .active .bi {
       display: block !important;
     }
+    .table-responsive table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .table-responsive th,
+    .table-responsive td {
+      text-align: left;
+      white-space: nowrap;
+      /* Prevent line breaks */
+    }
+
+    .table-responsive tr:nth-child(even) {
+      background-color: #dddddd;
+    }
   </style>
 
 
@@ -308,7 +324,7 @@
                   <svg class="bi">
                     <use xlink:href="#printer" />
                   </svg>
-                  ลืมปริ้น
+                  ปริ้น
                 </a>
               </li>
             </ul>
@@ -330,40 +346,95 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">ขอปริ้นอีกครั้ง</h1>
+          <h1 class="h2">ปริ้น</h1>
         </div>
-
+        
         <% if (errors != "") { %>
           <div class="alert alert-danger" role="alert">
             <%= errors %>
           </div>
           <% } %>
-
-          <div class="col-md-7 col-lg-8">
-            <form action="/search/print" method="POST" class="d-flex align-items-center">
-            <div class="row g-3">
-              <label class="form-label">กรณีนี้ต้องเป็นสถานะ <b>Created</b> เท่านั้น</label>
-              <div class="col-md-7">
-                <select class="form-select" id="state" name="searchTerm" required>
-                  <option value=""></option>
-                  <% if (allResults && allResults.length > 0) { %>
-                    <% allResults.forEach(result => { %>
-                      <option id="searchTerm" class="form-control" type="search" name="searchTerm" value="<%= result.docID %>"><%= result.docID %></option>                    
-                    <% }); %>
-                  <% } %>
-                </select>
-              </div>
-              <div class="col-md-5">
-                <button class="w-50 btn btn-primary me-2" style=" margin-bottom: 5px;" type="submit">ยืนยัน</button>
-              </div>
-            </div>
-            </form>
-          </div>
-    </div>
-  </div>
-  </main>
-  </div>
-  </form>
-  </main>
+        
+        <div class="table-responsive">
+          <label class="form-label">กรณีนี้ต้องเป็นสถานะ <b>Created</b> เท่านั้น</label>
+          <form action="/search/print" method="POST">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">เลขที่เอกสาร</th>
+                <th scope="col">สถานะ</th>
+                <th scope="col">วันที่สั่งงาน</th>
+                <th scope="col">วันที่นัด</th>
+                <th scope="col">รอบ</th>
+                <th scope="col">เวลา</th>
+                <th scope="col">รับหรือส่ง</th>
+                <th scope="col">ประเภท</th>
+                <th scope="col">ชื่อลูกค้า/ผู้ติดต่อ</th>                
+                <th scope="col">ผู้ฝากงาน</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (allResults && allResults.length > 0) { %>
+                <% allResults.forEach(result => { %>
+                  <tr>
+                    <td>
+                      <div class="col-md-7">
+                        <input class="form-check-input" type="checkbox" name="searchTerm" id="<%= result.docID %>" value="<%= result.docID %>">
+                        <label class="form-check-label" for="<%= result.docID %>"><%= result.docID %></label>
+                      </div>
+                    </td>                    
+                    <td class="statusCell"><%= result.status %></td>
+                    
+                    <script>
+                        var statusCells = document.querySelectorAll(".statusCell");
+                        statusCells.forEach(function(statusCell) {
+                            var status = statusCell.innerHTML.trim();
+                            switch(status) {
+                              case "Created":
+                                statusCell.style.color = "blue";
+                                break;
+                              case "Incomplete":
+                                statusCell.style.color = "orange";
+                                break;
+                              case "Done":
+                              case "Returned":
+                                statusCell.style.color = "green";
+                                break;
+                              case "Failed":
+                                statusCell.style.color = "red";
+                                break;
+                            }
+                        });
+                        function submitForm(docID) {
+                          document.getElementById("form_" + docID).submit();
+                        }
+                    </script>
+                    
+                    <td><%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></td>
+                    <td><%= result.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></td>
+                    <td><%= result.docRound %></td> 
+                    <td>
+                      <% if (result.docTime !== null) { %>
+                        <%= result.docTime %>
+                      <% } %>
+                    </td>
+                    <td><%= result.docSendReturn %></td>
+                    <td><%= result.docType %></td>
+                    <td><%= result.cusName %></td>
+                    <td><%= result.dispName %></td>
+                  </tr>
+                <% }); %>
+              <% } else { %>
+                <tr>
+                  <td colspan="11">ไม่พบผลลัพธ์</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+          <hr class="my-4">
+          <button class="w-50 btn btn-primary me-2" type="submit">ยืนยัน</button>
+        </div>
+      </form>
+      </main>
   <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
 </html>

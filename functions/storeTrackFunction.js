@@ -5,7 +5,7 @@ moment.tz.setDefault('Asia/Bangkok');
 
 module.exports = async (req, res) => {
     const userData = req.session.user;
-    const { requestDate } = req.body;
+    const { requestDate,docRound,docTime } = req.body;
     try {
         const createdDate = moment().format('YYYY-MM-DD');
         const createdTime = moment().format('HH:mm');
@@ -25,6 +25,17 @@ module.exports = async (req, res) => {
         if (differenceInMilliseconds > twentyThreeDaysMilliseconds) {
             throw new Error('ไม่สามารถกรอกวันที่นัดเกิน 23 วัน');
         }
+
+        //Prevent Round
+        if (docRound === "รอบเช้า") {
+            if (moment(docTime,'HH:mm').isAfter(moment('13:00','HH:mm'))) {
+                throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
+            }
+        } else if (docRound === "รอบบ่าย") {
+            if (moment(docTime,'HH:mm').isBefore(moment('13:00','HH:mm'))) {
+                throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
+            }
+        }
         
         const hostname = req.headers.host;
         const { createdTrack, docQRCode } = await createTrack(userData,req.body,hostname);
@@ -32,7 +43,6 @@ module.exports = async (req, res) => {
         res.render('print', { createdTrack, docQRCode });  
 
     } catch (error) {
-        console.error(error)
         req.flash('data', req.body);
         req.flash('validationErrors', error.message);
         if (userData.role === "Wealth Support") {
