@@ -407,15 +407,22 @@
               </div>
             </div>
           </form>
-
+          
+          <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
           <script>
+          var configd = {
+            disableMobile: "true",
+            mode: "range"
+          };
+
           function changeInputType() {
             var selectedFilter = document.getElementById("searchFilter").value;
             var dateTimeInput = document.getElementById("searchTerm");
             
             if (selectedFilter === 'createdDateTime' || selectedFilter === 'requestDate') {
-              dateTimeInput.type = 'date';
+              flatpickr(dateTimeInput, configd);
             } else {
+              dateTimeInput._flatpickr.destroy();
               dateTimeInput.type = 'text';
             }
           }
