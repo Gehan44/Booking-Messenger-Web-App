@@ -4,11 +4,21 @@ const qr = require('qr-image');
 
 module.exports = async function runDetect(req, res) {
   let searchTerm = req.body.searchTerm;
+
   if (!Array.isArray(searchTerm)) {
     searchTerm = [searchTerm];
   }
 
   try {
+    const validSearchTerms = searchTerm.filter(term => typeof term !== 'undefined');
+    if (validSearchTerms.length === 0) {
+        throw new Error('กรุณากดเลือก');
+    }
+
+    if (validSearchTerms.length === 3) {
+      throw new Error('ห้ามเลือกมากกว่า 2');
+  }
+
     await sql.connect(config);
     const request = new sql.Request();
 

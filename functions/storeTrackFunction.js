@@ -22,6 +22,14 @@ module.exports = async (req, res) => {
             }
         }
 
+        //Prevent Time
+        if (moment(docTime,'HH:mm').isBefore(moment('8:00','HH:mm'))) {
+            throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
+        }
+        if (moment(docTime,'HH:mm').isAfter(moment('18:00','HH:mm'))) {
+            throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
+        }
+
         //Prevent Round
         if (docRound === "รอบเช้า") {
             if (moment(docTime,'HH:mm').isAfter(moment('13:00','HH:mm'))) {
