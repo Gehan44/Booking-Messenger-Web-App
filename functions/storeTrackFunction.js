@@ -10,9 +10,12 @@ module.exports = async (req, res) => {
         const createdDate = moment().format('YYYY-MM-DD');
         const createdTime = moment().format('HH:mm');
 
-        //Prevent Pastday
+        //Prevent Past
         if (createdDate > requestDate) {
-            throw new Error('วันที่นัดไม่สามารถเป็นวันที่ผ่านมาได้');
+            throw new Error('ไม่สามารถกรอกวันที่ในอดีตได้');
+        }
+        if (createdTime > docTime) {
+            throw new Error('ไม่สามารถกรอกเวลาในอดีตได้');
         }
 
         //Prevent Sameday
