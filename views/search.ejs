@@ -13,7 +13,6 @@
 
   <!--flatpickr-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -410,26 +409,19 @@
           </form>
 
           <script>
-            
-          var configd = {
-            disableMobile: "true",
-            mode: "range"
-          };
-        
           function changeInputType() {
             var selectedFilter = document.getElementById("searchFilter").value;
             var dateTimeInput = document.getElementById("searchTerm");
             
             if (selectedFilter === 'createdDateTime' || selectedFilter === 'requestDate') {
-              flatpickr(dateTimeInput, configd);
+              dateTimeInput.type = 'date';
             } else {
-              dateTimeInput._flatpickr.destroy();
               dateTimeInput.type = 'text';
             }
           }
-
           changeInputType();
-          </script>
+        </script>
+
           <hr class="my-4">
         </div>
     <div class="table-responsive small">

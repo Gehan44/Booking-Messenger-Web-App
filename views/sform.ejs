@@ -13,7 +13,6 @@
 
   <!--flatpickr-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -336,7 +335,7 @@
                       <div class="col-md-4">
                         <label class="form-label">วันที่นัด <span class="text-danger">*</span></label>
                         <div class="input-group">
-                          <input type="datetime-local" class="form-control" name="requestDate" autocomplete="off" required>
+                          <input type="date" class="form-control" name="requestDate" autocomplete="off" required>
                           <button type="button" class="btn btn-outline-secondary" onclick="clearDateInput()">ลบ</button>
                         </div>
                         <div class="invalid-feedback">
@@ -365,7 +364,7 @@
                       <div class="col-md-3">
                         <label class="form-label">สะดวกเวลา</label>
                         <div class="input-group">
-                          <input type="time-local" class="form-control" name="docTime">
+                          <input type="time" class="form-control" name="docTime">
                           <button type="button" class="btn btn-outline-secondary" onclick="clearTimeInput()">ลบ</button>
                         </div>
                         <div class="invalid-feedback">
@@ -473,6 +472,7 @@
   </form>
   </main>
   <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
     configt = {
       disableMobile: "true",
@@ -498,7 +498,6 @@
         }
       }
     flatpickr("input[type=time-local]", configt);
-    flatpickr("input[type=datetime-local]", configd);
+    flatpickr("input[type=date-local]", configd);
   </script>
-
 </html>
