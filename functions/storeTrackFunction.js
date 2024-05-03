@@ -12,14 +12,14 @@ module.exports = async (req, res) => {
 
         //Prevent Past
         if (createdDate > requestDate) {
-            throw new Error('ไม่สามารถกรอกวันที่ในอดีตได้');
-        }
-        if (createdTime > docTime) {
-            throw new Error('ไม่สามารถกรอกเวลาในอดีตได้');
+            throw new Error('ไม่สามารถกรอกวันที่นัดในอดีตได้');
         }
 
         //Prevent Sameday
         if (createdDate === requestDate) {
+            if (createdTime > docTime) {
+                throw new Error('ไม่สามารถกรอกเวลาในอดีตได้');
+            }
             if (moment('16:00', 'HH:mm').isBefore(moment(createdTime, 'HH:mm'))) {
                 throw new Error('วันที่นัดไม่ทันส่งวันนี้แล้ว');
             }
