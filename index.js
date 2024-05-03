@@ -130,7 +130,7 @@ app.post('/mHome/edit/failed',messMiddleware,editFailedFunction)
 //Admin
 app.get('/register',adminMiddleware,registerController)
 app.post('/user/register',adminMiddleware,storeUserFunction)
-app.get('/han/test',adminMiddleware,testerController)
+app.get('/test/memory',adminMiddleware,testerController)
 
 let port = process.env.PORT || 3000;
 module.exports = { port };
