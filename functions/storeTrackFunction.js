@@ -5,7 +5,7 @@ moment.tz.setDefault('Asia/Bangkok');
 
 module.exports = async (req, res) => {
     const userData = req.session.user;
-    const { requestDate,docRound,docTime } = req.body;
+    const { requestDate } = req.body;
     try {
         const createdDate = moment().format('YYYY-MM-DD');
         const createdTime = moment().format('HH:mm');
@@ -13,35 +13,6 @@ module.exports = async (req, res) => {
         //Prevent Past
         if (createdDate > requestDate) {
             throw new Error('ไม่สามารถกรอกวันที่นัดในอดีตได้');
-        }
-
-        //Prevent Sameday
-        if (createdDate === requestDate) {
-            if (createdTime > docTime) {
-                throw new Error('ไม่สามารถกรอกเวลาในอดีตได้');
-            }
-            if (moment('16:00', 'HH:mm').isBefore(moment(createdTime, 'HH:mm'))) {
-                throw new Error('วันที่นัดไม่ทันส่งวันนี้แล้ว');
-            }
-        }
-
-        //Prevent Time
-        if (moment(docTime,'HH:mm').isBefore(moment('8:00','HH:mm'))) {
-            throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
-        }
-        if (moment(docTime,'HH:mm').isAfter(moment('18:00','HH:mm'))) {
-            throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
-        }
-
-        //Prevent Round
-        if (docRound === "รอบเช้า") {
-            if (moment(docTime,'HH:mm').isAfter(moment('13:00','HH:mm'))) {
-                throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
-            }
-        } else if (docRound === "รอบบ่าย") {
-            if (moment(docTime,'HH:mm').isBefore(moment('13:00','HH:mm'))) {
-                throw new Error('กรุณากรอกเวลาให้ถูกต้อง');
-            }
         }
 
         //Prevent Delay

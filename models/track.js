@@ -9,16 +9,11 @@ function padWithZeros(number) {
     return String(number).padStart(3, '0');
 }
 
-function padWithZeroM(number) {
-    return String(number).padStart(2, '0');
-}
-
 module.exports = async function createTrack(userData,trackData,hostname) {
     try {
-        const currentDate = new Date();
-        const year = currentDate.getFullYear().toString().slice(-2);
-        const umonth = currentDate.getMonth() + 1;
-        const month = padWithZeroM(umonth);
+        const year = moment().format('YY')
+        const month = moment().format('MM')
+        const day = moment().format('DD')
 
         //DocID
         const pool = await sql.connect(sqlConfig);
@@ -29,25 +24,32 @@ module.exports = async function createTrack(userData,trackData,hostname) {
             ORDER BY docID DESC
         `);
         if (!lastTrackQuery.recordset[0]) {
-            docID = `P${year}${month}001`;
+            docID = `P${year}${month}${day}001`;
         } else {
             const lastDocID = lastTrackQuery.recordset[0].docID;
-            // Extract 'P24'
+            // Extract 'Pyear'
             let prefix = lastDocID.substring(0, 3);
-            // Extract '03'
+            // Extract 'month'
             let midfix = lastDocID.substring(3, 5);
+            // Extract 'day'
+            let lastfix = lastDocID.substring(5, 7);
             // Extract '001'
-            let suffix = lastDocID.substring(5);
+            let suffix = lastDocID.substring(7);
             const lastCounter = parseInt(suffix);
+
             if (prefix === `P${year}`) {
                 if (midfix === `${month}`) {
-                    const newCounter = lastCounter + 1;
-                    docID = `P${year}${month}${padWithZeros(newCounter)}`;
+                    if (lastfix === `${day}`) {
+                        const newCounter = lastCounter + 1;
+                        docID = `P${year}${month}${day}${padWithZeros(newCounter)}`;
+                    } else {
+                        docID = `P${year}${month}${day}001`;
+                    }
                 } else {
-                    docID = `P${year}${month}001`;
+                    docID = `P${year}${month}${day}001`;
                 }
             } else {
-                docID = `P${year}${month}001`;
+                docID = `P${year}${month}${day}001`;
             }
         }
 

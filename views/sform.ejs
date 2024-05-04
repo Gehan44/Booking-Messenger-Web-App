@@ -363,20 +363,11 @@
           
                       <div class="col-md-3">
                         <label class="form-label">สะดวกเวลา</label>
-                        <div class="input-group">
-                          <input type="time" class="form-control" name="docTime">
-                          <button type="button" class="btn btn-outline-secondary" onclick="clearTimeInput()">ลบ</button>
-                        </div>
+                        <input type="text" class="form-control" name="docTime" value="<%= docTime %>">
                         <div class="invalid-feedback">
                           Please enter
                         </div>
                       </div>
-
-                      <script>
-                        function clearTimeInput() {
-                          document.querySelector('input[name="docTime"]').value = '';
-                        }
-                      </script>
 
                       <div class="col-md-3">
                         <label for="state" class="form-label">งานรับหรือส่ง <span class="text-danger">*</span></label>
@@ -474,16 +465,6 @@
   <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
-    configt = {
-      disableMobile: "true",
-      minTime: "8:00",
-      maxTime: "18:00",
-      enableTime: true,
-      noCalendar: true,
-      dateFormat: "H:i",
-      time_24hr: true,
-      minuteIncrement: 30
-    },
       configd = {
         disableMobile: "true",
         allowInput: true,
@@ -497,7 +478,6 @@
           "firstDayOfWeek": 1
         }
       }
-    flatpickr("input[type=time]", configt);
     flatpickr("input[type=date]", configd);
   </script>
 </html>
