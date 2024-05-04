@@ -59,11 +59,11 @@ module.exports = async function createTrack(userData,trackData,hostname) {
         //disp
         let dispName = ""
         let dispEmail = ""
-        if (userData.role === "Wealth Support") {
+        if (userData.role === "Support") {
             dispName = trackData.dispName
             dispEmail = trackData.dispEmail
 
-        } else if (userData.role === "Sale") {
+        } else if (userData.role === "User") {
             dispName = userData.name
             dispEmail = userData.email
         }

@@ -10,7 +10,7 @@ module.exports = async function runDashboard(UserData) {
       WHERE 1=1
     `;
 
-    if (UserData.role === "Sale") {
+    if (UserData.role === "User") {
       query += ` AND dispEmail = '${UserData.email}'`;
     }
     

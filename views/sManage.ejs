@@ -285,7 +285,7 @@
           <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/sHome">
+                <a class="nav-link d-flex align-items-center gap-2" aria-current="page" href="/sHome">
                   <svg class="bi">
                     <use xlink:href="#house-fill" />
                   </svg>
@@ -293,7 +293,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" aria-current="page" href="/sManage">
+                <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/sManage">
                   <svg class="bi">
                     <use xlink:href="#manage" />
                   </svg>
@@ -344,11 +344,60 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">ข้อมูลล่าสุด</h1>
+          <h1 class="h2">จัดการงานด้วยตนเอง</h1>
         </div>
+
+        <div class="col-md-7 col-lg-8">
+          <form action="/sManage/action" method="POST" id="searchForm" class="d-flex align-items-center">
+            <div class="row g-3">
+              <label class="form-label">ต้องเป็นการส่งแบบ Outsource เท่านั้น</label>
+              <div class="col-md-3">
+                <select class="form-select" id="state" name="searchTerm" required>
+                  <option value=""></option>
+                  <% if (allResult && allResult.length > 0) { %>
+                    <% allResult.forEach(result => { %>
+                      <option id="searchTerm" class="form-control" type="search" name="searchTerm" value="<%= result.docID %>"><%= result.docID %></option>
+                    <% }); %>
+                  <% } %>
+                </select>
+              </div>
+              <div class="col-md-7">
+                <input id="noteEditTerm" name="noteEditTerm" class="form-control">
+              </div>
+              <div class="col-md-4">
+                <button id="btnSumbit1" name="btnSumbit" value="success" class="w-100 btn btn-primary me-2" style="background-color: green; color: white; border-color: green; margin-bottom: 5px;">สำเร็จ</button>
+              </div>
+              <div class="col-md-4">
+                <button id="btnSumbit2" name="btnSumbit" value="failure" class="w-100 btn btn-primary me-2" style="background-color: red; color: white; border-color: red; margin-bottom: 5px;">ล้มเหลว</button>
+              </div>
+            </div>
+            <input type="hidden" id="clickedButton" name="clickedButton" value="">
+          </form>
+          <hr class="my-4">
+        </div>
+
+        <script>
+          document.getElementById('btnSumbit1').addEventListener('click', function() {
+            document.getElementById('clickedButton').value = this.value;
+            document.getElementById('noteEditTerm').removeAttribute('required');
+          });
         
+          document.getElementById('btnSumbit2').addEventListener('click', function() {
+            document.getElementById('clickedButton').value = this.value;
+            document.getElementById('noteEditTerm').setAttribute('required', true);
+          });
+        
+          document.getElementById('searchForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            if (window.confirm('คุณแน่ใจหรือไม่ว่าต้องการดำเนินการต่อ?')) {
+              this.submit();
+            }
+          });
+        </script>
+        
+        
+
         <div class="table-responsive">
-          <label class="form-label">ข้อมูลล่าสุดจำนวน <b><%=count%></b> พัสดุ</label>
           <table class="table table-striped table-sm">
             <thead>
               <tr>
@@ -386,8 +435,10 @@
                                 statusCell.style.color = "blue";
                                 break;
                               case "Picked":
-                              case "Incomplete":
                                 statusCell.style.color = "orange";
+                                break;
+                              case "Incomplete":
+                                statusCell.style.color = "purple";
                                 break;
                               case "Done":
                               case "Returned":
@@ -411,11 +462,11 @@
                       <% if (result.docTime !== null) { %>
                         <%= result.docTime %>
                       <% } %>
-                    </td>
+                    </td>    
                     <td><%= result.docSendReturn %></td>
                     <td><%= result.docType %></td>
                     <td><%= result.cusName %></td>
-                    <td><%= result.dispName %></td>
+                    <td><%= result.dispName %></td>      
                   </tr>
                 <% }); %>
               <% } else { %>

@@ -8,9 +8,9 @@ module.exports = async function createUser(userData) {
     }
 
     const password = userData.password.length
-    if (password < 8) {
-        throw new Error('รหัสต้องมากกว่า 8 ตัว')
-    }
+    //if (password < 8) {
+    //    throw new Error('รหัสต้องมากกว่า 8 ตัว')
+    //}
 
     try {
         const hashedPassword = await bcrypt.hash(userData.password, 10);

@@ -32,10 +32,10 @@ module.exports = async (req, res) => {
     } catch (error) {
         req.flash('data', req.body);
         req.flash('validationErrors', error.message);
-        if (userData.role === "Wealth Support") {
-            return res.redirect('/form');
-        } else if (userData.role === "Sale") {
-            return res.redirect('/sform');
+        if (userData.role === "Support") {
+            return res.redirect('/sForm');
+        } else if (userData.role === "User") {
+            return res.redirect('/uForm');
         }
     }
 };

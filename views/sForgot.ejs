@@ -9,8 +9,10 @@
   <link rel="icon" href="/image/logo.png" type="image/x-icon">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard/">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-
   <link href="/css/bootstrap.das.css" rel="stylesheet" crossorigin="anonymous">
+
+  <!--flatpickr-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <!-- Favicons -->
   <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -194,6 +196,7 @@
   </div>
 
 
+
   <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
     
     <symbol id="printer" viewBox="0 0 16 16">
@@ -285,7 +288,7 @@
           <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/sHome">
+                <a class="nav-link d-flex align-items-center gap-2" aria-current="page" href="/sHome">
                   <svg class="bi">
                     <use xlink:href="#house-fill" />
                   </svg>
@@ -317,7 +320,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="/sMulti">
+                <a class="nav-link d-flex align-items-center gap-2 active" href="/sMulti">
                   <svg class="bi">
                     <use xlink:href="#printer" />
                   </svg>
@@ -325,7 +328,6 @@
                 </a>
               </li>
             </ul>
-
             <hr class="my-3">
             <ul class="nav flex-column mb-auto">
               <li class="nav-item">
@@ -344,17 +346,23 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">ข้อมูลล่าสุด</h1>
+          <h1 class="h2">ปริ้น</h1>
         </div>
         
+        <% if (errors != "") { %>
+          <div class="alert alert-danger" role="alert">
+            <%= errors %>
+          </div>
+          <% } %>
+        
         <div class="table-responsive">
-          <label class="form-label">ข้อมูลล่าสุดจำนวน <b><%=count%></b> พัสดุ</label>
-          <table class="table table-striped table-sm">
+          <label class="form-label">กรณีนี้ต้องเป็นสถานะ <b>Created</b> เท่านั้น</label>
+          <form action="/sMulti/print" method="POST">
+          <table class="table table-striped">
             <thead>
               <tr>
                 <th scope="col">เลขที่เอกสาร</th>
                 <th scope="col">สถานะ</th>
-                <th scope="col">แมสฯ</th>
                 <th scope="col">วันที่สั่งงาน</th>
                 <th scope="col">วันที่นัด</th>
                 <th scope="col">รอบ</th>
@@ -370,10 +378,10 @@
                 <% allResults.forEach(result => { %>
                   <tr>
                     <td>
-                      <form id="form_<%= result.docID %>" action="/sMulti/print" method="POST">
-                        <a style="color: brown" class="btn" onclick="submitForm('<%= result.docID %>')"><%= result.docID %></a>
-                        <input class="form-control" type="hidden" name="searchTerm" value="<%= result.docID %>">
-                      </form>
+                      <div class="col-md-7">
+                        <input class="form-check-input" type="checkbox" name="searchTerm" id="<%= result.docID %>" value="<%= result.docID %>">
+                        <label class="form-check-label" for="<%= result.docID %>"><%= result.docID %></label>
+                      </div>
                     </td>                    
                     <td class="statusCell"><%= result.status %></td>
                     
@@ -403,7 +411,6 @@
                         }
                     </script>
                     
-                    <td><%= result.userNameSend %></td>
                     <td><%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) %></td>
                     <td><%= result.requestDate.toLocaleString('en-GB', { day: 'numeric', month: 'numeric', year: 'numeric', timeZone: 'UTC' }) %></td>
                     <td><%= result.docRound %></td> 
@@ -425,11 +432,10 @@
               <% } %>
             </tbody>
           </table>
+          <hr class="my-4">
+          <button class="w-50 btn btn-primary me-2" type="submit">ยืนยัน</button>
         </div>
+      </form>
       </main>
-    </div>
-  </div>
   <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
-  <script src="/js/chart.umd.js" crossorigin="anonymous"></script>
-</body>
 </html>

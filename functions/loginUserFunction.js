@@ -29,22 +29,22 @@ module.exports = async function loginUser(req, res) {
                         role: user.role
                     };
                     return res.redirect('/mHome');
-                } else if (user.role === 'Wealth Support') {
+                } else if (user.role === 'Support') {
                     req.session.user = {
                         userID: user.userID,
                         email: user.email,
                         name: user.name,
                         role: user.role
                     };
-                    res.redirect('/wsHome');
-                } else if (user.role === 'Sale') {
+                    res.redirect('/sHome');
+                } else if (user.role === 'User') {
                     req.session.user = {
                         userID: user.userID,
                         email: user.email,
                         name: user.name,
                         role: user.role
                     };
-                    return res.redirect('/sHome');
+                    return res.redirect('/uHome');
                 } else {
                     return res.redirect('/');
                 }

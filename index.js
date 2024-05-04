@@ -7,43 +7,53 @@ const MemoryStore = require('memorystore')(session)
 const flash = require('connect-flash')
 
 //Page Control
+//System
 const loginController = require('./controllers/loginController.js')
 const logoutController = require('./controllers/logoutController.js')
-const registerController = require('./controllers/registerController.js')
-const wsHomeController = require('./controllers/wsHomeController.js')
-const manageController = require('./controllers/manageController.js')
-const searchController = require('./controllers/searchController.js')
-const formController = require('./controllers/formController.js')
-const forgotController = require('./controllers/forgotController.js')
-const sHomeController = require('./controllers/sHomeController.js')
-const ssearchController = require('./controllers/ssearchController.js')
-const sformController = require('./controllers/sformController.js')
-const mHomeController = require('./controllers/mHomeController.js')
-const mSummaryController = require('./controllers/mSummaryController.js')
-const testerController = require('./controllers/testerController.js')
+//Admin
+const registerController = require('./controllers/admin/registerController.js')
+const testerController = require('./controllers/admin/testerController.js')
+//Messenger
+const mHomeController = require('./controllers/messenger/mHomeController.js')
+const mSummaryController = require('./controllers/messenger/mSummaryController.js')
+//Support
+const sHomeController = require('./controllers/support/sHomeController.js')
+const sManageController = require('./controllers/support/sManageController.js')
+const sSearchController = require('./controllers/support/sSearchController.js')
+const sFormController = require('./controllers/support/sFormController.js')
+const sMultiPrintController = require('./controllers/support/sMultiPrintController.js')
+//User
+const uHomeController = require('./controllers/user/uHomeController.js')
+const uSearchController = require('./controllers/user/uSearchController.js')
+const uFormController = require('./controllers/user/uFormController.js')
 
 //Function
+//System
 const loginUserFunction = require('./functions/loginUserFunction.js')
-const searchwsFunction = require('./functions/searchwsFunction.js')
-const searchsFunction = require('./functions/searchsFunction.js')
 const storeTrackFunction = require('./functions/storeTrackFunction.js')
+//Admin
 const storeUserFunction = require('./functions/storeUserFunction.js')
-const editFunction = require('./functions/editFunction')
-const editIncompleteFunction = require('./functions/incompleteEditFunction.js')
-const editFailedFunction = require('./functions/failedEditFunction')
-const cusautofillFunction = require('./functions/cusautofillFunction.js')
-const dispautofillFunction = require('./functions/dispautofillFunction.js')
-const salecusautofillFunction = require('./functions/scusautofillFunction.js')
-const forgotFunction = require('./functions/forgotFunction.js')
-const detailsFunction = require('./functions/detailsFunction.js')
-const manageFunction = require('./functions/editwsFunction.js')
-const storeSignFunction = require('./functions/storeSignFunction.js')
+//Messenger
+const mEditFunction = require('./functions/messenger/editFunction.js')
+const mEditIncompleteFunction = require('./functions/messenger/incompleteEditFunction.js')
+const mEditFailedFunction = require('./functions/messenger/failedEditFunction.js')
+const mStoreSignFunction = require('./functions/messenger/storeSignFunction.js')
+//Support
+const sMultiPrintFunction = require('./functions/support/sMultiPrintFunction.js')
+const sManageFunction = require('./functions/support/sEditFunction.js')
+const sSearchFunction = require('./functions/support/sSearchFunction.js')
+const cusautofillFunction = require('./functions/support/cusautofillFunction.js')
+const dispautofillFunction = require('./functions/support/dispautofillFunction.js')
+//User
+const uDetailsFunction = require('./functions/user/uDetailsFunction.js')
+const uSearchFunction = require('./functions/user/uSearchFunction.js')
+const uCusautofillFunction = require('./functions/user/uCusautofillFunction.js')
 
 //Middleware
 const redirectIfAuth = require('./middleware/redirectifAuth')
-const wealthsMiddleware = require('./middleware/wealthsMiddleware.js')
+const supportMiddleware = require('./middleware/supportMiddleware.js')
 const messMiddleware = require('./middleware/messMiddleware.js')
-const saleMiddleware = require('./middleware/saleMiddleware.js')
+const userMiddleware = require('./middleware/userMiddleware.js')
 const adminMiddleware = require('./middleware/adminMiddleware.js')
 
 app.use(cors());
@@ -70,17 +80,16 @@ app.use(session ({
 
 app.set('view engine','ejs')
 
-
 app.all('/', async function(req, res) {
     if (req.session.user){
         try {
             const userData = req.session.user;
             if (userData.role === 'Messenger') {
                 res.redirect('/mHome');
-            } else if (userData.role === 'Wealth Support') {
-                res.redirect('/wsHome');
-            } else if (userData.role === 'Sale') {
+            } else if (userData.role === 'Support') {
                 res.redirect('/sHome');
+            } else if (userData.role === 'User') {
+                res.redirect('/uHome');
             }
         } catch (error) {
             console.error(error);
@@ -91,46 +100,45 @@ app.all('/', async function(req, res) {
     }
 });
 
-
 //Login
 app.get('/login',redirectIfAuth,loginController)
 app.post('/user/login',redirectIfAuth,loginUserFunction)
 app.get('/logout',logoutController)
 
-//Wealth Support
-app.get('/wsHome',wealthsMiddleware,wsHomeController)
-app.get('/manage',wealthsMiddleware,manageController)
-app.post('/manage/action',wealthsMiddleware,manageFunction)
-app.get('/search',wealthsMiddleware,searchController)
-app.post('/search/run',wealthsMiddleware,searchwsFunction)
-app.get('/form',wealthsMiddleware,formController)
-app.post('/form/cus/autofill',wealthsMiddleware,cusautofillFunction)
-app.post('/form/disp/autofill',wealthsMiddleware,dispautofillFunction)
-app.post('/form/store',wealthsMiddleware,storeTrackFunction)
-app.get('/forgot',wealthsMiddleware,forgotController)
-app.post('/search/print',wealthsMiddleware,forgotFunction)
-
-//Sale
-app.get('/sHome',saleMiddleware,sHomeController)
-app.post('/sHome/details',saleMiddleware,detailsFunction)
-app.get('/ssearch',saleMiddleware,ssearchController)
-app.post('/ssearch/run',saleMiddleware,searchsFunction)
-app.get('/sform',saleMiddleware,sformController)
-app.post('/form/sale/cus/autofill',saleMiddleware,salecusautofillFunction)
-app.post('/sform/store',saleMiddleware,storeTrackFunction)
-
 //Messenger
 app.get('/mHome',messMiddleware,mHomeController)
 app.get('/mHome/summary',messMiddleware,mSummaryController)
-app.post('/mHome/edit',messMiddleware,editFunction)
-app.post('/sign/store',messMiddleware,storeSignFunction)
-app.post('/mHome/edit/incomplete',messMiddleware,editIncompleteFunction)
-app.post('/mHome/edit/failed',messMiddleware,editFailedFunction)
+app.post('/mHome/edit',messMiddleware,mEditFunction)
+app.post('/sign/store',messMiddleware,mStoreSignFunction)
+app.post('/mHome/edit/incomplete',messMiddleware,mEditIncompleteFunction)
+app.post('/mHome/edit/failed',messMiddleware,mEditFailedFunction)
+
+//Support
+app.get('/sHome',supportMiddleware,sHomeController)
+app.get('/sManage',supportMiddleware,sManageController)
+app.post('/sManage/action',supportMiddleware,sManageFunction)
+app.get('/sSearch',supportMiddleware,sSearchController)
+app.post('/sSearch/run',supportMiddleware,sSearchFunction)
+app.get('/sForm',supportMiddleware,sFormController)
+app.post('/sForm/cus/autofill',supportMiddleware,cusautofillFunction)
+app.post('/sForm/disp/autofill',supportMiddleware,dispautofillFunction)
+app.post('/sForm/store',supportMiddleware,storeTrackFunction)
+app.get('/sMulti',supportMiddleware,sMultiPrintController)
+app.post('/sMulti/print',supportMiddleware,sMultiPrintFunction)
+
+//User
+app.get('/uHome',userMiddleware,uHomeController)
+app.post('/uHome/details',userMiddleware,uDetailsFunction)
+app.get('/uSearch',userMiddleware,uSearchController)
+app.post('/uSearch/run',userMiddleware,uSearchFunction)
+app.get('/uForm',userMiddleware,uFormController)
+app.post('/uForm/sale/cus/autofill',userMiddleware,uCusautofillFunction)
+app.post('/uForm/store',userMiddleware,storeTrackFunction)
 
 //Admin
-app.get('/register',adminMiddleware,registerController)
-app.post('/user/register',adminMiddleware,storeUserFunction)
-app.get('/test/memory',adminMiddleware,testerController)
+app.get('/register',registerController)
+app.post('/user/register',storeUserFunction)
+app.get('/test/memory',testerController)
 
 let port = process.env.PORT || 3000;
 module.exports = { port };
