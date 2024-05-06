@@ -15,9 +15,9 @@ module.exports = async function runDetect(req, res) {
         throw new Error('กรุณากดเลือก');
     }
 
-    if (validSearchTerms.length === 3) {
-      throw new Error('ห้ามเลือกมากกว่า 2');
-  }
+    if (validSearchTerms.length >= 4) {
+        throw new Error('ห้ามเลือกมากกว่า 3');
+    }
 
     await sql.connect(config);
     const request = new sql.Request();
@@ -46,7 +46,7 @@ module.exports = async function runDetect(req, res) {
   } catch (error) {
     req.flash('data', req.body);
     req.flash('validationErrors', error.message);
-    return res.redirect('/sForgot');
+    return res.redirect('/sMulti');
 
   } finally {
     await sql.close();

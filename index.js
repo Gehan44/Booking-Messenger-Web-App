@@ -31,6 +31,9 @@ const uFormController = require('./controllers/user/uFormController.js')
 //System
 const loginUserFunction = require('./functions/loginUserFunction.js')
 const storeTrackFunction = require('./functions/storeTrackFunction.js')
+const addCusFunction = require('./functions/addCusFunction.js')
+const searchCusFunction = require('./functions/searchCusFunction.js')
+const deleteCusFunction = require('./functions/deleteCusFunction.js')
 //Admin
 const storeUserFunction = require('./functions/storeUserFunction.js')
 //Messenger
@@ -42,8 +45,10 @@ const mStoreSignFunction = require('./functions/messenger/storeSignFunction.js')
 const sMultiPrintFunction = require('./functions/support/sMultiPrintFunction.js')
 const sManageFunction = require('./functions/support/sEditFunction.js')
 const sSearchFunction = require('./functions/support/sSearchFunction.js')
-const cusautofillFunction = require('./functions/support/cusautofillFunction.js')
-const dispautofillFunction = require('./functions/support/dispautofillFunction.js')
+
+const addDispFunction = require('./functions/support/addDispFunction.js')
+const searchDispFunction = require('./functions/support/searchDispFunction.js')
+const deleteDispFunction = require('./functions/support/deleteDispFunction.js')
 //User
 const uDetailsFunction = require('./functions/user/uDetailsFunction.js')
 const uSearchFunction = require('./functions/user/uSearchFunction.js')
@@ -120,8 +125,15 @@ app.post('/sManage/action',supportMiddleware,sManageFunction)
 app.get('/sSearch',supportMiddleware,sSearchController)
 app.post('/sSearch/run',supportMiddleware,sSearchFunction)
 app.get('/sForm',supportMiddleware,sFormController)
-app.post('/sForm/cus/autofill',supportMiddleware,cusautofillFunction)
-app.post('/sForm/disp/autofill',supportMiddleware,dispautofillFunction)
+
+app.post('/sForm/cus/add',supportMiddleware,addCusFunction)
+app.post('/sForm/cus/search',supportMiddleware,searchCusFunction)
+app.post('/sForm/cus/delete',supportMiddleware,deleteCusFunction)
+
+app.post('/sForm/disp/add',supportMiddleware,addDispFunction)
+app.post('/sForm/disp/search',supportMiddleware,searchDispFunction)
+app.post('/sForm/disp/delete',supportMiddleware,deleteDispFunction)
+
 app.post('/sForm/store',supportMiddleware,storeTrackFunction)
 app.get('/sMulti',supportMiddleware,sMultiPrintController)
 app.post('/sMulti/print',supportMiddleware,sMultiPrintFunction)
@@ -132,7 +144,11 @@ app.post('/uHome/details',userMiddleware,uDetailsFunction)
 app.get('/uSearch',userMiddleware,uSearchController)
 app.post('/uSearch/run',userMiddleware,uSearchFunction)
 app.get('/uForm',userMiddleware,uFormController)
-app.post('/uForm/sale/cus/autofill',userMiddleware,uCusautofillFunction)
+
+app.post('/uForm/cus/add',userMiddleware,addCusFunction)
+app.post('/uForm/cus/search',userMiddleware,searchCusFunction)
+app.post('/uForm/cus/delete',userMiddleware,deleteCusFunction)
+
 app.post('/uForm/store',userMiddleware,storeTrackFunction)
 
 //Admin

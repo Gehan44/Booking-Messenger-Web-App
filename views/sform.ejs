@@ -14,6 +14,10 @@
   <!--flatpickr-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+  <!--Popup-->
+  <link rel="stylesheet" href="/css/popup.css">
+  <script defer src="/js/popupcus.js"></script>
+
   <!-- Favicons -->
   <link rel="apple-touch-icon" href="/docs/5.3/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
   <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
@@ -434,13 +438,11 @@
                         <div class="input-group">
                           <input type="text" class="form-control" name="cusName" id="cusName" value="<%= cusName %>" required>
                           <button type="button" class="btn btn-outline-secondary"
-                            onclick="cussearchAndFill()">ค้นหา</button>
-                        </div>
+                          onclick="openPopup1()">ค้นหา</button>
+                        </div>                        
                         <div class="invalid-feedback">
                           Please enter
                         </div>
-                      </div>
-                      <script src="/js/searchcus.js"></script>
                       <div class="col-12">
                         <label class="form-label">สถานที่ <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="cusPlace" value="<%= cusPlace %>" required>
@@ -465,13 +467,12 @@
                         <div class="input-group">
                           <input type="text" class="form-control" name="dispName" id="dispName" value="<%= dispName %>" required>
                           <button type="button" class="btn btn-outline-secondary"
-                            onclick="dispsearchAndFill()">ค้นหา</button>
+                            onclick="openPopup2()">ค้นหา</button>
                         </div>
                         <div class="invalid-feedback">
                           Please enter
                         </div>
                       </div>
-                      <script src="/js/searchdisp.js"></script>
 
                       <div class="row g-3">
                         <div class="col-md-5">
@@ -504,7 +505,95 @@
     </main>
   </div>
   </form>
+
+
+  <div class="popup" id="popup1">
+    <div class="row g-3">
+        <div class="col-md-5">
+            <label class="form-label">ชื่อลูกค้า / ผู้ติดต่อ</label>
+            <input type="text" class="form-control" name="nameCus" id="nameCus">
+        </div>
+        <div class="col-md-5">
+            <label class="form-label">โทรศัพท์ติดต่อได้ </label>
+            <input type="text" class="form-control" name="telCus" id="telCus">
+        </div>
+        <div class="col-12">
+          <label class="form-label">สถานที่</label>
+          <input type="text" class="form-control" name="placeCus" id="placeCus">
+        </div>
+        <div class="col-md-4">
+            <button class="w-100 btn btn-primary me-2" style="margin-bottom: 5px;" onclick="cusSearch()">ค้นหา</button>
+        </div>
+        <div class="col-md-4">
+            <button class="w-100 btn btn-primary me-2" style="margin-bottom: 5px;" onclick="cusAdd()">เพิ่ม</button>
+        </div>
+        <div class="col-md-4">
+            <button class="w-100 btn btn-primary me-2" style="margin-bottom: 5px;" onclick="closePopup1()">ออก</button>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div class="table-responsive small" style="max-height: 280px; overflow-y: auto;">
+      <table id="myTable" class="table table-sm">
+          <thead>
+              <tr>
+                  <th scope="col">ชื่อลูกค้า / ผู้ติดต่อ</th>
+                  <th scope="col">สถานที่</th>
+                  <th scope="col">เบอร์โทร</th>
+                  <th scope="col"> </th>
+              </tr>
+          </thead>
+          <tbody id="searchCusResults">
+  
+          </tbody>
+      </table>
+    </div>
+  </div>
+
+
+<div class="popup2" id="popup2">
+  <div class="row g-3">
+      <div class="col-md-5">
+          <label class="form-label">ผู้ฝากงาน</label>
+          <input type="text" class="form-control" name="nameDisp" id="nameDisp">
+      </div>
+      <div class="col-md-5">
+          <label class="form-label">อีเมล.ติดต่อ</label>
+          <input type="text" class="form-control" name="emailDisp" id="emailDisp">
+      </div>
+      <div class="col-12">
+        <label class="form-label">โทร.ติดต่อ</label>
+        <input type="text" class="form-control" name="telDisp" id="telDisp">
+      </div>
+      <div class="col-md-4">
+          <button class="w-100 btn btn-primary me-2" style="margin-bottom: 5px;" onclick="dispSearch()">ค้นหา</button>
+      </div>
+      <div class="col-md-4">
+          <button class="w-100 btn btn-primary me-2" style="margin-bottom: 5px;" onclick="dispAdd()">เพิ่ม</button>
+      </div>
+      <div class="col-md-4">
+          <button class="w-100 btn btn-primary me-2" style="margin-bottom: 5px;" onclick="closePopup2()">ออก</button>
+      </div>
+  </div>
+  <hr class="my-4">
+  <div class="table-responsive small" style="max-height: 280px; overflow-y: auto;">
+    <table id="myTable" class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">ผู้ฝากงาน</th>
+                <th scope="col">โทร.ติดต่อ</th>
+                <th scope="col">อีเมล.ติดต่อ</th>
+                <th scope="col"> </th>
+            </tr>
+        </thead>
+        <tbody id="searchDispResults">
+
+        </tbody>
+    </table>
+  </div>
+  </div>
+
   </main>
+  <script src="/js/supportFunction.js"></script>
   <script src="/js/boolstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>

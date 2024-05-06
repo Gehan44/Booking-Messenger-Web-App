@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
     try {
         const allResults = await runDashboard(UserData);
         const createdResults = allResults.filter(result => result.status === 'Created');
-        res.render('sForgot', {
+        res.render('sMulti', {
             UserData,
             allResults: createdResults,
             searchTerm: searchTerm,
