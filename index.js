@@ -12,6 +12,7 @@ const loginController = require('./controllers/loginController.js')
 const logoutController = require('./controllers/logoutController.js')
 //Admin
 const registerController = require('./controllers/admin/registerController.js')
+const deleteController = require('./controllers/admin/deleteController.js')
 const testerController = require('./controllers/admin/testerController.js')
 //Messenger
 const mHomeController = require('./controllers/messenger/mHomeController.js')
@@ -35,7 +36,8 @@ const addCusFunction = require('./functions/addCusFunction.js')
 const searchCusFunction = require('./functions/searchCusFunction.js')
 const deleteCusFunction = require('./functions/deleteCusFunction.js')
 //Admin
-const storeUserFunction = require('./functions/storeUserFunction.js')
+const storeUserFunction = require('./functions/admin/storeUserFunction.js')
+const deleteUserFunction = require('./functions/admin/deleteUserFunction.js')
 //Messenger
 const mEditFunction = require('./functions/messenger/editFunction.js')
 const mEditIncompleteFunction = require('./functions/messenger/incompleteEditFunction.js')
@@ -136,7 +138,6 @@ app.post('/sForm/disp/search',supportMiddleware,searchDispFunction)
 app.post('/sForm/disp/delete',supportMiddleware,deleteDispFunction)
 app.post('/sForm/store',supportMiddleware,storeTrackFunction)
 app.get('/sMulti',supportMiddleware,sMultiPrintController)
-
 app.post('/sMulti/print',supportMiddleware,sMultiPrintFunction)
 
 //User
@@ -153,9 +154,11 @@ app.post('/uForm/cus/delete',userMiddleware,deleteCusFunction)
 app.post('/uForm/store',userMiddleware,storeTrackFunction)
 
 //Admin
-app.get('/register',registerController)
-app.post('/user/register',storeUserFunction)
-app.get('/test/memory',testerController)
+app.get('/register',adminMiddleware,registerController)
+app.post('/user/register',adminMiddleware,storeUserFunction)
+app.get('/register/delete',adminMiddleware,deleteController)
+app.post('/user/register/delete',adminMiddleware,deleteUserFunction)
+app.get('/test/memory',adminMiddleware,testerController)
 
 let port = process.env.PORT || 3000;
 module.exports = { port };
