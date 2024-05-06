@@ -328,116 +328,128 @@
         </div>
 
         <form action="/uForm/store" method="POST">
-                <div class="col-md-7 col-lg-8">
-                  <% if (errors != "") { %>
-                    <div class="alert alert-danger" role="alert">
-                      <%= errors %>
-                    </div>
-                    <% } %>
-                  <form class="needs-validation" novalidate>
-                    <div class="row g-3">
-                      <div class="col-md-4">
-                        <label class="form-label">วันที่นัด <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                          <input type="date" class="form-control" name="requestDate" autocomplete="off" data-flatpickr required>
-                          <button type="button" class="btn btn-outline-secondary" onclick="clearDateInput()">ลบ</button>
-                        </div>
-                        <div class="invalid-feedback">
-                          Please enter
-                        </div>
-                      </div>
+          <div class="col-md-7 col-lg-8">
+            <% if (errors != "") { %>
+              <div class="alert alert-danger" role="alert">
+                <%= errors %>
+              </div>
+              <% } %>
+            <form class="needs-validation" novalidate>
+              <div class="row g-3">
+                <h4 class="mb-3">ข้อมูลจัดส่งและพัสดุ</h4>
+                <div class="col-md-4">
+                  <label class="form-label">วันที่นัด <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <input type="date" class="form-control" name="requestDate" autocomplete="off" required>
+                    <button type="button" class="btn btn-outline-secondary" onclick="clearDateInput()">ลบ</button>
+                  </div>
+                  <div class="invalid-feedback">
+                    Please enter
+                  </div>
+                </div>
 
-                      <script>
-                        function clearDateInput() {
-                          document.querySelector('input[name="requestDate"]').value = '';
-                        }
-                      </script>
+                <script>
+                  function clearDateInput() {
+                    document.querySelector('input[name="requestDate"]').value = '';
+                  }
+                </script>
 
-                      <div class="col-md-3">
-                        <label for="state" class="form-label">รอบ</label>
-                        <select class="form-select" id="state" name="docRound">
-                          <option value=""></option>
-                          <option value="รอบเช้า" <%= docRound === 'รอบเช้า' ? 'selected' : '' %>>รอบเช้า</option>
-                          <option value="รอบบ่าย" <%= docRound === 'รอบบ่าย' ? 'selected' : '' %>>รอบบ่าย</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Please enter
-                        </div>
-                      </div>
-          
-                      <div class="col-md-3">
-                        <label class="form-label">สะดวกเวลา</label>
-                        <input type="text" class="form-control" name="docTime" value="<%= docTime %>">
-                        <div class="invalid-feedback">
-                          Please enter
-                        </div>
-                      </div>
+                <div class="col-md-3">
+                  <label for="state" class="form-label">รอบ</label>
+                  <select class="form-select" id="state" name="docRound">
+                    <option value=""></option>
+                    <option value="รอบเช้า" <%= docRound === 'รอบเช้า' ? 'selected' : '' %>>รอบเช้า</option>
+                    <option value="รอบบ่าย" <%= docRound === 'รอบบ่าย' ? 'selected' : '' %>>รอบบ่าย</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please enter
+                  </div>
+                </div>
+                
+                <div class="col-md-3">
+                  <label class="form-label">สะดวกเวลา</label>
+                  <input type="text" class="form-control" name="docTime" value="<%= docTime %>">
+                  <div class="invalid-feedback">
+                    Please enter
+                  </div>
+                </div>
 
-                      <div class="col-md-3">
-                        <label for="state" class="form-label">งานรับหรือส่ง <span class="text-danger">*</span></label>
-                        <select class="form-select" id="state" name="docSendReturn" required>
-                          <option value=""></option>
-                          <option value="ส่งรอรับกลับ" <%= docSendReturn === 'ส่งรอรับกลับ' ? 'selected' : '' %>>ส่งรอรับกลับ</option>
-                          <option value="ส่ง" <%= docSendReturn === 'ส่ง' ? 'selected' : '' %>>ส่ง</option>
-                          <option value="รับ" <%= docSendReturn === 'รับ' ? 'selected' : '' %>>รับ</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Please enter
-                        </div>
-                      </div>
+                <div class="col-md-4">
+                  <label for="state" class="form-label">งานรับหรือส่ง <span class="text-danger">*</span></label>
+                  <select class="form-select" id="state" name="docSendReturn" required>
+                    <option value=""></option>
+                    <option value="ส่งรอรับกลับ" <%= docSendReturn === 'ส่งรอรับกลับ' ? 'selected' : '' %>>ส่งรอรับกลับ</option>
+                    <option value="ส่ง" <%= docSendReturn === 'ส่ง' ? 'selected' : '' %>>ส่ง</option>
+                    <option value="รับ" <%= docSendReturn === 'รับ' ? 'selected' : '' %>>รับ</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please enter
+                  </div>
+                </div>
 
-                      <div class="col-md-3">
-                        <label for="state" class="form-label">ประเภท <span class="text-danger">*</span></label>
-                        <select class="form-select" id="state" name="docType" required>
-                          <option value=""></option>
-                          <option value="เอกสาร" <%= docType === 'เอกสาร' ? 'selected' : '' %>>เอกสาร</option>
-                          <option value="เช็ค" <%= docType === 'เช็ค' ? 'selected' : '' %>>เช็ค</option>
-                          <option value="อื่นๆ (ระบุ)" <%= docType === 'อื่นๆ (ระบุ)' ? 'selected' : '' %>>อื่นๆ (ระบุ)</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Please enter
-                        </div>
-                      </div>
+                <div class="col-md-4">
+                  <label for="state" class="form-label">ประเภทเอกสาร <span class="text-danger">*</span></label>
+                  <select class="form-select" id="state" name="docType" required>
+                    <option value=""></option>
+                    <option value="เอกสาร" <%= docType === 'เอกสาร' ? 'selected' : '' %>>เอกสาร</option>
+                    <option value="เช็ค" <%= docType === 'เช็ค' ? 'selected' : '' %>>เช็ค</option>
+                    <option value="อื่นๆ (ระบุ)" <%= docType === 'อื่นๆ (ระบุ)' ? 'selected' : '' %>>อื่นๆ (ระบุ)</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please enter
+                  </div>
+                </div>
 
-                      <div class="col-md-5">
-                        <label class="form-label">รายละเอียด</label>
-                        <input type="text" class="form-control" name="docIs">
-                        <div class="invalid-feedback">
-                          Please enter
-                        </div>
-                      </div>
-                    </div>
-                    <br>
+                <div class="col-md-4">
+                  <label for="state" class="form-label">ประเภทการส่ง</label>
+                  <select class="form-select" id="state" name="messenger">
+                    <option value="">แมสฯ</option>
+                    <option value="Outsource" <%= messenger === 'Outsource' ? 'selected' : '' %>>Outsource</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Please enter
+                  </div>
+                </div>
+              </div>
 
-                    <div class="row g-3">
-                      <div class="col-10">
-                        <h4 class="mb-3">ข้อมูลลูกค้า</h4>
-                        <label class="form-label">ชื่อลูกค้า / ผู้ติดต่อ <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                          <input type="text" class="form-control" name="cusName" id="cusName" value="<%= cusName %>" required>
-                          <button type="button" class="btn btn-outline-secondary"
-                            onclick="openPopup1()">ค้นหา</button>
-                        </div>
-                        <div class="invalid-feedback">
-                          Please enter
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <label class="form-label">สถานที่ <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="cusPlace" value="<%= cusPlace %>" required>
-                        <div class="invalid-feedback">
-                          Please enter
-                        </div>
-                      </div>
-                      <div class="col-10">
-                        <label class="form-label">โทรศัพท์ติดต่อได้ <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" name="cusTel" value="<%= cusTel %>" required>
-                        <div class="invalid-feedback">
-                          Please enter
-                        </div>
-                      </div>
-                    </div>
-                    <br>
+              <div class="col-12">
+                <label class="form-label">รายละเอียด</label>
+                <input type="text" class="form-control" name="docIs" value="<%= docIs %>">
+                <div class="invalid-feedback">
+                  Please enter
+                </div>
+              </div>
+              <br>
+
+              <div class="row g-3">
+                <div class="col-10">
+                  <h4 class="mb-3">ข้อมูลลูกค้า</h4>
+                  <label class="form-label">ชื่อลูกค้า / ผู้ติดต่อ <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="cusName" id="cusName" value="<%= cusName %>" required>
+                    <button type="button" class="btn btn-outline-secondary"
+                    onclick="openPopup1()">ค้นหา</button>
+                  </div>                        
+                  <div class="invalid-feedback">
+                    Please enter
+                  </div>
+                <div class="col-12">
+                  <label class="form-label">สถานที่ <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" name="cusPlace" value="<%= cusPlace %>" required>
+                  <div class="invalid-feedback">
+                    Please enter
+                  </div>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">โทรศัพท์ติดต่อได้ <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" name="cusTel" value="<%= cusTel %>" required>
+                  <div class="invalid-feedback">
+                    Please enter
+                  </div>
+                </div>
+              </div>
+              <br>
+
 
                     <div class="row g-3">
                       <div class="col-10">

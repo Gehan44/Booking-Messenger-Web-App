@@ -354,8 +354,8 @@
               <div class="col-md-3">
                 <select class="form-select" id="state" name="searchTerm" required>
                   <option value=""></option>
-                  <% if (allResult && allResult.length > 0) { %>
-                    <% allResult.forEach(result => { %>
+                  <% if (allResults && allResults.length > 0) { %>
+                    <% allResults.forEach(result => { %>
                       <option id="searchTerm" class="form-control" type="search" name="searchTerm" value="<%= result.docID %>"><%= result.docID %></option>
                     <% }); %>
                   <% } %>
@@ -398,6 +398,7 @@
         
 
         <div class="table-responsive">
+          <label class="form-label">จำนวนข้อมูลที่ค้นพบ <b><%=count%></b></label>
           <table class="table table-striped table-sm">
             <thead>
               <tr>

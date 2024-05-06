@@ -13,6 +13,7 @@ module.exports = async (req, res) => {
                 searchFilter: searchFilter,
                 searchTerm: searchTerm,
                 searchResults: searchResults,
+                count,
                 errors: req.flash('validationErrors') });
             return
         }
@@ -63,11 +64,13 @@ module.exports = async (req, res) => {
 
         const result = await request.query(query);
         const searchResults = result.recordset;
+        let count = searchResults.length
         res.render('uSearch', { 
             UserData,
             searchFilter: searchFilter,
             searchTerm: searchTerm,
             searchResults: searchResults,
+            count,
             errors: req.flash('validationErrors') });
 
     } catch (error) {

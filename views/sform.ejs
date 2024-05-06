@@ -347,6 +347,7 @@
                     <% } %>
                   <form class="needs-validation" novalidate>
                     <div class="row g-3">
+                      <h4 class="mb-3">ข้อมูลจัดส่งและพัสดุ</h4>
                       <div class="col-md-4">
                         <label class="form-label">วันที่นัด <span class="text-danger">*</span></label>
                         <div class="input-group">
@@ -384,7 +385,7 @@
                         </div>
                       </div>
 
-                      <div class="col-md-3">
+                      <div class="col-md-4">
                         <label for="state" class="form-label">งานรับหรือส่ง <span class="text-danger">*</span></label>
                         <select class="form-select" id="state" name="docSendReturn" required>
                           <option value=""></option>
@@ -397,8 +398,8 @@
                         </div>
                       </div>
 
-                      <div class="col-md-3">
-                        <label for="state" class="form-label">ประเภท <span class="text-danger">*</span></label>
+                      <div class="col-md-4">
+                        <label for="state" class="form-label">ประเภทเอกสาร <span class="text-danger">*</span></label>
                         <select class="form-select" id="state" name="docType" required>
                           <option value=""></option>
                           <option value="เอกสาร" <%= docType === 'เอกสาร' ? 'selected' : '' %>>เอกสาร</option>
@@ -410,21 +411,21 @@
                         </div>
                       </div>
 
-                      <div class="col-md-5">
-                        <label class="form-label">รายละเอียด</label>
-                        <input type="text" class="form-control" name="docIs" value="<%= docIs %>">
+                      <div class="col-md-4">
+                        <label for="state" class="form-label">ประเภทการส่ง</label>
+                        <select class="form-select" id="state" name="messenger">
+                          <option value="">แมสฯ</option>
+                          <option value="Outsource" <%= messenger === 'Outsource' ? 'selected' : '' %>>Outsource</option>
+                        </select>
                         <div class="invalid-feedback">
                           Please enter
                         </div>
                       </div>
                     </div>
 
-                    <div class="col-md-4">
-                      <label for="state" class="form-label">ประเภทการส่ง</label>
-                      <select class="form-select" id="state" name="messenger">
-                        <option value="">แมสฯ</option>
-                        <option value="Outsource" <%= messenger === 'Outsource' ? 'selected' : '' %>>Outsource</option>
-                      </select>
+                    <div class="col-12">
+                      <label class="form-label">รายละเอียด</label>
+                      <input type="text" class="form-control" name="docIs" value="<%= docIs %>">
                       <div class="invalid-feedback">
                         Please enter
                       </div>

@@ -6,7 +6,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.1);
+    transform: translate(-50%, -50%) scale(0.1) translateY(50%);
     text-align: center;
     padding: 0 30px 60px;
     color: #333;
@@ -22,7 +22,7 @@
     background: #dadada;
     border-radius: 6px;
     position: absolute;
-    top: 50%;
+    top: 80%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.1) translateY(50%);
     text-align: center;
@@ -37,12 +37,12 @@
 .open-popup{
     visibility: visible;
     top: 50%;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(1) translateY(50%);
 }
 
 .open-popup2{
     visibility: visible;
-    top: 50%;
+    top: 80%;
     transform: translate(-50%, -50%) scale(1) translateY(50%);
 }
 

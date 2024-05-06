@@ -45,7 +45,7 @@ const autofillFunction = async (req, res) => {
                                       .query(query);
 
         if (result.recordset.length === 0) {
-            throw new Error('No results found');
+            //throw new Error('No results found');
         }
 
         res.json(result.recordset);

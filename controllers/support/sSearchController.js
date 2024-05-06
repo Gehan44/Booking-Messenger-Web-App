@@ -3,6 +3,7 @@ module.exports = (req, res) => {
   let searchFilter = ""
   let searchTerm = ""
   let searchResults = ""
+  let count = searchResults.length
   let data = req.flash('data')[0]
 
   if (typeof data != "undefined") {
@@ -14,5 +15,6 @@ module.exports = (req, res) => {
     searchFilter: searchFilter,
     searchTerm: searchTerm,
     searchResults: searchResults,
+    count,
     errors: req.flash('validationErrors') });
 }

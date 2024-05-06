@@ -45,14 +45,12 @@ const mStoreSignFunction = require('./functions/messenger/storeSignFunction.js')
 const sMultiPrintFunction = require('./functions/support/sMultiPrintFunction.js')
 const sManageFunction = require('./functions/support/sEditFunction.js')
 const sSearchFunction = require('./functions/support/sSearchFunction.js')
-
 const addDispFunction = require('./functions/support/addDispFunction.js')
 const searchDispFunction = require('./functions/support/searchDispFunction.js')
 const deleteDispFunction = require('./functions/support/deleteDispFunction.js')
 //User
 const uDetailsFunction = require('./functions/user/uDetailsFunction.js')
 const uSearchFunction = require('./functions/user/uSearchFunction.js')
-const uCusautofillFunction = require('./functions/user/uCusautofillFunction.js')
 
 //Middleware
 const redirectIfAuth = require('./middleware/redirectifAuth')
@@ -114,41 +112,44 @@ app.get('/logout',logoutController)
 app.get('/mHome',messMiddleware,mHomeController)
 app.get('/mHome/summary',messMiddleware,mSummaryController)
 app.post('/mHome/edit',messMiddleware,mEditFunction)
+
 app.post('/sign/store',messMiddleware,mStoreSignFunction)
+
 app.post('/mHome/edit/incomplete',messMiddleware,mEditIncompleteFunction)
 app.post('/mHome/edit/failed',messMiddleware,mEditFailedFunction)
 
 //Support
 app.get('/sHome',supportMiddleware,sHomeController)
+
 app.get('/sManage',supportMiddleware,sManageController)
 app.post('/sManage/action',supportMiddleware,sManageFunction)
+
 app.get('/sSearch',supportMiddleware,sSearchController)
 app.post('/sSearch/run',supportMiddleware,sSearchFunction)
-app.get('/sForm',supportMiddleware,sFormController)
 
+app.get('/sForm',supportMiddleware,sFormController)
 app.post('/sForm/cus/add',supportMiddleware,addCusFunction)
 app.post('/sForm/cus/search',supportMiddleware,searchCusFunction)
 app.post('/sForm/cus/delete',supportMiddleware,deleteCusFunction)
-
 app.post('/sForm/disp/add',supportMiddleware,addDispFunction)
 app.post('/sForm/disp/search',supportMiddleware,searchDispFunction)
 app.post('/sForm/disp/delete',supportMiddleware,deleteDispFunction)
-
 app.post('/sForm/store',supportMiddleware,storeTrackFunction)
 app.get('/sMulti',supportMiddleware,sMultiPrintController)
+
 app.post('/sMulti/print',supportMiddleware,sMultiPrintFunction)
 
 //User
 app.get('/uHome',userMiddleware,uHomeController)
 app.post('/uHome/details',userMiddleware,uDetailsFunction)
+
 app.get('/uSearch',userMiddleware,uSearchController)
 app.post('/uSearch/run',userMiddleware,uSearchFunction)
-app.get('/uForm',userMiddleware,uFormController)
 
+app.get('/uForm',userMiddleware,uFormController)
 app.post('/uForm/cus/add',userMiddleware,addCusFunction)
 app.post('/uForm/cus/search',userMiddleware,searchCusFunction)
 app.post('/uForm/cus/delete',userMiddleware,deleteCusFunction)
-
 app.post('/uForm/store',userMiddleware,storeTrackFunction)
 
 //Admin

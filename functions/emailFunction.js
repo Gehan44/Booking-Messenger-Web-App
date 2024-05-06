@@ -20,8 +20,10 @@ module.exports = async function emailRun(mailT) {
         }
     }
 
+    let emailSubject;
     let emailBody;
     if (mailT.status === 'Done' || mailT.status === 'Returned') {
+        emailSubject = `เลขที่ใบงาน ${mailT.docID} ประเภท ${mailT.docSendReturn} สถานะ สำเร็จ`;
         emailBody = `
         <p style="font-size: 26px;">เรียน คุณ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.dispName}</p>
         <p style="font-size: 26px;">เลขที่ใบงาน &nbsp;&nbsp;&nbsp; ${mailT.docID}</p>
@@ -42,10 +44,11 @@ module.exports = async function emailRun(mailT) {
         <p style="font-size: 26px;">จึงเรียนมาเพื่อทราบ</p>
     `;
     } else if (mailT.status === 'Incomplete') {
+        emailSubject = `เลขที่ใบงาน ${mailT.docID} ประเภท ${mailT.docSendReturn} สถานะ ขอเลื่อนนัดเป็น${mailT.requestDate.toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' })}`;
         emailBody = `
         <p style="font-size: 26px;">เรียนคุณ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.dispName}</p>
         <p style="font-size: 26px;">เลขที่ใบงาน &nbsp;&nbsp;&nbsp; ${mailT.docID}</p>
-        <p style="font-size: 26px;">สถานะ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: orange;">ขอเลื่อนนัด</span> เป็น ${mailT.requestDate.toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' })}</p>
+        <p style="font-size: 26px;">สถานะ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: orange;">ขอเลื่อนนัด</span> เป็น ${mailT.requestDate.toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' })} </p>
         
         <p style="font-size: 26px;">รายละเอียด</p>
         <ul style="font-size: 25px;">
@@ -62,10 +65,11 @@ module.exports = async function emailRun(mailT) {
         <p style="font-size: 26px;">จึงเรียนมาเพื่อทราบ</p>
     `;
     } else if (mailT.status === 'Failed') {
+        emailSubject = `เลขที่ใบงาน ${mailT.docID} ประเภท ${mailT.docSendReturn} สถานะ ไม่สำเร็จ`;
         emailBody = `
         <p style="font-size: 26px;">เรียนคุณ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.dispName}</p>
         <p style="font-size: 26px;">เลขที่ใบงาน &nbsp;&nbsp;&nbsp; ${mailT.docID}</p>
-        <p style="font-size: 26px;">สถานะ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: red;">ล้มเหลว</span> </p>
+        <p style="font-size: 26px;">สถานะ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: red;">ไม่สำเร็จ</span> </p>
         <p style="font-size: 26px;">สาเหตุ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.docNote}</p>
         
         <p style="font-size: 26px;">รายละเอียด</p>
@@ -83,13 +87,13 @@ module.exports = async function emailRun(mailT) {
         <p style="font-size: 26px;">จึงเรียนมาเพื่อทราบ</p>
     `;
     }
-    //salesupport@pinewealthsolution.com
+    //gehan.dube@bumail.net
     const mailSend = mailT.dispEmail
     info = await transporter.sendMail({
         from: 'Pine Wealth Solution Messenger no-reply@pinewealthsolution.com',
         to: `${mailSend}`,
-        cc: `gehan.dube@bumail.net`,
-        subject: `เลขที่ใบงาน ${mailT.docID}`,
+        cc: `salesupport@pinewealthsolution.com`,
+        subject: emailSubject,
         html: emailBody
     });
     //console.log('Message sent: %s', info.messageId);

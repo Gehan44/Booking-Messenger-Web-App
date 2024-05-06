@@ -116,8 +116,8 @@ async function dispSearch() {
             row.innerHTML = `
                 <td class="cus-id" style="display: none;">${result.dispID}</td>
                 <td>${result.dispName}</td>
-                <td>${result.dispEmail}</td>
                 <td>${result.dispTel}</td>
+                <td>${result.dispEmail}</td>
                 <td>
                     <button class="btn btn-success tick-btn" onclick="dispData('${result.dispName}', '${result.dispEmail}', '${result.dispTel}')">✓</button>
                     <button class="btn btn-danger cross-btn" onclick="dispDelete('${result.dispID}')">✗</button>
