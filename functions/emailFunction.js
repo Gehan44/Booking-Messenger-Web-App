@@ -87,12 +87,12 @@ module.exports = async function emailRun(mailT) {
         <p style="font-size: 26px;">จึงเรียนมาเพื่อทราบ</p>
     `;
     }
-    
+    //salesupport@pinewealthsolution.com
     const mailSend = mailT.dispEmail
     info = await transporter.sendMail({
         from: 'Pine Wealth Solution Messenger no-reply@pinewealthsolution.com',
         to: `${mailSend}`,
-        cc: `salesupport@pinewealthsolution.com`,
+        cc: `gehan.dube@bumail.net`,
         subject: emailSubject,
         html: emailBody
     });
