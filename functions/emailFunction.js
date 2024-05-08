@@ -23,7 +23,7 @@ module.exports = async function emailRun(mailT) {
     let emailSubject;
     let emailBody;
     if (mailT.status === 'Done' || mailT.status === 'Returned') {
-        emailSubject = `เลขที่ใบงาน ${mailT.docID} ประเภท ${mailT.docSendReturn} สถานะ สำเร็จ`;
+        emailSubject = `[สำเร็จ] [${mailT.docID}] ${mailT.cusName}/${mailT.dispName}`;
         emailBody = `
         <p style="font-size: 26px;">เรียน คุณ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.dispName}</p>
         <p style="font-size: 26px;">เลขที่ใบงาน &nbsp;&nbsp;&nbsp; ${mailT.docID}</p>
@@ -44,7 +44,7 @@ module.exports = async function emailRun(mailT) {
         <p style="font-size: 26px;">จึงเรียนมาเพื่อทราบ</p>
     `;
     } else if (mailT.status === 'Incomplete') {
-        emailSubject = `เลขที่ใบงาน ${mailT.docID} ประเภท ${mailT.docSendReturn} สถานะ ขอเลื่อนนัดเป็น${mailT.requestDate.toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' })}`;
+        emailSubject = `[ขอเลื่อนนัด] [${mailT.docID}] ${mailT.cusName}/${mailT.dispName}`;
         emailBody = `
         <p style="font-size: 26px;">เรียนคุณ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.dispName}</p>
         <p style="font-size: 26px;">เลขที่ใบงาน &nbsp;&nbsp;&nbsp; ${mailT.docID}</p>
@@ -65,7 +65,7 @@ module.exports = async function emailRun(mailT) {
         <p style="font-size: 26px;">จึงเรียนมาเพื่อทราบ</p>
     `;
     } else if (mailT.status === 'Failed') {
-        emailSubject = `เลขที่ใบงาน ${mailT.docID} ประเภท ${mailT.docSendReturn} สถานะ ไม่สำเร็จ`;
+        emailSubject = `[ไม่สำเร็จ] [${mailT.docID}] ${mailT.cusName}/${mailT.dispName}`;
         emailBody = `
         <p style="font-size: 26px;">เรียนคุณ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${mailT.dispName}</p>
         <p style="font-size: 26px;">เลขที่ใบงาน &nbsp;&nbsp;&nbsp; ${mailT.docID}</p>
@@ -87,7 +87,7 @@ module.exports = async function emailRun(mailT) {
         <p style="font-size: 26px;">จึงเรียนมาเพื่อทราบ</p>
     `;
     }
-    //gehan.dube@bumail.net
+    
     const mailSend = mailT.dispEmail
     info = await transporter.sendMail({
         from: 'Pine Wealth Solution Messenger no-reply@pinewealthsolution.com',

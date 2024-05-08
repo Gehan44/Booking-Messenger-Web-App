@@ -53,7 +53,6 @@ const deleteDispFunction = require('./functions/support/deleteDispFunction.js')
 //User
 const uDetailsFunction = require('./functions/user/uDetailsFunction.js')
 const uSearchFunction = require('./functions/user/uSearchFunction.js')
-
 //Middleware
 const redirectIfAuth = require('./middleware/redirectifAuth')
 const supportMiddleware = require('./middleware/supportMiddleware.js')
@@ -114,21 +113,16 @@ app.get('/logout',logoutController)
 app.get('/mHome',messMiddleware,mHomeController)
 app.get('/mHome/summary',messMiddleware,mSummaryController)
 app.post('/mHome/edit',messMiddleware,mEditFunction)
-
 app.post('/sign/store',messMiddleware,mStoreSignFunction)
-
 app.post('/mHome/edit/incomplete',messMiddleware,mEditIncompleteFunction)
 app.post('/mHome/edit/failed',messMiddleware,mEditFailedFunction)
 
 //Support
 app.get('/sHome',supportMiddleware,sHomeController)
-
 app.get('/sManage',supportMiddleware,sManageController)
 app.post('/sManage/action',supportMiddleware,sManageFunction)
-
 app.get('/sSearch',supportMiddleware,sSearchController)
 app.post('/sSearch/run',supportMiddleware,sSearchFunction)
-
 app.get('/sForm',supportMiddleware,sFormController)
 app.post('/sForm/cus/add',supportMiddleware,addCusFunction)
 app.post('/sForm/cus/search',supportMiddleware,searchCusFunction)
@@ -143,10 +137,8 @@ app.post('/sMulti/print',supportMiddleware,sMultiPrintFunction)
 //User
 app.get('/uHome',userMiddleware,uHomeController)
 app.post('/uHome/details',userMiddleware,uDetailsFunction)
-
 app.get('/uSearch',userMiddleware,uSearchController)
 app.post('/uSearch/run',userMiddleware,uSearchFunction)
-
 app.get('/uForm',userMiddleware,uFormController)
 app.post('/uForm/cus/add',userMiddleware,addCusFunction)
 app.post('/uForm/cus/search',userMiddleware,searchCusFunction)
