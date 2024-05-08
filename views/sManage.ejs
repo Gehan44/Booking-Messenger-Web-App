@@ -350,7 +350,7 @@
         <div class="col-md-7 col-lg-8">
           <form action="/sManage/action" method="POST" id="searchForm" class="d-flex align-items-center">
             <div class="row g-3">
-              <label class="form-label">ต้องเป็นการส่งแบบ Outsource เท่านั้น</label>
+              <label class="form-label">เงื่อนไข:งานรับหรือส่งรอรับกลับหรือส่งแบบ Outsource </label>
               <div class="col-md-3">
                 <select class="form-select" id="state" name="searchTerm" required>
                   <option value=""></option>
@@ -387,12 +387,6 @@
             document.getElementById('noteEditTerm').setAttribute('required', true);
           });
         
-          document.getElementById('searchForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-            if (window.confirm('คุณแน่ใจหรือไม่ว่าต้องการดำเนินการต่อ?')) {
-              this.submit();
-            }
-          });
         </script>
         
         
