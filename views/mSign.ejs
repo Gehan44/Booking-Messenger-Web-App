@@ -192,7 +192,7 @@
             const saveButton = document.getElementById('save');
         
             const constraints = {
-              audio: true,
+              audio: false,
               video:
               {
                 facingMode: { exact: "environment" }
@@ -205,28 +205,24 @@
 
             saveButton.addEventListener("click", async () => {
               const editTerm = document.getElementById('editTerm').value;
-              if (canvas.isEmpty()) {
-                  alert("Please capture first.");
-              } else {
-                  const dataURL = canvas.toDataURL();
-                  try {
-                      const response = await fetch('/sign/store', {
-                          method: 'POST',
-                          headers: {
-                              'Content-Type': 'application/json'
-                          },
-                          body: JSON.stringify({ signature: dataURL, editTerm: editTerm })
-                      });
-                      if (response.ok) {
-                          window.location.href = "/";
-                      } else {
-                          throw new Error('Failed to store signature');
-                      }
-                  } catch (error) {
-                      console.error(error);
-                      alert("An error occurred while storing the signature.");
-                  }
-              }
+                const dataURL = canvas.toDataURL();
+                try {
+                    const response = await fetch('/sign/store', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ signature: dataURL, editTerm: editTerm })
+                    });
+                    if (response.ok) {
+                        window.location.href = "/";
+                    } else {
+                        throw new Error('Failed to store signature');
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert("An error occurred while storing the signature.");
+                }
           });
         
             navigator.mediaDevices.getUserMedia(constraints)
