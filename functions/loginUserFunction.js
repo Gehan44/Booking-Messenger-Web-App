@@ -13,7 +13,7 @@ module.exports = async function loginUser(req, res) {
         if (user) {
             const match = await bcrypt.compare(password, user.password);
             if (match) {
-                if (user.email === process.env.EMAIL_REGISTER) {
+                if (user.email === "admin@pinewealthsolution.com") {
                     req.session.user = {
                         userID: user.userID,
                         email: user.email,
