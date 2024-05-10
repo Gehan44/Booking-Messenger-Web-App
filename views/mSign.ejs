@@ -180,13 +180,15 @@
     <div class="px-4 py-5 my-5 text-center">
       <div class="col-lg-6 mx-auto">
         <video id="player" autoplay></video>
-        <button id="capture">Capture</button>
+        <button id="capture" class="btn btn-primary btn-lg px-4 gap-3">Capture</button>
         <canvas id="canvas" width=320 height=240></canvas>
+        <button id="save" class="btn btn-primary btn-lg px-4 gap-3">Save</button>
         <script>
             const player = document.getElementById('player');
             const canvas = document.getElementById('canvas');
             const context = canvas.getContext('2d');
             const captureButton = document.getElementById('capture');
+            const saveButton = document.getElementById('save');
         
             const constraints = {
               audio: true,
@@ -197,11 +199,35 @@
             }
         
             captureButton.addEventListener('click', () => {
-                // Draw the video frame to the canvas.
                 context.drawImage(player, 0, 0, canvas.width, canvas.height);
             });
+
+            saveButton.addEventListener("click", async () => {
+              const editTerm = document.getElementById('editTerm').value;
+              if (canvas.isEmpty()) {
+                  alert("Please capture first.");
+              } else {
+                  const dataURL = canvas.toDataURL();
+                  try {
+                      const response = await fetch('/sign/store', {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({ signature: dataURL, editTerm: editTerm })
+                      });
+                      if (response.ok) {
+                          window.location.href = "/";
+                      } else {
+                          throw new Error('Failed to store signature');
+                      }
+                  } catch (error) {
+                      console.error(error);
+                      alert("An error occurred while storing the signature.");
+                  }
+              }
+          });
         
-            // Attach the video stream to the video element and autoplay.
             navigator.mediaDevices.getUserMedia(constraints)
                 .then((stream) => {
                     player.srcObject = stream;
@@ -212,7 +238,7 @@
 
     <div class="b-example-divider"></div>
     <div class="px-4 pt-5 my-5 text-center">
-      <a type="button" class="btn btn-outline-secondary btn-lg px-4" href="/logout">กลับหน้าหลัก</a>
+      <a type="button" class=" pxbtn btn-outline-secondary btn-lg-4" href="/logout">กลับหน้าหลัก</a>
     </div>
 
   </main>
