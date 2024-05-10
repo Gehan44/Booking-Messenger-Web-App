@@ -4,13 +4,10 @@ const config = require('../../sqlConfig');
 const storeSignFunction = async (req, res) => {
     try {
       const editTerm = req.body.editTerm; 
-      const canvas = req.body.canvas; 
-      if (canvas) {
-        console.log("Found")
-      }
+      const signature = req.body.signature; 
       await sql.connect(config);
       const request = new sql.Request();
-      await request.query(`UPDATE tracks SET sign = '${canvas}' WHERE docID = '${editTerm}'`);
+      await request.query(`UPDATE tracks SET sign = '${signature}' WHERE docID = '${editTerm}'`);
       res.status(200).send("Signature stored successfully.");
 
     } catch (error) {
