@@ -66,13 +66,14 @@
     <div class="w2-row-padding">
       <% if (Array.isArray(createdTracks) && createdTracks.length > 0) { %>
         <% createdTracks.forEach(track => { %>
+      <div class="w3-container">
       <div class="w3-third">
         <div class="w3-container">
           <div class="w3-container">
             <% if (track.qrImageData) { %>
-              <img src="data:image/png;base64, <%= track.qrImageData %>" alt="QR Code" />
+              <img src="data:image/png;base64, <%= track.qrImageData %>" alt="QR Code" width="140" height="140"/>
             <% } else { %>
-              <img class="d-block mx-auto mb-4" src="/image/logol.png" alt="" width="180" height="170">
+              <img class="d-block mx-auto mb-4" src="/image/logol.png" alt="" width="140" height="140">
             <% } %>             
           </div>
           <div class="w3-container">
@@ -139,6 +140,7 @@
           </div> 
         </div>
       </div>
+    </div>
       <% }) %>
       <% } else { %>
         <p>No tracks found.</p>
