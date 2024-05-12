@@ -38,8 +38,8 @@ module.exports = async (req, res) => {
         
         taskStop(editTerm)
         //await runDetect(updatedVariant);
-        //res.render('mSign', { editTerm });
-        //redirectTriggered = true;
+        res.render('mSign', { editTerm });
+        redirectTriggered = true;
       } 
     }
 
