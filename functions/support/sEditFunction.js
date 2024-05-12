@@ -1,3 +1,6 @@
+const moment = require('moment-timezone');
+moment.tz.setDefault('Asia/Bangkok');
+
 const sql = require('mssql');
 const config = require('../../sqlConfig');
 const runDetect = require('../emailFunction');
@@ -16,6 +19,7 @@ module.exports = async (req, res) => {
     const variant = result.recordset[0];
     let variantStatus = variant.status;
     const variantSendReturn = variant.docSendReturn;
+    successDateTime = moment().format('YYYY-MM-DD HH:mm')
 
     if (button === "success") {
       if (variantSendReturn === "ส่ง") {
@@ -23,10 +27,10 @@ module.exports = async (req, res) => {
       } else if (variantSendReturn === "รับ" || variantSendReturn === "ส่งรอรับกลับ") {
         variantStatus = "Returned";
       }
-      await request.query(`UPDATE tracks SET status = '${variantStatus}' WHERE docID = '${searchTerm}'`);
+      await request.query(`UPDATE tracks SET status = '${variantStatus}', successDateTime = '${successDateTime}' WHERE docID = '${searchTerm}'`);
 
     } else if (button === "failure") {
-      await request.query(`UPDATE tracks SET status = 'Failed', docNote = '${combinedNote}' WHERE docID = '${searchTerm}'`);
+      await request.query(`UPDATE tracks SET status = 'Failed', docNote = '${combinedNote}', successDateTime = '${successDateTime}' WHERE docID = '${searchTerm}'`);
     }
     const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${searchTerm}'`);
     const updatedVariant = updatedVariantResult.recordset[0];

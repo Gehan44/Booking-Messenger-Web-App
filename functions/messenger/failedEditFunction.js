@@ -1,3 +1,6 @@
+const moment = require('moment-timezone');
+moment.tz.setDefault('Asia/Bangkok');
+
 const sql = require('mssql');
 const config = require('../../sqlConfig');
 const runDetect = require('../emailFunction');
@@ -14,12 +17,13 @@ module.exports = async (req, res) => {
         const result = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
         const variant = result.recordset[0];
         const combinedNote = `${noteTerm}, แจ้งโดย ${Username}`;
+        successDateTime = moment().format('YYYY-MM-DD HH:mm')
 
         if (variant.userIDSend === null && variant.userNameSend === null) {
             await request.query(`UPDATE tracks SET userIDSend = '${UserID}', userNameSend = '${Username}' WHERE docID = '${editTerm}'`);
         }
 
-        await request.query(`UPDATE tracks SET status = 'Failed', docNote = '${combinedNote}' WHERE docID = '${editTerm}'`);
+        await request.query(`UPDATE tracks SET status = 'Failed', docNote = '${combinedNote}', successDateTime = '${successDateTime}' WHERE docID = '${editTerm}'`);
         const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
         const updatedVariant = updatedVariantResult.recordset[0];
 

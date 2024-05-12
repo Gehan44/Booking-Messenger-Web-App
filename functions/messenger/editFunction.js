@@ -1,3 +1,6 @@
+const moment = require('moment-timezone');
+moment.tz.setDefault('Asia/Bangkok');
+
 const sql = require('mssql');
 const config = require('../../sqlConfig');
 const runDetect = require('../emailFunction');
@@ -19,19 +22,22 @@ module.exports = async (req, res) => {
 
     if (variantStatus === "Created") {
       variantStatus = "Picked";
-      await request.query(`UPDATE tracks SET status = '${variantStatus}', userIDSend = '${UserID}', userNameSend = '${Username}' WHERE docID = '${editTerm}'`);
+      //pickedDateTime
+      pickedDateTime = moment().format('YYYY-MM-DD HH:mm')
+      await request.query(`UPDATE tracks SET status = '${variantStatus}', userIDSend = '${UserID}', userNameSend = '${Username}', pickedDateTime = '${pickedDateTime}' WHERE docID = '${editTerm}'`);
     // && UserID === variantOwner
     } else if (variantStatus === "Picked" || variantStatus === "Incomplete") {
       const variantSendReturn = variant.docSendReturn;
       
       if (variantSendReturn === "ส่ง") {
         variantStatus = "Done";
-        await request.query(`UPDATE tracks SET status = '${variantStatus}', userIDSend = '${UserID}', userNameSend = '${Username}' WHERE docID = '${editTerm}'`);
+        successDateTime = moment().format('YYYY-MM-DD HH:mm')
+        await request.query(`UPDATE tracks SET status = '${variantStatus}', userIDSend = '${UserID}', userNameSend = '${Username}', successDateTime = '${successDateTime}' WHERE docID = '${editTerm}'`);
         const updatedVariantResult = await request.query(`SELECT * FROM tracks WHERE docID = '${editTerm}'`);
         const updatedVariant = updatedVariantResult.recordset[0];
         
         taskStop(editTerm)
-        await runDetect(updatedVariant);
+        //await runDetect(updatedVariant);
         //res.render('mSign', { editTerm });
         //redirectTriggered = true;
       } 

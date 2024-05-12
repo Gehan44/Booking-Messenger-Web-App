@@ -360,6 +360,8 @@
                   <option value="userNameSend" <%= searchFilter === 'userNameSend' ? 'selected' : '' %>>ผู้ส่งงาน</option>
                   <option value="createdDateTime" <%= searchFilter === 'createdDateTime' ? 'selected' : '' %>>วันที่สั่งงาน</option>
                   <option value="requestDate" <%= searchFilter === 'requestDate' ? 'selected' : '' %>>วันที่นัด</option>
+                  <option value="pickedDateTime" <%= searchFilter === 'pickedDateTime' ? 'selected' : '' %>>วันที่แมสรับ</option>
+                  <option value="successDateTime" <%= searchFilter === 'successDateTime' ? 'selected' : '' %>>วันที่จบงาน</option>
                   <option value="docRound" <%= searchFilter === 'docRound' ? 'selected' : '' %>>รอบ</option>
                   <option value="docTime" <%= searchFilter === 'docTime' ? 'selected' : '' %>>เวลา</option>
                   <option value="docSendReturn" <%= searchFilter === 'docSendReturn' ? 'selected' : '' %>>รับหรือส่ง</option>
@@ -403,7 +405,7 @@
             var selectedFilter = document.getElementById("searchFilter").value;
             var dateTimeInput = document.getElementById("searchTerm");
             
-            if (selectedFilter === 'createdDateTime' || selectedFilter === 'requestDate') {
+            if (selectedFilter === 'createdDateTime' || selectedFilter === 'requestDate'|| selectedFilter === 'pickedDateTime' || selectedFilter === 'successDateTime') {
               flatpickr(dateTimeInput, configd);
             } else {
               dateTimeInput._flatpickr.destroy();
@@ -426,6 +428,8 @@
     
                 <th scope="col">วันที่สั่งงาน</th>
                 <th scope="col">วันที่นัด</th>
+                <th scope="col">วันที่แมสรับงาน</th>
+                <th scope="col">วันที่จบงาน</th>
                 <th scope="col">รอบ</th>
                 <th scope="col">เวลา</th>
                 <th scope="col">รับหรือส่ง</th>
@@ -455,6 +459,14 @@
     
                     <td><%= result.createdDateTime.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' , year: 'numeric' , hour: '2-digit' , minute: '2-digit' , timeZone: 'UTC' }) %></td>
                     <td><%= result.requestDate.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' , year: 'numeric' ,timeZone: 'UTC' }) %></td>
+                    <td><% if (result.pickedDateTime !==null) { %>
+                      <%= result.pickedDateTime.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' , year: 'numeric' , hour: '2-digit' , minute: '2-digit' , timeZone: 'UTC' }) %>
+                        <% } %>
+                    </td>
+                    <td><% if (result.successDateTime !==null) { %>
+                      <%= result.successDateTime.toLocaleString('en-GB', { day: 'numeric' , month: 'numeric' , year: 'numeric' , hour: '2-digit' , minute: '2-digit' , timeZone: 'UTC' }) %>
+                        <% } %>
+                    </td>
                     <td><%= result.docRound %></td>
                     <td><% if (result.docTime !==null) { %>
                         <%= result.docTime %>

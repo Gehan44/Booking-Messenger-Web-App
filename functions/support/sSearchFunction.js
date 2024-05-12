@@ -29,8 +29,7 @@ module.exports = async (req, res) => {
 
         } else if (searchFilter === 'allfailed') {
             query = `SELECT * FROM tracks WHERE status IN ('Failed')`;
-
-        } else if (searchFilter === 'createdDateTime' || searchFilter === 'requestDate') {
+        } else if (searchFilter === 'createdDateTime' || searchFilter === 'requestDate'|| searchFilter === 'pickedDateTime'|| searchFilter === 'successDateTime') {
             if (searchTerm.length > 10) {
                 const [startDateString, endDateString] = searchTerm.split(' to ');
                 const startDate = `${startDateString.trim()} 00:00:00.000`;
